@@ -12,7 +12,6 @@
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
     body { font-family: 'Noto Sans TC','PingFang TC',sans-serif; background: #fdf8fc; overflow: hidden; height: 100vh; }
     #root { height: 100vh; }
-    input[type="date"] { -webkit-appearance: none; appearance: none; }
   </style>
 </head>
 <body>
@@ -59,14 +58,12 @@ function SignatureCanvas({ onSave, onCancel }) {
   const drawing = useRef(false);
   const lastPt = useRef(null);
   useEffect(() => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
+    const canvas = canvasRef.current, ctx = canvas.getContext("2d");
     ctx.fillStyle="#fff"; ctx.fillRect(0,0,canvas.width,canvas.height);
     ctx.strokeStyle="#1a1a1a"; ctx.lineWidth=2.5; ctx.lineCap="round"; ctx.lineJoin="round";
   }, []);
   const getPos = (e) => {
-    const canvas=canvasRef.current, rect=canvas.getBoundingClientRect();
-    const src=e.touches?e.touches[0]:e;
+    const canvas=canvasRef.current, rect=canvas.getBoundingClientRect(), src=e.touches?e.touches[0]:e;
     return { x:(src.clientX-rect.left)*(canvas.width/rect.width), y:(src.clientY-rect.top)*(canvas.height/rect.height) };
   };
   const start=(e)=>{ e.preventDefault(); drawing.current=true; lastPt.current=getPos(e); };
@@ -78,7 +75,8 @@ function SignatureCanvas({ onSave, onCancel }) {
       <div style={S.sigModal}>
         <div style={S.sigHeader}><span style={S.sigTitle}>✍️ 請簽名確認</span><span style={S.sigHint}>Apple Pencil 或手指</span></div>
         <div style={S.sigCanvasWrap}>
-          <canvas ref={canvasRef} width={900} height={360} style={S.sigCanvas} onPointerDown={start} onPointerMove={move} onPointerUp={end} onPointerLeave={end} />
+          <canvas ref={canvasRef} width={900} height={360} style={S.sigCanvas}
+            onPointerDown={start} onPointerMove={move} onPointerUp={end} onPointerLeave={end}/>
           <div style={S.sigLine}/><span style={S.sigLineLabel}>簽名於此</span>
         </div>
         <div style={S.sigActions}>
@@ -91,7 +89,6 @@ function SignatureCanvas({ onSave, onCancel }) {
   );
 }
 
-// ── Avatar ──
 function Avatar({ customer, size=56 }) {
   if(customer.photo) return <img src={customer.photo} alt="" style={{width:size,height:size,borderRadius:"50%",objectFit:"cover",flexShrink:0}}/>;
   const colors=["#f4a5b0","#a5c4f4","#a5f4c4","#f4d0a5","#c4a5f4"];
@@ -99,7 +96,6 @@ function Avatar({ customer, size=56 }) {
   return <div style={{width:size,height:size,borderRadius:"50%",background:bg,display:"flex",alignItems:"center",justifyContent:"center",fontSize:size*0.4,fontWeight:700,color:"#fff",flexShrink:0}}>{customer.name?.slice(0,1)||"?"}</div>;
 }
 
-// ── PhotoUpload ──
 function PhotoUpload({ value, onChange }) {
   const ref=useRef();
   const handle=(e)=>{ const file=e.target.files[0]; if(!file)return; const r=new FileReader(); r.onload=(ev)=>onChange(ev.target.result); r.readAsDataURL(file); };
@@ -188,17 +184,23 @@ function HomeTab({ customers, records, setTab }) {
 }
 
 // ── CustomersTab ──
-function CustomersTab({ customers, setCustomers, showToast }) {
+function CustomersTab({ customers, setCustomers, records, setRecords, showToast }) {
   const [mode,setMode]=useState("list");
   const [form,setForm]=useState({name:"",phone:"",photo:""});
   const [selected,setSelected]=useState(null);
   const [search,setSearch]=useState("");
   const [confirmDelete,setConfirmDelete]=useState(null);
+  const [recTab,setRecTab]=useState("all");
   const filtered=customers.filter(c=>c.name.includes(search)||(c.phone||"").includes(search));
 
   const submit=()=>{ if(!form.name.trim())return showToast("請輸入顧客姓名","warn"); setCustomers(cs=>[{id:uid(),balance:0,createdAt:todayStr(),...form},...cs]); setForm({name:"",phone:"",photo:""}); setMode("list"); showToast("✅ 顧客新增完成"); };
 
-  const deleteCustomer=(id)=>{ setCustomers(cs=>cs.filter(c=>c.id!==id)); setConfirmDelete(null); setMode("list"); showToast("🗑️ 顧客已刪除"); };
+  const deleteCustomer=(id)=>{
+    // Also remove all records for this customer
+    setRecords(rs=>rs.filter(r=>r.customerId!==id));
+    setCustomers(cs=>cs.filter(c=>c.id!==id));
+    setConfirmDelete(null); setMode("list"); showToast("🗑️ 顧客已刪除");
+  };
 
   if(mode==="add") return (
     <div style={{maxWidth:480,margin:"0 auto"}}>
@@ -218,34 +220,80 @@ function CustomersTab({ customers, setCustomers, showToast }) {
   if(mode==="detail"&&selected) {
     const c=customers.find(x=>x.id===selected);
     if(!c){setMode("list");return null;}
+    const cRecords=records.filter(r=>r.customerId===c.id);
+    const shown=recTab==="all"?cRecords:cRecords.filter(r=>r.type===recTab);
+    const cTopup=cRecords.filter(r=>r.type==="topup").reduce((s,r)=>s+r.total,0);
+    const cCharge=cRecords.filter(r=>r.type==="charge").reduce((s,r)=>s+r.amount,0);
     return (
-      <div style={{maxWidth:480,margin:"0 auto"}}>
-        <div style={{display:"flex",alignItems:"center",gap:14,marginBottom:24}}>
-          <button style={S.backBtn} onClick={()=>setMode("list")}>← 返回</button>
+      <div>
+        <div style={{display:"flex",alignItems:"center",gap:14,marginBottom:16}}>
+          <button style={S.backBtn} onClick={()=>{ setMode("list"); setSelected(null); }}>← 返回</button>
           <span style={{fontSize:20,fontWeight:800,color:"#3d2440"}}>顧客詳情</span>
         </div>
-        <div style={{display:"flex",flexDirection:"column",gap:14,alignItems:"center"}}>
-          <Avatar customer={c} size={90}/>
-          <div style={{fontSize:26,fontWeight:800}}>{c.name}</div>
-          <div style={{fontSize:15,color:"#888"}}>{c.phone||"未填電話"}</div>
-          <div style={{...S.card,width:"100%",textAlign:"center"}}>
-            <div style={{fontSize:13,color:"#aaa",marginBottom:4}}>目前餘額</div>
-            <div style={{fontSize:34,fontWeight:900,color:(c.balance||0)<LOW_BALANCE?"#e74c3c":"#6cc5a0"}}>${fmt(c.balance||0)}</div>
-            {(c.balance||0)<LOW_BALANCE&&(c.balance||0)>0&&<div style={{color:"#e74c3c",fontSize:12,marginTop:4}}>⚠️ 餘額不足，建議儲值</div>}
+        <div style={{display:"grid",gridTemplateColumns:"300px 1fr",gap:14,alignItems:"start"}}>
+          {/* Left: profile */}
+          <div style={{display:"flex",flexDirection:"column",gap:12}}>
+            <div style={{...S.card,textAlign:"center"}}>
+              <div style={{display:"flex",justifyContent:"center",marginBottom:10}}><Avatar customer={c} size={80}/></div>
+              <div style={{fontSize:22,fontWeight:800,marginBottom:4}}>{c.name}</div>
+              <div style={{fontSize:14,color:"#888",marginBottom:12}}>{c.phone||"未填電話"}</div>
+              <div style={{background:(c.balance||0)<LOW_BALANCE?"#fff5f5":"#f0fff6",borderRadius:12,padding:"12px 0",marginBottom:8}}>
+                <div style={{fontSize:12,color:"#aaa",marginBottom:2}}>目前餘額</div>
+                <div style={{fontSize:30,fontWeight:900,color:(c.balance||0)<LOW_BALANCE?"#e74c3c":"#6cc5a0"}}>${fmt(c.balance||0)}</div>
+                {(c.balance||0)<LOW_BALANCE&&(c.balance||0)>0&&<div style={{color:"#e74c3c",fontSize:12,marginTop:4}}>⚠️ 建議儲值</div>}
+              </div>
+              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
+                <div style={{background:"#f0fff6",borderRadius:10,padding:"10px 0",textAlign:"center"}}>
+                  <div style={{fontSize:11,color:"#aaa"}}>累計儲值</div>
+                  <div style={{fontWeight:800,color:"#6cc5a0",fontSize:16}}>${fmt(cTopup)}</div>
+                </div>
+                <div style={{background:"#fdf0f5",borderRadius:10,padding:"10px 0",textAlign:"center"}}>
+                  <div style={{fontSize:11,color:"#aaa"}}>累計消費</div>
+                  <div style={{fontWeight:800,color:"#f4a5b0",fontSize:16}}>${fmt(cCharge)}</div>
+                </div>
+              </div>
+              <div style={{fontSize:11,color:"#ccc",marginTop:10}}>建檔：{c.createdAt}</div>
+            </div>
+            {confirmDelete===c.id?(
+              <div style={{...S.card,background:"#fff5f5",border:"1.5px solid #ffcdd2",textAlign:"center"}}>
+                <div style={{fontWeight:700,color:"#c0392b",marginBottom:8}}>確定刪除此顧客？</div>
+                <div style={{fontSize:12,color:"#888",marginBottom:12}}>顧客及所有紀錄將永久刪除</div>
+                <div style={{display:"flex",gap:8,justifyContent:"center"}}>
+                  <button style={{...S.btn,...S.btnGhost,fontSize:14,padding:"10px 16px"}} onClick={()=>setConfirmDelete(null)}>取消</button>
+                  <button style={{...S.btn,background:"#e74c3c",color:"#fff",fontSize:14,padding:"10px 16px"}} onClick={()=>deleteCustomer(c.id)}>確認刪除</button>
+                </div>
+              </div>
+            ):(
+              <button style={{...S.btn,background:"#fff5f5",color:"#e74c3c",border:"1.5px solid #ffcdd2",width:"100%",fontSize:14}} onClick={()=>setConfirmDelete(c.id)}>🗑️ 刪除此顧客</button>
+            )}
           </div>
-          <div style={{fontSize:12,color:"#ccc"}}>建檔日期：{c.createdAt}</div>
-          {confirmDelete===c.id?(
-            <div style={{...S.card,width:"100%",background:"#fff5f5",border:"1.5px solid #ffcdd2",textAlign:"center"}}>
-              <div style={{fontWeight:700,color:"#c0392b",marginBottom:12}}>確定要刪除此顧客？</div>
-              <div style={{fontSize:13,color:"#888",marginBottom:16}}>此操作無法復原，顧客資料將永久刪除</div>
-              <div style={{display:"flex",gap:10,justifyContent:"center"}}>
-                <button style={{...S.btn,...S.btnGhost}} onClick={()=>setConfirmDelete(null)}>取消</button>
-                <button style={{...S.btn,background:"#e74c3c",color:"#fff"}} onClick={()=>deleteCustomer(c.id)}>確認刪除</button>
+          {/* Right: records */}
+          <div style={S.card}>
+            <div style={{display:"flex",gap:8,marginBottom:14,alignItems:"center"}}>
+              <div style={S.cardTitle}>交易紀錄</div>
+              <div style={{display:"flex",gap:6,marginLeft:"auto"}}>
+                {[["all","全部"],["topup","儲值"],["charge","消費"]].map(([k,l])=>(
+                  <button key={k} style={{padding:"6px 14px",borderRadius:20,border:recTab===k?"1.5px solid #f4a5b0":"1.5px solid #f0e8f4",background:recTab===k?"#f4a5b0":"#fff",color:recTab===k?"#fff":"#7a5a7a",cursor:"pointer",fontFamily:"inherit",fontSize:13,fontWeight:600}} onClick={()=>setRecTab(k)}>{l}</button>
+                ))}
               </div>
             </div>
-          ):(
-            <button style={{...S.btn,background:"#fff5f5",color:"#e74c3c",border:"1.5px solid #ffcdd2",width:"100%"}} onClick={()=>setConfirmDelete(c.id)}>🗑️ 刪除此顧客</button>
-          )}
+            {shown.length===0&&<div style={S.empty}>尚無紀錄</div>}
+            <div style={{display:"flex",flexDirection:"column",gap:8,maxHeight:480,overflowY:"auto"}}>
+              {shown.map(r=>(
+                <div key={r.id} style={{display:"flex",gap:10,alignItems:"center",padding:"12px",background:"#fafafa",borderRadius:10,border:"1px solid #f0eef4"}}>
+                  <span style={{fontSize:22}}>{r.type==="topup"?"💳":"✂️"}</span>
+                  <div style={{flex:1}}>
+                    <div style={{fontWeight:600,fontSize:14}}>{r.type==="topup"?r.plan:r.service}</div>
+                    <div style={{fontSize:12,color:"#aaa"}}>{r.time}</div>
+                    {r.note&&<div style={{fontSize:12,color:"#bbb"}}>備註：{r.note}</div>}
+                  </div>
+                  <div style={{fontWeight:800,fontSize:16,color:r.type==="topup"?"#6cc5a0":"#f4a5b0"}}>
+                    {r.type==="topup"?`+$${fmt(r.total)}`:`-$${fmt(r.amount)}`}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -260,7 +308,7 @@ function CustomersTab({ customers, setCustomers, showToast }) {
       {filtered.length===0&&<div style={S.empty}>尚無顧客資料</div>}
       <div style={{display:"flex",flexDirection:"column",gap:10}}>
         {filtered.map(c=>(
-          <div key={c.id} style={S.customerCard} onClick={()=>{setSelected(c.id);setMode("detail");}}>
+          <div key={c.id} style={S.customerCard} onClick={()=>{setSelected(c.id);setMode("detail");setRecTab("all");}}>
             <Avatar customer={c} size={52}/>
             <div style={{flex:1}}>
               <div style={{fontWeight:700,fontSize:17}}>{c.name}</div>
@@ -288,14 +336,12 @@ function TopupTab({ customers, addRecord, showToast }) {
   const amount=plan?.custom?Number(custom)||0:plan?.value||0;
   const bonus=plan?.custom?0:plan?.bonus||0;
   const total=plan?.custom?amount:(plan?.total||0);
-
   const submit=()=>{
     if(!customer)return showToast("請選擇顧客","warn");
     if(!amount)return showToast("請選擇或輸入金額","warn");
     addRecord({type:"topup",customerId:customer.id,customerName:customer.name,amount,bonus,total,plan:plan?.label||"自訂",note,date});
     setPlan(null);setCustom("");setNote("");setCid("");setDate(todayISO());
   };
-
   return (
     <div style={{display:"flex",flexDirection:"column",gap:14}}>
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14}}>
@@ -308,10 +354,8 @@ function TopupTab({ customers, addRecord, showToast }) {
           {customer&&(
             <div style={{display:"flex",alignItems:"center",gap:12,marginTop:12,padding:12,background:"#fdf6f9",borderRadius:10}}>
               <Avatar customer={customer} size={48}/>
-              <div>
-                <div style={{fontWeight:700,fontSize:16}}>{customer.name}</div>
-                <div style={{color:"#aaa",fontSize:13}}>目前餘額 ${fmt(customer.balance||0)}</div>
-              </div>
+              <div><div style={{fontWeight:700,fontSize:16}}>{customer.name}</div>
+              <div style={{color:"#aaa",fontSize:13}}>目前餘額 ${fmt(customer.balance||0)}</div></div>
             </div>
           )}
           <div style={{marginTop:14}}>
@@ -368,7 +412,6 @@ function ChargeTab({ customers, addRecord, showToast }) {
   const customer=customers.find(c=>c.id===cid);
   const amt=Number(amount)||0;
   const afterBalance=(customer?.balance||0)-amt;
-
   const submit=()=>{
     if(!customer)return showToast("請選擇顧客","warn");
     if(!service.trim())return showToast("請輸入服務項目","warn");
@@ -377,7 +420,6 @@ function ChargeTab({ customers, addRecord, showToast }) {
     addRecord({type:"charge",customerId:customer.id,customerName:customer.name,service,amount:amt,beforeBalance:customer.balance||0,afterBalance,note,date});
     setCid("");setService("");setAmount("");setNote("");setDate(todayISO());
   };
-
   return (
     <div style={{display:"flex",flexDirection:"column",gap:14}}>
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14}}>
@@ -390,12 +432,10 @@ function ChargeTab({ customers, addRecord, showToast }) {
           {customer&&(
             <div style={{display:"flex",alignItems:"center",gap:12,marginTop:12,padding:12,background:"#fdf6f9",borderRadius:10}}>
               <Avatar customer={customer} size={48}/>
-              <div>
-                <div style={{fontWeight:700,fontSize:16}}>{customer.name}</div>
-                <div style={{color:(customer.balance||0)<LOW_BALANCE?"#e74c3c":"#aaa",fontSize:13}}>
-                  {(customer.balance||0)<LOW_BALANCE?"⚠️ ":""}目前餘額 ${fmt(customer.balance||0)}
-                </div>
-              </div>
+              <div><div style={{fontWeight:700,fontSize:16}}>{customer.name}</div>
+              <div style={{color:(customer.balance||0)<LOW_BALANCE?"#e74c3c":"#aaa",fontSize:13}}>
+                {(customer.balance||0)<LOW_BALANCE?"⚠️ ":""}目前餘額 ${fmt(customer.balance||0)}
+              </div></div>
             </div>
           )}
           <div style={{marginTop:14}}>
@@ -445,20 +485,37 @@ function ChargeTab({ customers, addRecord, showToast }) {
 }
 
 // ── RecordsTab ──
-function RecordsTab({ records, setRecords, customers, showToast }) {
+function RecordsTab({ records, setRecords, customers, setCustomers, showToast }) {
   const [filter,setFilter]=useState("all");
   const [selected,setSelected]=useState(null);
   const [search,setSearch]=useState("");
+  const [dateFilter,setDateFilter]=useState("");
   const [confirmDelete,setConfirmDelete]=useState(null);
-  const filtered=records.filter(r=>(filter==="all"||r.type===filter)&&(!search||r.customerName.includes(search)));
+
+  const filtered=records.filter(r=>{
+    if(filter!=="all"&&r.type!==filter) return false;
+    if(search&&!r.customerName.includes(search)) return false;
+    if(dateFilter){
+      // r.time format: "2025/04/01 14:30" — match date portion
+      const d=fmtDate(dateFilter); // "2025/04/01"
+      if(!r.time.startsWith(d)) return false;
+    }
+    return true;
+  });
+
   const detail=selected?records.find(r=>r.id===selected):null;
 
-  const deleteRecord=(id,record)=>{
-    // Restore balance
-    setRecords(rs=>rs.filter(r=>r.id!==id));
-    showToast("🗑️ 紀錄已刪除");
-    setSelected(null);
-    setConfirmDelete(null);
+  const deleteRecord=(rec)=>{
+    // Restore or reverse balance
+    setCustomers(cs=>cs.map(c=>{
+      if(c.id!==rec.customerId) return c;
+      if(rec.type==="charge") return {...c, balance:(c.balance||0)+rec.amount}; // restore deducted amount
+      if(rec.type==="topup") return {...c, balance:Math.max(0,(c.balance||0)-rec.total)}; // reverse topup
+      return c;
+    }));
+    setRecords(rs=>rs.filter(r=>r.id!==rec.id));
+    showToast("🗑️ 紀錄已刪除，餘額已還原");
+    setSelected(null); setConfirmDelete(null);
   };
 
   if(detail) return (
@@ -475,18 +532,9 @@ function RecordsTab({ records, setRecords, customers, showToast }) {
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:14}}>
           <InfoCell label="類型" value={detail.type==="topup"?"儲值":"消費扣款"}/>
           {detail.type==="topup"?(
-            <>
-              <InfoCell label="入帳金額" value={`$${fmt(detail.total)}`}/>
-              <InfoCell label="方案" value={detail.plan}/>
-              {detail.bonus>0&&<InfoCell label="贈點" value={`$${fmt(detail.bonus)}`}/>}
-            </>
+            <><InfoCell label="入帳金額" value={`$${fmt(detail.total)}`}/><InfoCell label="方案" value={detail.plan}/>{detail.bonus>0&&<InfoCell label="贈點" value={`$${fmt(detail.bonus)}`}/>}</>
           ):(
-            <>
-              <InfoCell label="服務項目" value={detail.service}/>
-              <InfoCell label="消費金額" value={`$${fmt(detail.amount)}`}/>
-              <InfoCell label="扣款前餘額" value={`$${fmt(detail.beforeBalance)}`}/>
-              <InfoCell label="扣款後餘額" value={`$${fmt(detail.afterBalance)}`}/>
-            </>
+            <><InfoCell label="服務項目" value={detail.service}/><InfoCell label="消費金額" value={`$${fmt(detail.amount)}`}/><InfoCell label="扣款前餘額" value={`$${fmt(detail.beforeBalance)}`}/><InfoCell label="扣款後餘額" value={`$${fmt(detail.afterBalance)}`}/></>
           )}
           {detail.note&&<InfoCell label="備註" value={detail.note}/>}
         </div>
@@ -499,10 +547,12 @@ function RecordsTab({ records, setRecords, customers, showToast }) {
         {confirmDelete===detail.id?(
           <div style={{background:"#fff5f5",border:"1.5px solid #ffcdd2",borderRadius:12,padding:16,textAlign:"center"}}>
             <div style={{fontWeight:700,color:"#c0392b",marginBottom:8}}>確定要刪除此筆紀錄？</div>
-            <div style={{fontSize:13,color:"#888",marginBottom:14}}>⚠️ 注意：餘額不會自動還原，請手動確認</div>
+            <div style={{fontSize:13,color:"#888",marginBottom:14}}>
+              {detail.type==="charge"?"✅ 將自動把 $"+fmt(detail.amount)+" 還回顧客餘額":"⚠️ 將自動從顧客餘額扣除 $"+fmt(detail.total)}
+            </div>
             <div style={{display:"flex",gap:10,justifyContent:"center"}}>
               <button style={{...S.btn,...S.btnGhost}} onClick={()=>setConfirmDelete(null)}>取消</button>
-              <button style={{...S.btn,background:"#e74c3c",color:"#fff"}} onClick={()=>deleteRecord(detail.id,detail)}>確認刪除</button>
+              <button style={{...S.btn,background:"#e74c3c",color:"#fff"}} onClick={()=>deleteRecord(detail)}>確認刪除</button>
             </div>
           </div>
         ):(
@@ -514,12 +564,20 @@ function RecordsTab({ records, setRecords, customers, showToast }) {
 
   return (
     <div>
-      <div style={{display:"flex",gap:10,marginBottom:14,flexWrap:"wrap"}}>
+      <div style={{display:"flex",gap:10,marginBottom:10,flexWrap:"wrap"}}>
         {[["all","全部"],["topup","儲值"],["charge","消費"]].map(([k,l])=>(
           <button key={k} style={{padding:"10px 20px",borderRadius:20,border:filter===k?"1.5px solid #f4a5b0":"1.5px solid #f0e8f4",background:filter===k?"#f4a5b0":"#fff",color:filter===k?"#fff":"#7a5a7a",cursor:"pointer",fontFamily:"inherit",fontSize:15,fontWeight:600}} onClick={()=>setFilter(k)}>{l}</button>
         ))}
-        <input style={{...S.input,flex:1,minWidth:160}} placeholder="🔍 搜尋顧客姓名" value={search} onChange={e=>setSearch(e.target.value)}/>
       </div>
+      <div style={{display:"flex",gap:10,marginBottom:14,flexWrap:"wrap"}}>
+        <input style={{...S.input,flex:1,minWidth:150}} placeholder="🔍 搜尋顧客姓名" value={search} onChange={e=>setSearch(e.target.value)}/>
+        <div style={{display:"flex",alignItems:"center",gap:8,background:"#fff",border:"1.5px solid #f0e8f4",borderRadius:11,padding:"0 12px",flex:1,minWidth:180}}>
+          <span style={{fontSize:16,color:"#aaa"}}>📅</span>
+          <input type="date" style={{flex:1,border:"none",outline:"none",fontSize:15,color:"#3d2440",background:"transparent",padding:"12px 0",fontFamily:"inherit"}} value={dateFilter} onChange={e=>setDateFilter(e.target.value)}/>
+          {dateFilter&&<button onClick={()=>setDateFilter("")} style={{background:"none",border:"none",color:"#ccc",cursor:"pointer",fontSize:18,padding:"0 4px"}}>×</button>}
+        </div>
+      </div>
+      {dateFilter&&<div style={{fontSize:13,color:"#f4a5b0",marginBottom:10,fontWeight:600}}>📅 顯示 {fmtDate(dateFilter)} 的紀錄（共 {filtered.length} 筆）</div>}
       {filtered.length===0&&<div style={S.empty}>尚無符合紀錄</div>}
       <div style={{display:"flex",flexDirection:"column",gap:10}}>
         {filtered.map(r=>(
@@ -605,10 +663,10 @@ function App() {
       </nav>
       <main style={S.main}>
         {tab==="home"&&<HomeTab customers={customers} records={records} setTab={setTab}/>}
-        {tab==="customers"&&<CustomersTab customers={customers} setCustomers={setCustomers} showToast={showToast}/>}
+        {tab==="customers"&&<CustomersTab customers={customers} setCustomers={setCustomers} records={records} setRecords={setRecords} showToast={showToast}/>}
         {tab==="topup"&&<TopupTab customers={customers} addRecord={addRecord} showToast={showToast}/>}
         {tab==="charge"&&<ChargeTab customers={customers} addRecord={addRecord} showToast={showToast}/>}
-        {tab==="records"&&<RecordsTab records={records} setRecords={setRecords} customers={customers} showToast={showToast}/>}
+        {tab==="records"&&<RecordsTab records={records} setRecords={setRecords} customers={customers} setCustomers={setCustomers} showToast={showToast}/>}
       </main>
       {sig&&<SignatureCanvas onSave={(img)=>sig.onComplete(img)} onCancel={()=>setSig(null)}/>}
       {toast&&<div style={{...S.toast,background:toast.type==="warn"?"#ff9966":"#6cc5a0"}}>{toast.msg}</div>}
@@ -627,7 +685,7 @@ const S={
   main:{flex:1,overflowY:"auto",position:"relative",zIndex:1,padding:"16px 16px 32px"},
   card:{background:"rgba(255,255,255,0.92)",borderRadius:16,padding:18,boxShadow:"0 4px 20px rgba(180,100,130,0.08)",border:"1px solid #f5eef8"},
   cardTitle:{fontSize:14,fontWeight:800,color:"#3d2440",marginBottom:12,letterSpacing:0.5},
-  customerCard:{display:"flex",alignItems:"center",gap:12,padding:14,background:"rgba(255,255,255,0.92)",borderRadius:12,border:"1px solid #f5eef8",boxShadow:"0 2px 10px rgba(180,100,130,0.06)"},
+  customerCard:{display:"flex",alignItems:"center",gap:12,padding:14,background:"rgba(255,255,255,0.92)",borderRadius:12,border:"1px solid #f5eef8",boxShadow:"0 2px 10px rgba(180,100,130,0.06)",cursor:"pointer"},
   input:{width:"100%",padding:"13px 15px",borderRadius:11,border:"1.5px solid #f0e8f4",fontSize:16,outline:"none",background:"#fff",color:"#3d2440",boxSizing:"border-box",fontFamily:"inherit"},
   select:{width:"100%",padding:"13px 15px",borderRadius:11,border:"1.5px solid #f0e8f4",fontSize:16,outline:"none",background:"#fff",color:"#3d2440",boxSizing:"border-box",fontFamily:"inherit",cursor:"pointer"},
   btn:{borderRadius:12,border:"none",cursor:"pointer",fontFamily:"inherit",fontWeight:700,fontSize:16,padding:"13px 22px",display:"inline-flex",alignItems:"center",justifyContent:"center",gap:8},
