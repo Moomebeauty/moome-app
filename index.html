@@ -7,12 +7,12 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="沐蜜美學" />
   <title>沐蜜美學秘境｜儲值管理</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-    body { font-family: 'Noto Sans TC', 'PingFang TC', sans-serif; background: #fdf8fc; overflow: hidden; height: 100vh; }
+    body { font-family: 'Noto Sans TC','PingFang TC',sans-serif; background: #fdf8fc; overflow: hidden; height: 100vh; }
     #root { height: 100vh; }
+    input[type="date"] { -webkit-appearance: none; appearance: none; }
   </style>
 </head>
 <body>
@@ -25,207 +25,161 @@ const { useState, useEffect, useRef } = React;
 
 const uid = () => Math.random().toString(36).slice(2, 10);
 const fmt = (n) => Number(n).toLocaleString("zh-TW");
-const today = () => new Date().toLocaleDateString("zh-TW", { year: "numeric", month: "2-digit", day: "2-digit" });
-const now = () => new Date().toLocaleString("zh-TW", { hour12: false });
+const todayStr = () => new Date().toLocaleDateString("zh-TW", { year:"numeric", month:"2-digit", day:"2-digit" });
+const todayISO = () => new Date().toISOString().slice(0,10);
+const fmtDate = (iso) => { if(!iso) return ""; const [y,m,d] = iso.split("-"); return `${y}/${m}/${d}`; };
+const nowWithDate = (iso) => {
+  const t = new Date().toLocaleTimeString("zh-TW", { hour12:false, hour:"2-digit", minute:"2-digit" });
+  return `${fmtDate(iso)} ${t}`;
+};
 
 const PLANS = [
-  { label: "儲 1,000 元", value: 1000, bonus: 0 },
-  { label: "儲 3,000 送 300", value: 3000, bonus: 300 },
-  { label: "儲 5,000 送 600", value: 5000, bonus: 600 },
-  { label: "儲 10,000 送 1,500", value: 10000, bonus: 1500 },
-  { label: "自訂金額", value: 0, bonus: 0, custom: true },
+  { label: "儲 19,800 元", value: 19800, bonus: 2200, total: 22000 },
+  { label: "儲 36,800 元", value: 36800, bonus: 9200, total: 46000 },
+  { label: "自訂金額", value: 0, bonus: 0, total: 0, custom: true },
 ];
 
-const LOW_BALANCE = 500;
+const SERVICES = ["基礎淨白","舒顏SPA","訂製安瓶","水光藻針","外泌體","私密處除毛","腋下除毛","體態精修"];
+const LOW_BALANCE = 3000;
 const SHEETS_URL = "https://script.google.com/macros/s/AKfycbxHKMd4hvAskNWG2YhclsValR7KT0s8dSjfiK-QYInn1Ky8O1GG9Eqb4moDwRPY_3MCGg/exec";
 
 const backupToSheets = async (customers, records) => {
-  await fetch(SHEETS_URL, { method: "POST", mode: "no-cors", headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ type: "customers", rows: customers.map(c => [c.name, c.phone || "", c.balance || 0, c.createdAt || ""]) }) });
-  await fetch(SHEETS_URL, { method: "POST", mode: "no-cors", headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ type: "records", rows: records.map(r => [r.time, r.customerName, r.type === "topup" ? "儲值" : "消費", r.type === "topup" ? r.total : r.amount, r.note || ""]) }) });
+  await fetch(SHEETS_URL, { method:"POST", mode:"no-cors", headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({ type:"customers", rows: customers.map(c=>[c.name,c.phone||"",c.balance||0,c.createdAt||""]) }) });
+  await fetch(SHEETS_URL, { method:"POST", mode:"no-cors", headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({ type:"records", rows: records.map(r=>[r.time,r.customerName,r.type==="topup"?"儲值":"消費",r.type==="topup"?r.total:r.amount,r.service||r.plan||"",r.note||""]) }) });
 };
 
-const load = (key, def) => { try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : def; } catch { return def; } };
-const save = (key, val) => localStorage.setItem(key, JSON.stringify(val));
+const load = (k,d) => { try { const v=localStorage.getItem(k); return v?JSON.parse(v):d; } catch { return d; } };
+const save = (k,v) => localStorage.setItem(k,JSON.stringify(v));
 
+// ── Signature Canvas ──
 function SignatureCanvas({ onSave, onCancel }) {
   const canvasRef = useRef(null);
   const drawing = useRef(false);
   const lastPt = useRef(null);
-
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
-    ctx.fillStyle = "#fff";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.strokeStyle = "#1a1a1a";
-    ctx.lineWidth = 2.5;
-    ctx.lineCap = "round";
-    ctx.lineJoin = "round";
+    ctx.fillStyle="#fff"; ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.strokeStyle="#1a1a1a"; ctx.lineWidth=2.5; ctx.lineCap="round"; ctx.lineJoin="round";
   }, []);
-
   const getPos = (e) => {
-    const canvas = canvasRef.current;
-    const rect = canvas.getBoundingClientRect();
-    const scaleX = canvas.width / rect.width;
-    const scaleY = canvas.height / rect.height;
-    const src = e.touches ? e.touches[0] : e;
-    return { x: (src.clientX - rect.left) * scaleX, y: (src.clientY - rect.top) * scaleY };
+    const canvas=canvasRef.current, rect=canvas.getBoundingClientRect();
+    const src=e.touches?e.touches[0]:e;
+    return { x:(src.clientX-rect.left)*(canvas.width/rect.width), y:(src.clientY-rect.top)*(canvas.height/rect.height) };
   };
-
-  const start = (e) => { e.preventDefault(); drawing.current = true; lastPt.current = getPos(e); };
-  const end = (e) => { e.preventDefault(); drawing.current = false; lastPt.current = null; };
-  const move = (e) => {
-    e.preventDefault();
-    if (!drawing.current) return;
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
-    const pt = getPos(e);
-    ctx.beginPath();
-    ctx.moveTo(lastPt.current.x, lastPt.current.y);
-    ctx.lineTo(pt.x, pt.y);
-    ctx.stroke();
-    lastPt.current = pt;
-  };
-
-  const clear = () => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
-    ctx.fillStyle = "#fff";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-  };
-
+  const start=(e)=>{ e.preventDefault(); drawing.current=true; lastPt.current=getPos(e); };
+  const end=(e)=>{ e.preventDefault(); drawing.current=false; lastPt.current=null; };
+  const move=(e)=>{ e.preventDefault(); if(!drawing.current)return; const canvas=canvasRef.current,ctx=canvas.getContext("2d"),pt=getPos(e); ctx.beginPath(); ctx.moveTo(lastPt.current.x,lastPt.current.y); ctx.lineTo(pt.x,pt.y); ctx.stroke(); lastPt.current=pt; };
+  const clear=()=>{ const canvas=canvasRef.current,ctx=canvas.getContext("2d"); ctx.fillStyle="#fff"; ctx.fillRect(0,0,canvas.width,canvas.height); };
   return (
     <div style={S.sigOverlay}>
       <div style={S.sigModal}>
-        <div style={S.sigHeader}>
-          <span style={S.sigTitle}>✍️ 請簽名確認</span>
-          <span style={S.sigHint}>使用 Apple Pencil 或手指簽名</span>
-        </div>
+        <div style={S.sigHeader}><span style={S.sigTitle}>✍️ 請簽名確認</span><span style={S.sigHint}>Apple Pencil 或手指</span></div>
         <div style={S.sigCanvasWrap}>
-          <canvas ref={canvasRef} width={900} height={380} style={S.sigCanvas}
-            onPointerDown={start} onPointerMove={move} onPointerUp={end} onPointerLeave={end} />
-          <div style={S.sigLine} />
-          <span style={S.sigLineLabel}>簽名於此</span>
+          <canvas ref={canvasRef} width={900} height={360} style={S.sigCanvas} onPointerDown={start} onPointerMove={move} onPointerUp={end} onPointerLeave={end} />
+          <div style={S.sigLine}/><span style={S.sigLineLabel}>簽名於此</span>
         </div>
         <div style={S.sigActions}>
-          <button style={{...S.btn, ...S.btnGhost}} onClick={clear}>清除重寫</button>
-          <button style={{...S.btn, ...S.btnGhost, color:"#888"}} onClick={onCancel}>取消</button>
-          <button style={{...S.btn, ...S.btnPrimary}} onClick={() => onSave(canvasRef.current.toDataURL("image/png"))}>確認簽名</button>
+          <button style={{...S.btn,...S.btnGhost}} onClick={clear}>清除重寫</button>
+          <button style={{...S.btn,...S.btnGhost,color:"#888"}} onClick={onCancel}>取消</button>
+          <button style={{...S.btn,...S.btnPrimary}} onClick={()=>onSave(canvasRef.current.toDataURL("image/png"))}>確認簽名</button>
         </div>
       </div>
     </div>
   );
 }
 
-function Avatar({ customer, size = 56 }) {
-  if (customer.photo) return <img src={customer.photo} alt="" style={{ width: size, height: size, borderRadius: "50%", objectFit: "cover", flexShrink: 0 }} />;
-  const initials = customer.name?.slice(0, 1) || "?";
-  const colors = ["#f4a5b0", "#a5c4f4", "#a5f4c4", "#f4d0a5", "#c4a5f4"];
-  const bg = colors[customer.name?.charCodeAt(0) % colors.length] || "#f4a5b0";
-  return <div style={{ width: size, height: size, borderRadius: "50%", background: bg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: size * 0.4, fontWeight: 700, color: "#fff", flexShrink: 0 }}>{initials}</div>;
+// ── Avatar ──
+function Avatar({ customer, size=56 }) {
+  if(customer.photo) return <img src={customer.photo} alt="" style={{width:size,height:size,borderRadius:"50%",objectFit:"cover",flexShrink:0}}/>;
+  const colors=["#f4a5b0","#a5c4f4","#a5f4c4","#f4d0a5","#c4a5f4"];
+  const bg=colors[(customer.name?.charCodeAt(0)||0)%colors.length];
+  return <div style={{width:size,height:size,borderRadius:"50%",background:bg,display:"flex",alignItems:"center",justifyContent:"center",fontSize:size*0.4,fontWeight:700,color:"#fff",flexShrink:0}}>{customer.name?.slice(0,1)||"?"}</div>;
 }
 
+// ── PhotoUpload ──
 function PhotoUpload({ value, onChange }) {
-  const ref = useRef();
-  const handle = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => onChange(ev.target.result);
-    reader.readAsDataURL(file);
-  };
+  const ref=useRef();
+  const handle=(e)=>{ const file=e.target.files[0]; if(!file)return; const r=new FileReader(); r.onload=(ev)=>onChange(ev.target.result); r.readAsDataURL(file); };
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
-      <div onClick={() => ref.current.click()} style={{ width: 88, height: 88, borderRadius: "50%", background: value ? "transparent" : "#fdf0f5", border: "2.5px dashed #f4a5b0", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", overflow: "hidden" }}>
-        {value ? <img src={value} style={{ width: "100%", height: "100%", objectFit: "cover" }} alt="" /> : <span style={{ fontSize: 28 }}>📷</span>}
+    <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:8}}>
+      <div onClick={()=>ref.current.click()} style={{width:88,height:88,borderRadius:"50%",background:value?"transparent":"#fdf0f5",border:"2.5px dashed #f4a5b0",display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",overflow:"hidden"}}>
+        {value?<img src={value} style={{width:"100%",height:"100%",objectFit:"cover"}} alt=""/>:<span style={{fontSize:28}}>📷</span>}
       </div>
-      <span style={{ fontSize: 12, color: "#bbb" }}>點擊上傳照片</span>
-      <input ref={ref} type="file" accept="image/*" onChange={handle} style={{ display: "none" }} />
+      <span style={{fontSize:12,color:"#bbb"}}>點擊上傳照片</span>
+      <input ref={ref} type="file" accept="image/*" onChange={handle} style={{display:"none"}}/>
     </div>
   );
 }
 
 function StatCard({ icon, label, value, color }) {
   return (
-    <div style={{ ...S.card, flex: 1, textAlign: "center", borderTop: `4px solid ${color}`, minWidth: 140 }}>
-      <div style={{ fontSize: 28, marginBottom: 4 }}>{icon}</div>
-      <div style={{ fontSize: 12, color: "#aaa", marginBottom: 4 }}>{label}</div>
-      <div style={{ fontSize: 20, fontWeight: 800, color: "#333" }}>{value}</div>
+    <div style={{...S.card,flex:1,textAlign:"center",borderTop:`4px solid ${color}`,minWidth:130}}>
+      <div style={{fontSize:26,marginBottom:4}}>{icon}</div>
+      <div style={{fontSize:11,color:"#aaa",marginBottom:4}}>{label}</div>
+      <div style={{fontSize:18,fontWeight:800,color:"#333"}}>{value}</div>
     </div>
   );
 }
 
 function InfoCell({ label, value }) {
   return (
-    <div style={{ background: "#fafafa", borderRadius: 10, padding: "10px 14px" }}>
-      <div style={{ fontSize: 12, color: "#bbb", marginBottom: 2 }}>{label}</div>
-      <div style={{ fontWeight: 700, fontSize: 16 }}>{value}</div>
+    <div style={{background:"#fafafa",borderRadius:10,padding:"10px 14px"}}>
+      <div style={{fontSize:12,color:"#bbb",marginBottom:2}}>{label}</div>
+      <div style={{fontWeight:700,fontSize:15}}>{value}</div>
     </div>
   );
 }
 
 // ── HomeTab ──
 function HomeTab({ customers, records, setTab }) {
-  const [backupStatus, setBackupStatus] = useState("idle");
-  const handleBackup = async () => {
-    setBackupStatus("loading");
-    try { await backupToSheets(customers, records); setBackupStatus("done"); setTimeout(() => setBackupStatus("idle"), 3000); }
-    catch { setBackupStatus("error"); setTimeout(() => setBackupStatus("idle"), 3000); }
-  };
-  const totalBalance = customers.reduce((s, c) => s + (c.balance || 0), 0);
-  const totalTopup = records.filter(r => r.type === "topup").reduce((s, r) => s + r.total, 0);
-  const totalCharge = records.filter(r => r.type === "charge").reduce((s, r) => s + r.amount, 0);
-  const low = customers.filter(c => (c.balance || 0) < LOW_BALANCE && (c.balance || 0) > 0);
-  const recent = records.slice(0, 5);
-
+  const [backupStatus,setBackupStatus]=useState("idle");
+  const handleBackup=async()=>{ setBackupStatus("loading"); try{ await backupToSheets(customers,records); setBackupStatus("done"); setTimeout(()=>setBackupStatus("idle"),3000); } catch{ setBackupStatus("error"); setTimeout(()=>setBackupStatus("idle"),3000); } };
+  const totalTopup=records.filter(r=>r.type==="topup").reduce((s,r)=>s+r.total,0);
+  const totalCharge=records.filter(r=>r.type==="charge").reduce((s,r)=>s+r.amount,0);
+  const totalBalance=customers.reduce((s,c)=>s+(c.balance||0),0);
+  const low=customers.filter(c=>(c.balance||0)<LOW_BALANCE&&(c.balance||0)>0);
+  const recent=records.slice(0,5);
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-      <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-        <StatCard icon="💰" label="總儲值金額" value={`$${fmt(totalTopup)}`} color="#f4a5b0" />
-        <StatCard icon="✂️" label="總消費金額" value={`$${fmt(totalCharge)}`} color="#a5c4f4" />
-        <StatCard icon="🏦" label="總餘額" value={`$${fmt(totalBalance)}`} color="#a5f4c4" />
-        <StatCard icon="👥" label="顧客人數" value={`${customers.length} 位`} color="#f4d0a5" />
+    <div style={{display:"flex",flexDirection:"column",gap:14}}>
+      <div style={{display:"flex",gap:10,flexWrap:"wrap"}}>
+        <StatCard icon="💰" label="總儲值金額" value={`$${fmt(totalTopup)}`} color="#f4a5b0"/>
+        <StatCard icon="✂️" label="總消費金額" value={`$${fmt(totalCharge)}`} color="#a5c4f4"/>
+        <StatCard icon="🏦" label="總餘額" value={`$${fmt(totalBalance)}`} color="#a5f4c4"/>
+        <StatCard icon="👥" label="顧客人數" value={`${customers.length} 位`} color="#f4d0a5"/>
       </div>
-
-      {low.length > 0 && (
-        <div style={{ display: "flex", gap: 12, alignItems: "center", background: "#fff5f0", border: "1.5px solid #ffd0c0", borderRadius: 14, padding: "12px 16px" }}>
-          <span style={{ fontSize: 22 }}>⚠️</span>
-          <div>
-            <div style={{ fontWeight: 700, color: "#c0392b", marginBottom: 2, fontSize: 14 }}>低餘額提醒</div>
-            <div style={{ fontSize: 13, color: "#666" }}>{low.map(c => `${c.name}（$${fmt(c.balance)}）`).join("、")}</div>
-          </div>
+      {low.length>0&&(
+        <div style={{display:"flex",gap:12,alignItems:"center",background:"#fff5f0",border:"1.5px solid #ffd0c0",borderRadius:14,padding:"12px 16px"}}>
+          <span style={{fontSize:22}}>⚠️</span>
+          <div><div style={{fontWeight:700,color:"#c0392b",marginBottom:2,fontSize:14}}>低餘額提醒</div>
+          <div style={{fontSize:13,color:"#666"}}>{low.map(c=>`${c.name}（$${fmt(c.balance)}）`).join("、")}</div></div>
         </div>
       )}
-
-      <div style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: 14, alignItems: "start" }}>
+      <div style={{display:"grid",gridTemplateColumns:"1fr auto",gap:14,alignItems:"start"}}>
         <div style={S.card}>
           <div style={S.cardTitle}>最近紀錄</div>
-          {recent.length === 0 && <div style={S.empty}>尚無紀錄</div>}
-          {recent.map(r => (
-            <div key={r.id} style={{ display: "flex", gap: 10, alignItems: "center", padding: "10px 0", borderBottom: "1px solid #f5f0f8" }}>
-              <span style={{ fontSize: 18 }}>{r.type === "topup" ? "💳" : "✂️"}</span>
-              <div style={{ flex: 1 }}>
-                <div style={{ fontWeight: 600, fontSize: 15 }}>{r.customerName}</div>
-                <div style={{ fontSize: 12, color: "#aaa" }}>{r.time}</div>
+          {recent.length===0&&<div style={S.empty}>尚無紀錄</div>}
+          {recent.map(r=>(
+            <div key={r.id} style={{display:"flex",gap:10,alignItems:"center",padding:"10px 0",borderBottom:"1px solid #f5f0f8"}}>
+              <span style={{fontSize:18}}>{r.type==="topup"?"💳":"✂️"}</span>
+              <div style={{flex:1}}>
+                <div style={{fontWeight:600,fontSize:15}}>{r.customerName}</div>
+                <div style={{fontSize:12,color:"#aaa"}}>{r.time}</div>
               </div>
-              <div style={{ fontWeight: 700, color: r.type === "topup" ? "#6cc5a0" : "#f4a5b0", fontSize: 15 }}>
-                {r.type === "topup" ? `+$${fmt(r.total)}` : `-$${fmt(r.amount)}`}
+              <div style={{fontWeight:700,color:r.type==="topup"?"#6cc5a0":"#f4a5b0",fontSize:15}}>
+                {r.type==="topup"?`+$${fmt(r.total)}`:`-$${fmt(r.amount)}`}
               </div>
             </div>
           ))}
         </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          <button style={{...S.btn, ...S.btnPrimary, fontSize: 16, padding: "18px 28px"}} onClick={() => setTab("topup")}>💳 儲值</button>
-          <button style={{...S.btn, ...S.btnSecondary, fontSize: 16, padding: "18px 28px"}} onClick={() => setTab("charge")}>✂️ 消費扣款</button>
-          <button style={{...S.btn, ...S.btnGhost, fontSize: 16, padding: "18px 28px"}} onClick={() => setTab("customers")}>👥 顧客管理</button>
-          <button onClick={handleBackup} disabled={backupStatus === "loading"}
-            style={{...S.btn, fontSize: 14, padding: "14px 20px",
-              background: backupStatus === "done" ? "#6cc5a0" : backupStatus === "error" ? "#e74c3c" : "#f0faf5",
-              color: backupStatus === "done" || backupStatus === "error" ? "#fff" : "#3a9e72",
-              border: "1.5px solid #b8e8d4", opacity: backupStatus === "loading" ? 0.7 : 1 }}>
-            {backupStatus === "loading" ? "⏳ 備份中..." : backupStatus === "done" ? "✅ 備份成功！" : backupStatus === "error" ? "❌ 備份失敗" : "☁️ 備份到 Google Sheets"}
+        <div style={{display:"flex",flexDirection:"column",gap:12}}>
+          <button style={{...S.btn,...S.btnPrimary,fontSize:16,padding:"18px 28px"}} onClick={()=>setTab("topup")}>💳 儲值</button>
+          <button style={{...S.btn,...S.btnSecondary,fontSize:16,padding:"18px 28px"}} onClick={()=>setTab("charge")}>✂️ 消費扣款</button>
+          <button style={{...S.btn,...S.btnGhost,fontSize:16,padding:"18px 28px"}} onClick={()=>setTab("customers")}>👥 顧客管理</button>
+          <button onClick={handleBackup} disabled={backupStatus==="loading"} style={{...S.btn,fontSize:14,padding:"14px 20px",background:backupStatus==="done"?"#6cc5a0":backupStatus==="error"?"#e74c3c":"#f0faf5",color:backupStatus==="done"||backupStatus==="error"?"#fff":"#3a9e72",border:"1.5px solid #b8e8d4",opacity:backupStatus==="loading"?0.7:1}}>
+            {backupStatus==="loading"?"⏳ 備份中...":backupStatus==="done"?"✅ 備份成功！":backupStatus==="error"?"❌ 備份失敗":"☁️ 備份到 Google Sheets"}
           </button>
         </div>
       </div>
@@ -235,54 +189,63 @@ function HomeTab({ customers, records, setTab }) {
 
 // ── CustomersTab ──
 function CustomersTab({ customers, setCustomers, showToast }) {
-  const [mode, setMode] = useState("list");
-  const [form, setForm] = useState({ name: "", phone: "", photo: "" });
-  const [selected, setSelected] = useState(null);
-  const [search, setSearch] = useState("");
-  const filtered = customers.filter(c => c.name.includes(search) || (c.phone || "").includes(search));
+  const [mode,setMode]=useState("list");
+  const [form,setForm]=useState({name:"",phone:"",photo:""});
+  const [selected,setSelected]=useState(null);
+  const [search,setSearch]=useState("");
+  const [confirmDelete,setConfirmDelete]=useState(null);
+  const filtered=customers.filter(c=>c.name.includes(search)||(c.phone||"").includes(search));
 
-  const submit = () => {
-    if (!form.name.trim()) return showToast("請輸入顧客姓名", "warn");
-    setCustomers(cs => [{ id: uid(), balance: 0, createdAt: today(), ...form }, ...cs]);
-    setForm({ name: "", phone: "", photo: "" });
-    setMode("list");
-    showToast("✅ 顧客新增完成");
-  };
+  const submit=()=>{ if(!form.name.trim())return showToast("請輸入顧客姓名","warn"); setCustomers(cs=>[{id:uid(),balance:0,createdAt:todayStr(),...form},...cs]); setForm({name:"",phone:"",photo:""}); setMode("list"); showToast("✅ 顧客新增完成"); };
 
-  if (mode === "add") return (
-    <div style={{ maxWidth: 480, margin: "0 auto" }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 24 }}>
-        <button style={S.backBtn} onClick={() => setMode("list")}>← 返回</button>
-        <span style={{ fontSize: 20, fontWeight: 800, color: "#3d2440" }}>新增顧客</span>
+  const deleteCustomer=(id)=>{ setCustomers(cs=>cs.filter(c=>c.id!==id)); setConfirmDelete(null); setMode("list"); showToast("🗑️ 顧客已刪除"); };
+
+  if(mode==="add") return (
+    <div style={{maxWidth:480,margin:"0 auto"}}>
+      <div style={{display:"flex",alignItems:"center",gap:14,marginBottom:24}}>
+        <button style={S.backBtn} onClick={()=>setMode("list")}>← 返回</button>
+        <span style={{fontSize:20,fontWeight:800,color:"#3d2440"}}>新增顧客</span>
       </div>
-      <div style={{ display: "flex", flexDirection: "column", gap: 16, alignItems: "center" }}>
-        <PhotoUpload value={form.photo} onChange={v => setForm(f => ({ ...f, photo: v }))} />
-        <input style={S.input} placeholder="顧客姓名 *" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} />
-        <input style={S.input} placeholder="手機號碼" value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} />
-        <button style={{...S.btn, ...S.btnPrimary, width: "100%", fontSize: 18, padding: "18px"}} onClick={submit}>確認新增</button>
+      <div style={{display:"flex",flexDirection:"column",gap:16,alignItems:"center"}}>
+        <PhotoUpload value={form.photo} onChange={v=>setForm(f=>({...f,photo:v}))}/>
+        <input style={S.input} placeholder="顧客姓名 *" value={form.name} onChange={e=>setForm(f=>({...f,name:e.target.value}))}/>
+        <input style={S.input} placeholder="手機號碼" value={form.phone} onChange={e=>setForm(f=>({...f,phone:e.target.value}))}/>
+        <button style={{...S.btn,...S.btnPrimary,width:"100%",fontSize:18,padding:"18px"}} onClick={submit}>確認新增</button>
       </div>
     </div>
   );
 
-  if (mode === "detail" && selected) {
-    const c = customers.find(x => x.id === selected);
-    if (!c) { setMode("list"); return null; }
+  if(mode==="detail"&&selected) {
+    const c=customers.find(x=>x.id===selected);
+    if(!c){setMode("list");return null;}
     return (
-      <div style={{ maxWidth: 480, margin: "0 auto" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 24 }}>
-          <button style={S.backBtn} onClick={() => setMode("list")}>← 返回</button>
-          <span style={{ fontSize: 20, fontWeight: 800, color: "#3d2440" }}>顧客詳情</span>
+      <div style={{maxWidth:480,margin:"0 auto"}}>
+        <div style={{display:"flex",alignItems:"center",gap:14,marginBottom:24}}>
+          <button style={S.backBtn} onClick={()=>setMode("list")}>← 返回</button>
+          <span style={{fontSize:20,fontWeight:800,color:"#3d2440"}}>顧客詳情</span>
         </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 14, alignItems: "center" }}>
-          <Avatar customer={c} size={90} />
-          <div style={{ fontSize: 26, fontWeight: 800 }}>{c.name}</div>
-          <div style={{ fontSize: 15, color: "#888" }}>{c.phone || "未填電話"}</div>
-          <div style={{...S.card, width: "100%", textAlign: "center"}}>
-            <div style={{ fontSize: 13, color: "#aaa", marginBottom: 4 }}>目前餘額</div>
-            <div style={{ fontSize: 34, fontWeight: 900, color: (c.balance || 0) < LOW_BALANCE ? "#e74c3c" : "#6cc5a0" }}>${fmt(c.balance || 0)}</div>
-            {(c.balance || 0) < LOW_BALANCE && (c.balance || 0) > 0 && <div style={{ color: "#e74c3c", fontSize: 12, marginTop: 4 }}>⚠️ 餘額不足，建議儲值</div>}
+        <div style={{display:"flex",flexDirection:"column",gap:14,alignItems:"center"}}>
+          <Avatar customer={c} size={90}/>
+          <div style={{fontSize:26,fontWeight:800}}>{c.name}</div>
+          <div style={{fontSize:15,color:"#888"}}>{c.phone||"未填電話"}</div>
+          <div style={{...S.card,width:"100%",textAlign:"center"}}>
+            <div style={{fontSize:13,color:"#aaa",marginBottom:4}}>目前餘額</div>
+            <div style={{fontSize:34,fontWeight:900,color:(c.balance||0)<LOW_BALANCE?"#e74c3c":"#6cc5a0"}}>${fmt(c.balance||0)}</div>
+            {(c.balance||0)<LOW_BALANCE&&(c.balance||0)>0&&<div style={{color:"#e74c3c",fontSize:12,marginTop:4}}>⚠️ 餘額不足，建議儲值</div>}
           </div>
-          <div style={{ fontSize: 12, color: "#ccc" }}>建檔日期：{c.createdAt}</div>
+          <div style={{fontSize:12,color:"#ccc"}}>建檔日期：{c.createdAt}</div>
+          {confirmDelete===c.id?(
+            <div style={{...S.card,width:"100%",background:"#fff5f5",border:"1.5px solid #ffcdd2",textAlign:"center"}}>
+              <div style={{fontWeight:700,color:"#c0392b",marginBottom:12}}>確定要刪除此顧客？</div>
+              <div style={{fontSize:13,color:"#888",marginBottom:16}}>此操作無法復原，顧客資料將永久刪除</div>
+              <div style={{display:"flex",gap:10,justifyContent:"center"}}>
+                <button style={{...S.btn,...S.btnGhost}} onClick={()=>setConfirmDelete(null)}>取消</button>
+                <button style={{...S.btn,background:"#e74c3c",color:"#fff"}} onClick={()=>deleteCustomer(c.id)}>確認刪除</button>
+              </div>
+            </div>
+          ):(
+            <button style={{...S.btn,background:"#fff5f5",color:"#e74c3c",border:"1.5px solid #ffcdd2",width:"100%"}} onClick={()=>setConfirmDelete(c.id)}>🗑️ 刪除此顧客</button>
+          )}
         </div>
       </div>
     );
@@ -290,22 +253,22 @@ function CustomersTab({ customers, setCustomers, showToast }) {
 
   return (
     <div>
-      <div style={{ display: "flex", gap: 10, marginBottom: 16 }}>
-        <input style={{...S.input, flex: 1}} placeholder="🔍 搜尋姓名或電話" value={search} onChange={e => setSearch(e.target.value)} />
-        <button style={{...S.btn, ...S.btnPrimary, whiteSpace: "nowrap"}} onClick={() => setMode("add")}>＋ 新增</button>
+      <div style={{display:"flex",gap:10,marginBottom:16}}>
+        <input style={{...S.input,flex:1}} placeholder="🔍 搜尋姓名或電話" value={search} onChange={e=>setSearch(e.target.value)}/>
+        <button style={{...S.btn,...S.btnPrimary,whiteSpace:"nowrap"}} onClick={()=>setMode("add")}>＋ 新增</button>
       </div>
-      {filtered.length === 0 && <div style={S.empty}>尚無顧客資料</div>}
-      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-        {filtered.map(c => (
-          <div key={c.id} style={S.customerCard} onClick={() => { setSelected(c.id); setMode("detail"); }}>
-            <Avatar customer={c} size={52} />
-            <div style={{ flex: 1 }}>
-              <div style={{ fontWeight: 700, fontSize: 17 }}>{c.name}</div>
-              <div style={{ fontSize: 13, color: "#aaa" }}>{c.phone || "未填電話"}</div>
+      {filtered.length===0&&<div style={S.empty}>尚無顧客資料</div>}
+      <div style={{display:"flex",flexDirection:"column",gap:10}}>
+        {filtered.map(c=>(
+          <div key={c.id} style={S.customerCard} onClick={()=>{setSelected(c.id);setMode("detail");}}>
+            <Avatar customer={c} size={52}/>
+            <div style={{flex:1}}>
+              <div style={{fontWeight:700,fontSize:17}}>{c.name}</div>
+              <div style={{fontSize:13,color:"#aaa"}}>{c.phone||"未填電話"}</div>
             </div>
-            <div style={{ textAlign: "right" }}>
-              <div style={{ fontSize: 12, color: "#aaa" }}>餘額</div>
-              <div style={{ fontSize: 20, fontWeight: 800, color: (c.balance || 0) < LOW_BALANCE ? "#e74c3c" : "#333" }}>${fmt(c.balance || 0)}</div>
+            <div style={{textAlign:"right"}}>
+              <div style={{fontSize:12,color:"#aaa"}}>餘額</div>
+              <div style={{fontSize:20,fontWeight:800,color:(c.balance||0)<LOW_BALANCE?"#e74c3c":"#333"}}>${fmt(c.balance||0)}</div>
             </div>
           </div>
         ))}
@@ -315,72 +278,78 @@ function CustomersTab({ customers, setCustomers, showToast }) {
 }
 
 // ── TopupTab ──
-function TopupTab({ customers, addRecord }) {
-  const [cid, setCid] = useState("");
-  const [plan, setPlan] = useState(null);
-  const [custom, setCustom] = useState("");
-  const [note, setNote] = useState("");
-  const customer = customers.find(c => c.id === cid);
-  const amount = plan?.custom ? Number(custom) || 0 : plan?.value || 0;
-  const bonus = plan?.custom ? 0 : plan?.bonus || 0;
-  const total = amount + bonus;
+function TopupTab({ customers, addRecord, showToast }) {
+  const [cid,setCid]=useState("");
+  const [plan,setPlan]=useState(null);
+  const [custom,setCustom]=useState("");
+  const [note,setNote]=useState("");
+  const [date,setDate]=useState(todayISO());
+  const customer=customers.find(c=>c.id===cid);
+  const amount=plan?.custom?Number(custom)||0:plan?.value||0;
+  const bonus=plan?.custom?0:plan?.bonus||0;
+  const total=plan?.custom?amount:(plan?.total||0);
 
-  const submit = () => {
-    if (!customer || !amount) return;
-    addRecord({ type: "topup", customerId: customer.id, customerName: customer.name, amount, bonus, total, plan: plan?.label || "自訂", note });
-    setPlan(null); setCustom(""); setNote(""); setCid("");
+  const submit=()=>{
+    if(!customer)return showToast("請選擇顧客","warn");
+    if(!amount)return showToast("請選擇或輸入金額","warn");
+    addRecord({type:"topup",customerId:customer.id,customerName:customer.name,amount,bonus,total,plan:plan?.label||"自訂",note,date});
+    setPlan(null);setCustom("");setNote("");setCid("");setDate(todayISO());
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+    <div style={{display:"flex",flexDirection:"column",gap:14}}>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14}}>
         <div style={S.card}>
           <div style={S.cardTitle}>選擇顧客</div>
-          <select style={S.select} value={cid} onChange={e => setCid(e.target.value)}>
+          <select style={S.select} value={cid} onChange={e=>setCid(e.target.value)}>
             <option value="">— 請選擇顧客 —</option>
-            {customers.map(c => <option key={c.id} value={c.id}>{c.name}（餘額 ${fmt(c.balance || 0)}）</option>)}
+            {customers.map(c=><option key={c.id} value={c.id}>{c.name}（餘額 ${fmt(c.balance||0)}）</option>)}
           </select>
-          {customer && (
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 12, padding: 12, background: "#fdf6f9", borderRadius: 10 }}>
-              <Avatar customer={customer} size={48} />
+          {customer&&(
+            <div style={{display:"flex",alignItems:"center",gap:12,marginTop:12,padding:12,background:"#fdf6f9",borderRadius:10}}>
+              <Avatar customer={customer} size={48}/>
               <div>
-                <div style={{ fontWeight: 700, fontSize: 16 }}>{customer.name}</div>
-                <div style={{ color: "#aaa", fontSize: 13 }}>目前餘額 ${fmt(customer.balance || 0)}</div>
+                <div style={{fontWeight:700,fontSize:16}}>{customer.name}</div>
+                <div style={{color:"#aaa",fontSize:13}}>目前餘額 ${fmt(customer.balance||0)}</div>
               </div>
             </div>
           )}
+          <div style={{marginTop:14}}>
+            <div style={{fontSize:13,color:"#aaa",marginBottom:6}}>📅 交易日期</div>
+            <input type="date" style={S.input} value={date} onChange={e=>setDate(e.target.value)}/>
+          </div>
         </div>
         <div style={S.card}>
           <div style={S.cardTitle}>選擇方案</div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {PLANS.map((p, i) => (
-              <button key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "12px 16px", borderRadius: 10, border: plan === p ? "2px solid #f4a5b0" : "1.5px solid #f0e8f4", background: plan === p ? "#fff0f4" : "#fff", cursor: "pointer", fontFamily: "inherit" }} onClick={() => setPlan(p)}>
-                <span style={{ fontWeight: 700, fontSize: 15, color: plan === p ? "#c4547a" : "#333" }}>{p.label}</span>
-                {p.bonus > 0 && <span style={{ background: "#f4a5b0", color: "#fff", padding: "2px 10px", borderRadius: 20, fontSize: 12 }}>贈 ${fmt(p.bonus)}</span>}
+          <div style={{display:"flex",flexDirection:"column",gap:8}}>
+            {PLANS.map((p,i)=>(
+              <button key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"12px 16px",borderRadius:10,border:plan===p?"2px solid #f4a5b0":"1.5px solid #f0e8f4",background:plan===p?"#fff0f4":"#fff",cursor:"pointer",fontFamily:"inherit"}} onClick={()=>setPlan(p)}>
+                <div style={{textAlign:"left"}}>
+                  <div style={{fontWeight:700,fontSize:15,color:plan===p?"#c4547a":"#333"}}>{p.label}</div>
+                  {!p.custom&&<div style={{fontSize:12,color:"#aaa",marginTop:2}}>入帳 ${fmt(p.total)} 元</div>}
+                </div>
+                {!p.custom&&<span style={{background:"#f4a5b0",color:"#fff",padding:"3px 10px",borderRadius:20,fontSize:12,whiteSpace:"nowrap"}}>贈 ${fmt(p.bonus)}</span>}
               </button>
             ))}
-            {plan?.custom && <input style={S.input} placeholder="輸入儲值金額" type="number" value={custom} onChange={e => setCustom(e.target.value)} />}
+            {plan?.custom&&<input style={S.input} placeholder="輸入儲值金額" type="number" value={custom} onChange={e=>setCustom(e.target.value)}/>}
           </div>
         </div>
       </div>
-
-      {plan && amount > 0 && (
-        <div style={{...S.card, background: "linear-gradient(135deg,#fdf0f5,#f9f0ff)"}}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
+      {plan&&amount>0&&(
+        <div style={{...S.card,background:"linear-gradient(135deg,#fdf0f5,#f9f0ff)"}}>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:12}}>
             <div>
-              <div style={{ fontSize: 13, color: "#aaa" }}>本次入帳</div>
-              <div style={{ fontSize: 34, fontWeight: 900, color: "#6cc5a0" }}>+${fmt(total)}</div>
-              {bonus > 0 && <div style={{ fontSize: 13, color: "#f4a5b0" }}>（儲 ${fmt(amount)} + 贈 ${fmt(bonus)}）</div>}
+              <div style={{fontSize:13,color:"#aaa"}}>本次入帳</div>
+              <div style={{fontSize:34,fontWeight:900,color:"#6cc5a0"}}>+${fmt(total)}</div>
+              {bonus>0&&<div style={{fontSize:13,color:"#f4a5b0"}}>（付 ${fmt(amount)} + 贈 ${fmt(bonus)}）</div>}
             </div>
-            {customer && (
-              <div style={{ textAlign: "right" }}>
-                <div style={{ fontSize: 13, color: "#aaa" }}>儲值後餘額</div>
-                <div style={{ fontSize: 26, fontWeight: 800 }}>${fmt((customer.balance || 0) + total)}</div>
-              </div>
-            )}
+            {customer&&<div style={{textAlign:"right"}}>
+              <div style={{fontSize:13,color:"#aaa"}}>儲值後餘額</div>
+              <div style={{fontSize:26,fontWeight:800}}>${fmt((customer.balance||0)+total)}</div>
+            </div>}
           </div>
-          <input style={{...S.input, marginTop: 12}} placeholder="備註（選填）" value={note} onChange={e => setNote(e.target.value)} />
-          <button style={{...S.btn, ...S.btnPrimary, width: "100%", fontSize: 18, padding: "16px", marginTop: 12}} onClick={submit} disabled={!customer}>
+          <input style={{...S.input,marginTop:12}} placeholder="備註（選填）" value={note} onChange={e=>setNote(e.target.value)}/>
+          <button style={{...S.btn,...S.btnPrimary,width:"100%",fontSize:18,padding:"16px",marginTop:12}} onClick={submit} disabled={!customer}>
             💳 確認儲值，前往簽名
           </button>
         </div>
@@ -391,80 +360,83 @@ function TopupTab({ customers, addRecord }) {
 
 // ── ChargeTab ──
 function ChargeTab({ customers, addRecord, showToast }) {
-  const [cid, setCid] = useState("");
-  const [service, setService] = useState("");
-  const [amount, setAmount] = useState("");
-  const [note, setNote] = useState("");
-  const customer = customers.find(c => c.id === cid);
-  const amt = Number(amount) || 0;
-  const afterBalance = (customer?.balance || 0) - amt;
-  const SERVICES = ["剪髮", "染髮", "燙髮", "護髮", "美甲", "美睫", "臉部保養", "頭皮護理"];
+  const [cid,setCid]=useState("");
+  const [service,setService]=useState("");
+  const [amount,setAmount]=useState("");
+  const [note,setNote]=useState("");
+  const [date,setDate]=useState(todayISO());
+  const customer=customers.find(c=>c.id===cid);
+  const amt=Number(amount)||0;
+  const afterBalance=(customer?.balance||0)-amt;
 
-  const submit = () => {
-    if (!customer) return showToast("請選擇顧客", "warn");
-    if (!service.trim()) return showToast("請輸入服務項目", "warn");
-    if (!amt || amt <= 0) return showToast("請輸入消費金額", "warn");
-    if (amt > (customer.balance || 0)) return showToast("餘額不足，請先儲值", "warn");
-    addRecord({ type: "charge", customerId: customer.id, customerName: customer.name, service, amount: amt, beforeBalance: customer.balance || 0, afterBalance, note });
-    setCid(""); setService(""); setAmount(""); setNote("");
+  const submit=()=>{
+    if(!customer)return showToast("請選擇顧客","warn");
+    if(!service.trim())return showToast("請輸入服務項目","warn");
+    if(!amt||amt<=0)return showToast("請輸入消費金額","warn");
+    if(amt>(customer.balance||0))return showToast("餘額不足，請先儲值","warn");
+    addRecord({type:"charge",customerId:customer.id,customerName:customer.name,service,amount:amt,beforeBalance:customer.balance||0,afterBalance,note,date});
+    setCid("");setService("");setAmount("");setNote("");setDate(todayISO());
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+    <div style={{display:"flex",flexDirection:"column",gap:14}}>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14}}>
         <div style={S.card}>
           <div style={S.cardTitle}>選擇顧客</div>
-          <select style={S.select} value={cid} onChange={e => setCid(e.target.value)}>
+          <select style={S.select} value={cid} onChange={e=>setCid(e.target.value)}>
             <option value="">— 請選擇顧客 —</option>
-            {customers.map(c => <option key={c.id} value={c.id}>{c.name}（餘額 ${fmt(c.balance || 0)}）</option>)}
+            {customers.map(c=><option key={c.id} value={c.id}>{c.name}（餘額 ${fmt(c.balance||0)}）</option>)}
           </select>
-          {customer && (
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 12, padding: 12, background: "#fdf6f9", borderRadius: 10 }}>
-              <Avatar customer={customer} size={48} />
+          {customer&&(
+            <div style={{display:"flex",alignItems:"center",gap:12,marginTop:12,padding:12,background:"#fdf6f9",borderRadius:10}}>
+              <Avatar customer={customer} size={48}/>
               <div>
-                <div style={{ fontWeight: 700, fontSize: 16 }}>{customer.name}</div>
-                <div style={{ color: (customer.balance || 0) < LOW_BALANCE ? "#e74c3c" : "#aaa", fontSize: 13 }}>
-                  {(customer.balance || 0) < LOW_BALANCE ? "⚠️ " : ""}目前餘額 ${fmt(customer.balance || 0)}
+                <div style={{fontWeight:700,fontSize:16}}>{customer.name}</div>
+                <div style={{color:(customer.balance||0)<LOW_BALANCE?"#e74c3c":"#aaa",fontSize:13}}>
+                  {(customer.balance||0)<LOW_BALANCE?"⚠️ ":""}目前餘額 ${fmt(customer.balance||0)}
                 </div>
               </div>
             </div>
           )}
+          <div style={{marginTop:14}}>
+            <div style={{fontSize:13,color:"#aaa",marginBottom:6}}>📅 交易日期</div>
+            <input type="date" style={S.input} value={date} onChange={e=>setDate(e.target.value)}/>
+          </div>
         </div>
         <div style={S.card}>
-          <div style={S.cardTitle}>服務項目</div>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 12 }}>
-            {SERVICES.map(sv => (
-              <button key={sv} style={{ padding: "8px 14px", borderRadius: 20, border: service === sv ? "1.5px solid #f4a5b0" : "1.5px solid #f0e8f4", background: service === sv ? "#f4a5b0" : "#fff", color: service === sv ? "#fff" : "#7a5a7a", cursor: "pointer", fontFamily: "inherit", fontSize: 14, fontWeight: 600 }} onClick={() => setService(sv)}>{sv}</button>
+          <div style={S.cardTitle}>服務 / 購買項目</div>
+          <div style={{display:"flex",flexWrap:"wrap",gap:8,marginBottom:12}}>
+            {SERVICES.map(sv=>(
+              <button key={sv} style={{padding:"8px 14px",borderRadius:20,border:service===sv?"1.5px solid #f4a5b0":"1.5px solid #f0e8f4",background:service===sv?"#f4a5b0":"#fff",color:service===sv?"#fff":"#7a5a7a",cursor:"pointer",fontFamily:"inherit",fontSize:14,fontWeight:600}} onClick={()=>setService(sv)}>{sv}</button>
             ))}
           </div>
-          <input style={S.input} placeholder="或自行輸入服務項目" value={service} onChange={e => setService(e.target.value)} />
+          <input style={S.input} placeholder="自行輸入服務或購買產品項目" value={service} onChange={e=>setService(e.target.value)}/>
         </div>
       </div>
-
       <div style={S.card}>
         <div style={S.cardTitle}>消費金額</div>
-        <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
-          <input style={{...S.input, flex: 1, fontSize: 28, fontWeight: 800, textAlign: "center"}} type="number" placeholder="0" value={amount} onChange={e => setAmount(e.target.value)} />
-          <div style={{ fontSize: 24, color: "#ddd" }}>元</div>
+        <div style={{display:"flex",gap:12,alignItems:"center"}}>
+          <input style={{...S.input,flex:1,fontSize:28,fontWeight:800,textAlign:"center"}} type="number" placeholder="0" value={amount} onChange={e=>setAmount(e.target.value)}/>
+          <div style={{fontSize:24,color:"#ddd"}}>元</div>
         </div>
-        {amt > 0 && customer && (
-          <div style={{ marginTop: 12, padding: 12, background: afterBalance < 0 ? "#fff0f0" : "#f0fff6", borderRadius: 10 }}>
-            {afterBalance < 0 ? (
-              <div style={{ color: "#e74c3c", fontWeight: 700 }}>⚠️ 餘額不足！差 ${fmt(Math.abs(afterBalance))}</div>
-            ) : (
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        {amt>0&&customer&&(
+          <div style={{marginTop:12,padding:12,background:afterBalance<0?"#fff0f0":"#f0fff6",borderRadius:10}}>
+            {afterBalance<0?(
+              <div style={{color:"#e74c3c",fontWeight:700}}>⚠️ 餘額不足！差 ${fmt(Math.abs(afterBalance))}</div>
+            ):(
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
                 <div>
-                  <div style={{ color: "#aaa", fontSize: 13 }}>扣款後餘額</div>
-                  <div style={{ fontSize: 28, fontWeight: 900, color: afterBalance < LOW_BALANCE ? "#e67e22" : "#6cc5a0" }}>${fmt(afterBalance)}</div>
-                  {afterBalance < LOW_BALANCE && <div style={{ color: "#e67e22", fontSize: 12 }}>⚠️ 即將不足，建議提醒儲值</div>}
+                  <div style={{color:"#aaa",fontSize:13}}>扣款後餘額</div>
+                  <div style={{fontSize:28,fontWeight:900,color:afterBalance<LOW_BALANCE?"#e67e22":"#6cc5a0"}}>${fmt(afterBalance)}</div>
+                  {afterBalance<LOW_BALANCE&&<div style={{color:"#e67e22",fontSize:12}}>⚠️ 即將不足，建議提醒儲值</div>}
                 </div>
-                <div style={{ fontSize: 32 }}>{afterBalance < LOW_BALANCE ? "⚠️" : "✅"}</div>
+                <div style={{fontSize:32}}>{afterBalance<LOW_BALANCE?"⚠️":"✅"}</div>
               </div>
             )}
           </div>
         )}
-        <input style={{...S.input, marginTop: 12}} placeholder="備註（選填）" value={note} onChange={e => setNote(e.target.value)} />
-        <button style={{...S.btn, ...S.btnSecondary, width: "100%", fontSize: 18, padding: "16px", marginTop: 12}} onClick={submit} disabled={!customer || !service || !amt || afterBalance < 0}>
+        <input style={{...S.input,marginTop:12}} placeholder="備註（選填）" value={note} onChange={e=>setNote(e.target.value)}/>
+        <button style={{...S.btn,...S.btnSecondary,width:"100%",fontSize:18,padding:"16px",marginTop:12}} onClick={submit} disabled={!customer||!service||!amt||afterBalance<0}>
           ✂️ 確認消費，前往簽名
         </button>
       </div>
@@ -473,47 +445,68 @@ function ChargeTab({ customers, addRecord, showToast }) {
 }
 
 // ── RecordsTab ──
-function RecordsTab({ records }) {
-  const [filter, setFilter] = useState("all");
-  const [selected, setSelected] = useState(null);
-  const [search, setSearch] = useState("");
-  const filtered = records.filter(r => (filter === "all" || r.type === filter) && (!search || r.customerName.includes(search)));
-  const detail = selected ? records.find(r => r.id === selected) : null;
+function RecordsTab({ records, setRecords, customers, showToast }) {
+  const [filter,setFilter]=useState("all");
+  const [selected,setSelected]=useState(null);
+  const [search,setSearch]=useState("");
+  const [confirmDelete,setConfirmDelete]=useState(null);
+  const filtered=records.filter(r=>(filter==="all"||r.type===filter)&&(!search||r.customerName.includes(search)));
+  const detail=selected?records.find(r=>r.id===selected):null;
 
-  if (detail) return (
+  const deleteRecord=(id,record)=>{
+    // Restore balance
+    setRecords(rs=>rs.filter(r=>r.id!==id));
+    showToast("🗑️ 紀錄已刪除");
+    setSelected(null);
+    setConfirmDelete(null);
+  };
+
+  if(detail) return (
     <div>
-      <button style={S.backBtn} onClick={() => setSelected(null)}>← 返回紀錄</button>
-      <div style={{...S.card, marginTop: 14, maxWidth: 600, margin: "14px auto 0"}}>
-        <div style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 14 }}>
-          <span style={{ fontSize: 32 }}>{detail.type === "topup" ? "💳" : "✂️"}</span>
-          <div>
-            <div style={{ fontWeight: 800, fontSize: 18 }}>{detail.customerName}</div>
-            <div style={{ color: "#aaa", fontSize: 13 }}>{detail.time}</div>
+      <button style={S.backBtn} onClick={()=>setSelected(null)}>← 返回紀錄</button>
+      <div style={{...S.card,marginTop:14,maxWidth:600,margin:"14px auto 0"}}>
+        <div style={{display:"flex",gap:12,alignItems:"center",marginBottom:14}}>
+          <span style={{fontSize:32}}>{detail.type==="topup"?"💳":"✂️"}</span>
+          <div style={{flex:1}}>
+            <div style={{fontWeight:800,fontSize:18}}>{detail.customerName}</div>
+            <div style={{color:"#aaa",fontSize:13}}>{detail.time}</div>
           </div>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 14 }}>
-          <InfoCell label="類型" value={detail.type === "topup" ? "儲值" : "消費扣款"} />
-          {detail.type === "topup" ? (
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:14}}>
+          <InfoCell label="類型" value={detail.type==="topup"?"儲值":"消費扣款"}/>
+          {detail.type==="topup"?(
             <>
-              <InfoCell label="入帳金額" value={`$${fmt(detail.total)}`} />
-              <InfoCell label="方案" value={detail.plan} />
-              {detail.bonus > 0 && <InfoCell label="贈點" value={`$${fmt(detail.bonus)}`} />}
+              <InfoCell label="入帳金額" value={`$${fmt(detail.total)}`}/>
+              <InfoCell label="方案" value={detail.plan}/>
+              {detail.bonus>0&&<InfoCell label="贈點" value={`$${fmt(detail.bonus)}`}/>}
             </>
-          ) : (
+          ):(
             <>
-              <InfoCell label="服務項目" value={detail.service} />
-              <InfoCell label="消費金額" value={`$${fmt(detail.amount)}`} />
-              <InfoCell label="扣款前餘額" value={`$${fmt(detail.beforeBalance)}`} />
-              <InfoCell label="扣款後餘額" value={`$${fmt(detail.afterBalance)}`} />
+              <InfoCell label="服務項目" value={detail.service}/>
+              <InfoCell label="消費金額" value={`$${fmt(detail.amount)}`}/>
+              <InfoCell label="扣款前餘額" value={`$${fmt(detail.beforeBalance)}`}/>
+              <InfoCell label="扣款後餘額" value={`$${fmt(detail.afterBalance)}`}/>
             </>
           )}
-          {detail.note && <InfoCell label="備註" value={detail.note} />}
+          {detail.note&&<InfoCell label="備註" value={detail.note}/>}
         </div>
-        {detail.signature && (
-          <div>
-            <div style={{ fontWeight: 700, color: "#aaa", fontSize: 13, marginBottom: 8 }}>✍️ 顧客簽名存證</div>
-            <img src={detail.signature} alt="簽名" style={{ width: "100%", borderRadius: 10, border: "1.5px solid #eee" }} />
+        {detail.signature&&(
+          <div style={{marginBottom:14}}>
+            <div style={{fontWeight:700,color:"#aaa",fontSize:13,marginBottom:8}}>✍️ 顧客簽名存證</div>
+            <img src={detail.signature} alt="簽名" style={{width:"100%",borderRadius:10,border:"1.5px solid #eee"}}/>
           </div>
+        )}
+        {confirmDelete===detail.id?(
+          <div style={{background:"#fff5f5",border:"1.5px solid #ffcdd2",borderRadius:12,padding:16,textAlign:"center"}}>
+            <div style={{fontWeight:700,color:"#c0392b",marginBottom:8}}>確定要刪除此筆紀錄？</div>
+            <div style={{fontSize:13,color:"#888",marginBottom:14}}>⚠️ 注意：餘額不會自動還原，請手動確認</div>
+            <div style={{display:"flex",gap:10,justifyContent:"center"}}>
+              <button style={{...S.btn,...S.btnGhost}} onClick={()=>setConfirmDelete(null)}>取消</button>
+              <button style={{...S.btn,background:"#e74c3c",color:"#fff"}} onClick={()=>deleteRecord(detail.id,detail)}>確認刪除</button>
+            </div>
+          </div>
+        ):(
+          <button style={{...S.btn,background:"#fff5f5",color:"#e74c3c",border:"1.5px solid #ffcdd2",width:"100%"}} onClick={()=>setConfirmDelete(detail.id)}>🗑️ 刪除此筆紀錄</button>
         )}
       </div>
     </div>
@@ -521,26 +514,26 @@ function RecordsTab({ records }) {
 
   return (
     <div>
-      <div style={{ display: "flex", gap: 10, marginBottom: 14, flexWrap: "wrap" }}>
-        {[["all","全部"],["topup","儲值"],["charge","消費"]].map(([k,l]) => (
-          <button key={k} style={{ padding: "10px 20px", borderRadius: 20, border: filter === k ? "1.5px solid #f4a5b0" : "1.5px solid #f0e8f4", background: filter === k ? "#f4a5b0" : "#fff", color: filter === k ? "#fff" : "#7a5a7a", cursor: "pointer", fontFamily: "inherit", fontSize: 15, fontWeight: 600 }} onClick={() => setFilter(k)}>{l}</button>
+      <div style={{display:"flex",gap:10,marginBottom:14,flexWrap:"wrap"}}>
+        {[["all","全部"],["topup","儲值"],["charge","消費"]].map(([k,l])=>(
+          <button key={k} style={{padding:"10px 20px",borderRadius:20,border:filter===k?"1.5px solid #f4a5b0":"1.5px solid #f0e8f4",background:filter===k?"#f4a5b0":"#fff",color:filter===k?"#fff":"#7a5a7a",cursor:"pointer",fontFamily:"inherit",fontSize:15,fontWeight:600}} onClick={()=>setFilter(k)}>{l}</button>
         ))}
-        <input style={{...S.input, flex: 1, minWidth: 160}} placeholder="🔍 搜尋顧客姓名" value={search} onChange={e => setSearch(e.target.value)} />
+        <input style={{...S.input,flex:1,minWidth:160}} placeholder="🔍 搜尋顧客姓名" value={search} onChange={e=>setSearch(e.target.value)}/>
       </div>
-      {filtered.length === 0 && <div style={S.empty}>尚無符合紀錄</div>}
-      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-        {filtered.map(r => (
-          <div key={r.id} style={{...S.customerCard, cursor:"pointer"}} onClick={() => setSelected(r.id)}>
-            <span style={{ fontSize: 26 }}>{r.type === "topup" ? "💳" : "✂️"}</span>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontWeight: 700, fontSize: 16 }}>{r.customerName}</div>
-              <div style={{ fontSize: 13, color: "#aaa" }}>{r.type === "topup" ? r.plan : r.service} · {r.time}</div>
+      {filtered.length===0&&<div style={S.empty}>尚無符合紀錄</div>}
+      <div style={{display:"flex",flexDirection:"column",gap:10}}>
+        {filtered.map(r=>(
+          <div key={r.id} style={{...S.customerCard,cursor:"pointer"}} onClick={()=>setSelected(r.id)}>
+            <span style={{fontSize:26}}>{r.type==="topup"?"💳":"✂️"}</span>
+            <div style={{flex:1}}>
+              <div style={{fontWeight:700,fontSize:16}}>{r.customerName}</div>
+              <div style={{fontSize:13,color:"#aaa"}}>{r.type==="topup"?r.plan:r.service} · {r.time}</div>
             </div>
-            <div style={{ textAlign: "right" }}>
-              <div style={{ fontWeight: 800, fontSize: 17, color: r.type === "topup" ? "#6cc5a0" : "#f4a5b0" }}>
-                {r.type === "topup" ? `+$${fmt(r.total)}` : `-$${fmt(r.amount)}`}
+            <div style={{textAlign:"right"}}>
+              <div style={{fontWeight:800,fontSize:17,color:r.type==="topup"?"#6cc5a0":"#f4a5b0"}}>
+                {r.type==="topup"?`+$${fmt(r.total)}`:`-$${fmt(r.amount)}`}
               </div>
-              {r.signature && <div style={{ fontSize: 11, color: "#ccc" }}>✍️ 有簽名</div>}
+              {r.signature&&<div style={{fontSize:11,color:"#ccc"}}>✍️ 有簽名</div>}
             </div>
           </div>
         ))}
@@ -551,125 +544,112 @@ function RecordsTab({ records }) {
 
 // ── Main App ──
 function App() {
-  const [customers, setCustomers] = useState(() => load("mmcustomers", []));
-  const [records, setRecords] = useState(() => load("mmrecords", []));
-  const [tab, setTab] = useState("home");
-  const [sig, setSig] = useState(null);
-  const [toast, setToast] = useState(null);
+  const [customers,setCustomers]=useState(()=>load("mmcustomers",[]));
+  const [records,setRecords]=useState(()=>load("mmrecords",[]));
+  const [tab,setTab]=useState("home");
+  const [sig,setSig]=useState(null);
+  const [toast,setToast]=useState(null);
 
-  useEffect(() => { save("mmcustomers", customers); }, [customers]);
-  useEffect(() => { save("mmrecords", records); }, [records]);
+  useEffect(()=>{ save("mmcustomers",customers); },[customers]);
+  useEffect(()=>{ save("mmrecords",records); },[records]);
 
-  const showToast = (msg, type = "success") => {
-    setToast({ msg, type });
-    setTimeout(() => setToast(null), 3000);
-  };
+  const showToast=(msg,type="success")=>{ setToast({msg,type}); setTimeout(()=>setToast(null),3000); };
 
-  const addRecord = (record) => {
+  const addRecord=(record)=>{
     setSig({
-      onComplete: (sigImg) => {
-        const full = { ...record, id: uid(), signature: sigImg, time: now() };
-        setRecords(r => [full, ...r]);
-        if (record.type === "topup") {
-          setCustomers(cs => cs.map(c => c.id === record.customerId ? { ...c, balance: (c.balance || 0) + record.total } : c));
+      onComplete:(sigImg)=>{
+        const full={...record,id:uid(),signature:sigImg,time:nowWithDate(record.date)};
+        setRecords(r=>[full,...r]);
+        if(record.type==="topup"){
+          setCustomers(cs=>cs.map(c=>c.id===record.customerId?{...c,balance:(c.balance||0)+record.total}:c));
         } else {
-          setCustomers(cs => cs.map(c => c.id === record.customerId ? { ...c, balance: (c.balance || 0) - record.amount } : c));
+          setCustomers(cs=>cs.map(c=>c.id===record.customerId?{...c,balance:(c.balance||0)-record.amount}:c));
         }
         setSig(null);
-        showToast(record.type === "topup" ? "✅ 儲值完成" : "✅ 消費扣款完成");
+        showToast(record.type==="topup"?"✅ 儲值完成":"✅ 消費扣款完成");
       }
     });
   };
 
-  const TABS = [
-    { key: "home", icon: "🏠", label: "首頁" },
-    { key: "customers", icon: "👥", label: "顧客" },
-    { key: "topup", icon: "💳", label: "儲值" },
-    { key: "charge", icon: "✂️", label: "消費" },
-    { key: "records", icon: "📋", label: "紀錄" },
+  const TABS=[
+    {key:"home",icon:"🏠",label:"首頁"},
+    {key:"customers",icon:"👥",label:"顧客"},
+    {key:"topup",icon:"💳",label:"儲值"},
+    {key:"charge",icon:"✂️",label:"消費"},
+    {key:"records",icon:"📋",label:"紀錄"},
   ];
 
   return (
     <div style={S.root}>
-      <div style={S.bgDeco1} />
-      <div style={S.bgDeco2} />
-
+      <div style={S.bgDeco1}/><div style={S.bgDeco2}/>
       <header style={S.header}>
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <span style={{ fontSize: 34 }}>🌸</span>
+        <div style={{display:"flex",alignItems:"center",gap:12}}>
+          <span style={{fontSize:34}}>🌸</span>
           <div>
-            <div style={{ fontSize: 20, fontWeight: 900, color: "#3d2440", letterSpacing: 1 }}>沐蜜美學秘境</div>
-            <div style={{ fontSize: 11, color: "#c4a0b0" }}>顧客儲值管理系統</div>
+            <div style={{fontSize:20,fontWeight:900,color:"#3d2440",letterSpacing:1}}>沐蜜美學秘境</div>
+            <div style={{fontSize:11,color:"#c4a0b0"}}>顧客儲值管理系統</div>
           </div>
         </div>
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 4 }}>
-          <div style={{ background: "#f4a5b0", color: "#fff", padding: "4px 14px", borderRadius: 20, fontSize: 13, fontWeight: 700 }}>顧客 {customers.length} 位</div>
-          <div style={{ fontSize: 12, color: "#bbb" }}>{today()}</div>
+        <div style={{display:"flex",flexDirection:"column",alignItems:"flex-end",gap:4}}>
+          <div style={{background:"#f4a5b0",color:"#fff",padding:"4px 14px",borderRadius:20,fontSize:13,fontWeight:700}}>顧客 {customers.length} 位</div>
+          <div style={{fontSize:12,color:"#bbb"}}>{todayStr()}</div>
         </div>
       </header>
-
       <nav style={S.nav}>
-        {TABS.map(t => (
-          <button key={t.key} style={{...S.navBtn, ...(tab === t.key ? S.navBtnActive : {})}} onClick={() => setTab(t.key)}>
-            <span style={{ fontSize: 20 }}>{t.icon}</span>
-            <span style={{ fontSize: 11, fontWeight: tab === t.key ? 700 : 400 }}>{t.label}</span>
+        {TABS.map(t=>(
+          <button key={t.key} style={{...S.navBtn,...(tab===t.key?S.navBtnActive:{})}} onClick={()=>setTab(t.key)}>
+            <span style={{fontSize:20}}>{t.icon}</span>
+            <span style={{fontSize:11,fontWeight:tab===t.key?700:400}}>{t.label}</span>
           </button>
         ))}
       </nav>
-
       <main style={S.main}>
-        {tab === "home" && <HomeTab customers={customers} records={records} setTab={setTab} />}
-        {tab === "customers" && <CustomersTab customers={customers} setCustomers={setCustomers} showToast={showToast} />}
-        {tab === "topup" && <TopupTab customers={customers} addRecord={addRecord} />}
-        {tab === "charge" && <ChargeTab customers={customers} addRecord={addRecord} showToast={showToast} />}
-        {tab === "records" && <RecordsTab records={records} customers={customers} />}
+        {tab==="home"&&<HomeTab customers={customers} records={records} setTab={setTab}/>}
+        {tab==="customers"&&<CustomersTab customers={customers} setCustomers={setCustomers} showToast={showToast}/>}
+        {tab==="topup"&&<TopupTab customers={customers} addRecord={addRecord} showToast={showToast}/>}
+        {tab==="charge"&&<ChargeTab customers={customers} addRecord={addRecord} showToast={showToast}/>}
+        {tab==="records"&&<RecordsTab records={records} setRecords={setRecords} customers={customers} showToast={showToast}/>}
       </main>
-
-      {sig && <SignatureCanvas onSave={(img) => sig.onComplete(img)} onCancel={() => setSig(null)} />}
-
-      {toast && (
-        <div style={{...S.toast, background: toast.type === "warn" ? "#ff9966" : "#6cc5a0"}}>
-          {toast.msg}
-        </div>
-      )}
+      {sig&&<SignatureCanvas onSave={(img)=>sig.onComplete(img)} onCancel={()=>setSig(null)}/>}
+      {toast&&<div style={{...S.toast,background:toast.type==="warn"?"#ff9966":"#6cc5a0"}}>{toast.msg}</div>}
     </div>
   );
 }
 
-const S = {
-  root: { fontFamily: "'Noto Sans TC','PingFang TC',sans-serif", background: "#fdf8fc", height: "100vh", position: "relative", overflow: "hidden", display: "flex", flexDirection: "column" },
-  bgDeco1: { position: "fixed", top: -100, right: -100, width: 350, height: 350, borderRadius: "50%", background: "radial-gradient(circle,#fde8f0 0%,transparent 70%)", pointerEvents: "none", zIndex: 0 },
-  bgDeco2: { position: "fixed", bottom: -80, left: -80, width: 280, height: 280, borderRadius: "50%", background: "radial-gradient(circle,#e8f0fd 0%,transparent 70%)", pointerEvents: "none", zIndex: 0 },
-  header: { position: "relative", zIndex: 1, display: "flex", justifyContent: "space-between", alignItems: "center", padding: "14px 20px", background: "rgba(255,255,255,0.88)", backdropFilter: "blur(12px)", borderBottom: "1px solid #f0e8f4", boxShadow: "0 2px 16px rgba(244,165,176,0.1)" },
-  nav: { display: "flex", background: "rgba(255,255,255,0.92)", borderBottom: "1px solid #f0e8f4", zIndex: 1, position: "relative" },
-  navBtn: { flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 2, padding: "10px 6px", border: "none", background: "transparent", cursor: "pointer", color: "#bbb" },
-  navBtnActive: { color: "#c4547a", borderBottom: "3px solid #f4a5b0" },
-  main: { flex: 1, overflowY: "auto", position: "relative", zIndex: 1, padding: "16px 16px 32px" },
-  card: { background: "rgba(255,255,255,0.92)", borderRadius: 16, padding: 18, boxShadow: "0 4px 20px rgba(180,100,130,0.08)", border: "1px solid #f5eef8" },
-  cardTitle: { fontSize: 14, fontWeight: 800, color: "#3d2440", marginBottom: 12, letterSpacing: 0.5 },
-  customerCard: { display: "flex", alignItems: "center", gap: 12, padding: 14, background: "rgba(255,255,255,0.92)", borderRadius: 12, border: "1px solid #f5eef8", boxShadow: "0 2px 10px rgba(180,100,130,0.06)" },
-  input: { width: "100%", padding: "13px 15px", borderRadius: 11, border: "1.5px solid #f0e8f4", fontSize: 16, outline: "none", background: "#fff", color: "#3d2440", boxSizing: "border-box", fontFamily: "inherit" },
-  select: { width: "100%", padding: "13px 15px", borderRadius: 11, border: "1.5px solid #f0e8f4", fontSize: 16, outline: "none", background: "#fff", color: "#3d2440", boxSizing: "border-box", fontFamily: "inherit", cursor: "pointer" },
-  btn: { borderRadius: 12, border: "none", cursor: "pointer", fontFamily: "inherit", fontWeight: 700, fontSize: 16, padding: "13px 22px", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8 },
-  btnPrimary: { background: "linear-gradient(135deg,#f4a5b0,#e87a95)", color: "#fff", boxShadow: "0 4px 14px rgba(244,165,176,0.4)" },
-  btnSecondary: { background: "linear-gradient(135deg,#a5c4f4,#7aa8e8)", color: "#fff", boxShadow: "0 4px 14px rgba(165,196,244,0.4)" },
-  btnGhost: { background: "#f5f0f8", color: "#7a5a7a", border: "1.5px solid #e8d8f0" },
-  backBtn: { background: "transparent", border: "none", color: "#f4a5b0", fontSize: 16, cursor: "pointer", fontWeight: 700, padding: "8px 0" },
-  empty: { textAlign: "center", color: "#ccc", padding: "40px 0", fontSize: 16 },
-  sigOverlay: { position: "fixed", inset: 0, background: "rgba(40,20,50,0.55)", zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center", backdropFilter: "blur(4px)" },
-  sigModal: { background: "#fff", borderRadius: 22, padding: 24, width: "min(94vw,960px)", boxShadow: "0 20px 80px rgba(0,0,0,0.25)" },
-  sigHeader: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 },
-  sigTitle: { fontSize: 20, fontWeight: 900, color: "#3d2440" },
-  sigHint: { fontSize: 13, color: "#aaa" },
-  sigCanvasWrap: { position: "relative", marginBottom: 16 },
-  sigCanvas: { width: "100%", borderRadius: 12, border: "2px solid #f0e8f4", background: "#fff", display: "block", touchAction: "none", cursor: "crosshair" },
-  sigLine: { position: "absolute", bottom: 56, left: "5%", right: "5%", height: 1.5, background: "#f0d0dc", pointerEvents: "none" },
-  sigLineLabel: { position: "absolute", bottom: 36, left: "50%", transform: "translateX(-50%)", fontSize: 12, color: "#e0c0cc", letterSpacing: 2 },
-  sigActions: { display: "flex", gap: 10, justifyContent: "flex-end" },
-  toast: { position: "fixed", bottom: 36, left: "50%", transform: "translateX(-50%)", color: "#fff", padding: "13px 26px", borderRadius: 40, fontSize: 16, fontWeight: 700, boxShadow: "0 8px 28px rgba(0,0,0,0.15)", zIndex: 200, whiteSpace: "nowrap" },
+const S={
+  root:{fontFamily:"'Noto Sans TC','PingFang TC',sans-serif",background:"#fdf8fc",height:"100vh",position:"relative",overflow:"hidden",display:"flex",flexDirection:"column"},
+  bgDeco1:{position:"fixed",top:-100,right:-100,width:350,height:350,borderRadius:"50%",background:"radial-gradient(circle,#fde8f0 0%,transparent 70%)",pointerEvents:"none",zIndex:0},
+  bgDeco2:{position:"fixed",bottom:-80,left:-80,width:280,height:280,borderRadius:"50%",background:"radial-gradient(circle,#e8f0fd 0%,transparent 70%)",pointerEvents:"none",zIndex:0},
+  header:{position:"relative",zIndex:1,display:"flex",justifyContent:"space-between",alignItems:"center",padding:"14px 20px",background:"rgba(255,255,255,0.88)",backdropFilter:"blur(12px)",borderBottom:"1px solid #f0e8f4",boxShadow:"0 2px 16px rgba(244,165,176,0.1)"},
+  nav:{display:"flex",background:"rgba(255,255,255,0.92)",borderBottom:"1px solid #f0e8f4",zIndex:1,position:"relative"},
+  navBtn:{flex:1,display:"flex",flexDirection:"column",alignItems:"center",gap:2,padding:"10px 6px",border:"none",background:"transparent",cursor:"pointer",color:"#bbb"},
+  navBtnActive:{color:"#c4547a",borderBottom:"3px solid #f4a5b0"},
+  main:{flex:1,overflowY:"auto",position:"relative",zIndex:1,padding:"16px 16px 32px"},
+  card:{background:"rgba(255,255,255,0.92)",borderRadius:16,padding:18,boxShadow:"0 4px 20px rgba(180,100,130,0.08)",border:"1px solid #f5eef8"},
+  cardTitle:{fontSize:14,fontWeight:800,color:"#3d2440",marginBottom:12,letterSpacing:0.5},
+  customerCard:{display:"flex",alignItems:"center",gap:12,padding:14,background:"rgba(255,255,255,0.92)",borderRadius:12,border:"1px solid #f5eef8",boxShadow:"0 2px 10px rgba(180,100,130,0.06)"},
+  input:{width:"100%",padding:"13px 15px",borderRadius:11,border:"1.5px solid #f0e8f4",fontSize:16,outline:"none",background:"#fff",color:"#3d2440",boxSizing:"border-box",fontFamily:"inherit"},
+  select:{width:"100%",padding:"13px 15px",borderRadius:11,border:"1.5px solid #f0e8f4",fontSize:16,outline:"none",background:"#fff",color:"#3d2440",boxSizing:"border-box",fontFamily:"inherit",cursor:"pointer"},
+  btn:{borderRadius:12,border:"none",cursor:"pointer",fontFamily:"inherit",fontWeight:700,fontSize:16,padding:"13px 22px",display:"inline-flex",alignItems:"center",justifyContent:"center",gap:8},
+  btnPrimary:{background:"linear-gradient(135deg,#f4a5b0,#e87a95)",color:"#fff",boxShadow:"0 4px 14px rgba(244,165,176,0.4)"},
+  btnSecondary:{background:"linear-gradient(135deg,#a5c4f4,#7aa8e8)",color:"#fff",boxShadow:"0 4px 14px rgba(165,196,244,0.4)"},
+  btnGhost:{background:"#f5f0f8",color:"#7a5a7a",border:"1.5px solid #e8d8f0"},
+  backBtn:{background:"transparent",border:"none",color:"#f4a5b0",fontSize:16,cursor:"pointer",fontWeight:700,padding:"8px 0"},
+  empty:{textAlign:"center",color:"#ccc",padding:"40px 0",fontSize:16},
+  sigOverlay:{position:"fixed",inset:0,background:"rgba(40,20,50,0.55)",zIndex:100,display:"flex",alignItems:"center",justifyContent:"center",backdropFilter:"blur(4px)"},
+  sigModal:{background:"#fff",borderRadius:22,padding:24,width:"min(94vw,960px)",boxShadow:"0 20px 80px rgba(0,0,0,0.25)"},
+  sigHeader:{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:16},
+  sigTitle:{fontSize:20,fontWeight:900,color:"#3d2440"},
+  sigHint:{fontSize:13,color:"#aaa"},
+  sigCanvasWrap:{position:"relative",marginBottom:16},
+  sigCanvas:{width:"100%",borderRadius:12,border:"2px solid #f0e8f4",background:"#fff",display:"block",touchAction:"none",cursor:"crosshair"},
+  sigLine:{position:"absolute",bottom:52,left:"5%",right:"5%",height:1.5,background:"#f0d0dc",pointerEvents:"none"},
+  sigLineLabel:{position:"absolute",bottom:32,left:"50%",transform:"translateX(-50%)",fontSize:12,color:"#e0c0cc",letterSpacing:2},
+  sigActions:{display:"flex",gap:10,justifyContent:"flex-end"},
+  toast:{position:"fixed",bottom:36,left:"50%",transform:"translateX(-50%)",color:"#fff",padding:"13px 26px",borderRadius:40,fontSize:16,fontWeight:700,boxShadow:"0 8px 28px rgba(0,0,0,0.15)",zIndex:200,whiteSpace:"nowrap"},
 };
 
-ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
   </script>
 </body>
 </html>
