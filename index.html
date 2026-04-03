@@ -342,7 +342,7 @@ function renderCustomers(){
 // ═══════════════════════════════
 // ── TAB: TOPUP ──
 // ═══════════════════════════════
-let tCid="",tPlan=null,tCustom="",tNote="",tDate=todayISO();
+let tCid="",tPlan=null,tCustom="",tNote="",tDate=todayISO(),tCash="";
 function renderTopup(){
   const wrap=ce("div");
   const grid=ce("div","g2");
@@ -382,8 +382,11 @@ function renderTopup(){
     sc.appendChild(sh);
     const ni=ce("input","input");ni.placeholder="備註（選填）";ni.value=tNote;ni.oninput=e=>{tNote=e.target.value;};ni.style.marginBottom="8px";
     sc.appendChild(ni);
+    const cashLbl2=ce("div");cashLbl2.style.cssText="font-size:12px;color:#2e7d52;font-weight:700;margin:8px 0 5px";cashLbl2.textContent="💵 實際收現金額（選填）";
+    const cashIn2=ce("input","input");cashIn2.type="number";cashIn2.placeholder="0（若有收現金請填寫）";cashIn2.value=tCash;cashIn2.oninput=e=>{tCash=e.target.value;};cashIn2.style.cssText="border-color:#b8e8d0;margin-bottom:8px";
+    sc.appendChild(cashLbl2);sc.appendChild(cashIn2);
     const sb=ce("button","btn btn-p");sb.style.cssText="width:100%;font-size:17px;padding:15px";sb.textContent="💳 確認儲值，前往簽名";sb.disabled=!cust;
-    sb.onclick=()=>{if(!cust)return;addRecord({type:"topup",cid:cust.id,customerId:cust.id,customerName:cust.name,amount,bonus,total,plan:tPlan?.label||"自訂",note:tNote,date:tDate});tPlan=null;tCustom="";tNote="";tCid="";tDate=todayISO();};
+    sb.onclick=()=>{if(!cust)return;addRecord({type:"topup",cid:cust.id,customerId:cust.id,customerName:cust.name,amount,bonus,total,plan:tPlan?.label||"自訂",note:tNote,cash:tCash?Number(tCash):null,date:tDate});tPlan=null;tCustom="";tNote="";tCid="";tDate=todayISO();tCash="";};
     sc.appendChild(sb);wrap.appendChild(sc);
   }
   return wrap;
@@ -440,7 +443,7 @@ function renderCharge(){
 // ═══════════════════════════════
 // ── TAB: RECORDS ──
 // ═══════════════════════════════
-let rFilter="all",rSel=null,rSearch="",rDate="",rEditing=false,rDelConfirm=false;
+let rFilter="all",rSel=null,rSearch="",rDate="",rMonth="",rEditing=false,rDelConfirm=false;
 function renderRecords(){
   const wrap=ce("div");
   if(rSel){const det=records.find(r=>r.id===rSel);if(!det){rSel=null;return renderRecords();}return renderRecordDetail(det,wrap);}
@@ -449,18 +452,41 @@ function renderRecords(){
   [["all","全部"],["topup","儲值"],["charge","消費"]].forEach(([k,l])=>{const fb=ce("button","fb"+(rFilter===k?" on":""));fb.textContent=l;fb.onclick=()=>{rFilter=k;goTab("records");};fr.appendChild(fb);});
   wrap.appendChild(fr);
   // Search + date
-  const sr=ce("div");sr.style.cssText="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap";
+  const sr=ce("div");sr.style.cssText="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap";
   const si=ce("input","input");si.placeholder="🔍 搜尋顧客姓名";si.value=rSearch;si.style.flex="1;min-width:140px";si.oninput=e=>{rSearch=e.target.value;goTab("records");};
+  // Date filter
   const dw=ce("div");dw.style.cssText="display:flex;align-items:center;gap:6px;background:#fff;border:1.5px solid #f0e8f4;border-radius:10px;padding:0 10px;flex:1;min-width:160px";
   dw.innerHTML=`<span style="font-size:15px;color:#aaa">📅</span>`;
-  const di=ce("input");di.type="date";di.style.cssText="flex:1;border:none;outline:none;font-size:14px;color:#3d2440;background:transparent;padding:11px 0;font-family:inherit";di.value=rDate;di.onchange=e=>{rDate=e.target.value;goTab("records");};dw.appendChild(di);
+  const di=ce("input");di.type="date";di.style.cssText="flex:1;border:none;outline:none;font-size:14px;color:#3d2440;background:transparent;padding:11px 0;font-family:inherit";di.value=rDate;di.onchange=e=>{rDate=e.target.value;rMonth="";goTab("records");};dw.appendChild(di);
   if(rDate){const clr=ce("button");clr.style.cssText="background:none;border:none;color:#ccc;cursor:pointer;font-size:17px;padding:0 3px";clr.textContent="×";clr.onclick=()=>{rDate="";goTab("records");};dw.appendChild(clr);}
   ap(sr,si,dw);wrap.appendChild(sr);
+  // Month filter row
+  const mr=ce("div");mr.style.cssText="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center";
+  const mlbl=ce("div");mlbl.style.cssText="font-size:12px;color:#aaa;font-weight:600;white-space:nowrap";mlbl.textContent="📆 查詢月份";
+  const mw=ce("div");mw.style.cssText="display:flex;align-items:center;gap:6px;background:#fff;border:1.5px solid #f0e8f4;border-radius:10px;padding:0 10px;flex:1;min-width:160px";
+  const mi=ce("input");mi.type="month";mi.style.cssText="flex:1;border:none;outline:none;font-size:14px;color:#3d2440;background:transparent;padding:11px 0;font-family:inherit";mi.value=rMonth;mi.onchange=e=>{rMonth=e.target.value;rDate="";goTab("records");};mw.appendChild(mi);
+  if(rMonth){const mclr=ce("button");mclr.style.cssText="background:none;border:none;color:#ccc;cursor:pointer;font-size:17px;padding:0 3px";mclr.textContent="×";mclr.onclick=()=>{rMonth="";goTab("records");};mw.appendChild(mclr);}
+  ap(mr,mlbl,mw);
+  // Month summary if month selected
+  if(rMonth){
+    const [my,mm]=rMonth.split("-");
+    const mRecs=records.filter(r=>{
+      const d=r.time.match(/(\d{4})\/(\d{2})/);return d&&d[1]===my&&d[2]===mm;
+    });
+    const mTopup=mRecs.filter(r=>r.type==="topup").reduce((s,r)=>s+(r.total||0),0);
+    const mCharge=mRecs.filter(r=>r.type==="charge").reduce((s,r)=>s+(r.amount||0),0);
+    const mCash=mRecs.filter(r=>r.cash).reduce((s,r)=>s+(Number(r.cash)||0),0);
+    const ms=ce("div","card");ms.style.cssText="background:linear-gradient(135deg,#fdf0f5,#f0f8ff);margin-bottom:10px;padding:13px";
+    ms.innerHTML=`<div style="font-size:12px;font-weight:800;color:#3d2440;margin-bottom:8px">📆 ${my}年${mm}月 統計</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px"><div style="text-align:center;background:#fff;border-radius:9px;padding:9px 0"><div style="font-size:10px;color:#aaa">儲值金額</div><div style="font-weight:800;color:#6cc5a0;font-size:14px">$${fmt(mTopup)}</div></div><div style="text-align:center;background:#fff;border-radius:9px;padding:9px 0"><div style="font-size:10px;color:#aaa">消費金額</div><div style="font-weight:800;color:#f4a5b0;font-size:14px">$${fmt(mCharge)}</div></div><div style="text-align:center;background:#fff;border-radius:9px;padding:9px 0"><div style="font-size:10px;color:#aaa">收現金額</div><div style="font-weight:800;color:#2e7d52;font-size:14px">$${fmt(mCash)}</div></div></div>`;
+    wrap.appendChild(ms);
+  }
+  wrap.appendChild(mr);
   if(rDate){const lbl=ce("div");lbl.style.cssText="font-size:12px;color:#f4a5b0;margin-bottom:9px;font-weight:600";lbl.textContent=`📅 ${isoToDisp(rDate)} 的紀錄`;wrap.appendChild(lbl);}
   const filtered=records.filter(r=>{
     if(rFilter!=="all"&&r.type!==rFilter)return false;
     if(rSearch&&!r.customerName.includes(rSearch))return false;
     if(rDate&&!r.time.startsWith(isoToDisp(rDate)))return false;
+    if(rMonth){const[my,mm]=rMonth.split("-");const d=r.time.match(/(\d{4})\/(\d{2})/);if(!d||d[1]!==my||d[2]!==mm)return false;}
     return true;
   });
   if(!filtered.length){const e=ce("div","empty");e.textContent="尚無符合紀錄";wrap.appendChild(e);}
