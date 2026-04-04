@@ -18,19 +18,19 @@ body{font-family:'Noto Sans TC','PingFang TC',sans-serif;background:#fdf8fc;heig
 .login-title{font-size:22px;font-weight:900;color:#3d2440;margin-bottom:4px}
 .login-sub{font-size:13px;color:#c4a0b0;margin-bottom:28px}
 .login-err{color:#e74c3c;font-size:13px;margin-top:10px;min-height:18px}
-header{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;background:rgba(255,255,255,.92);border-bottom:1px solid #f0e8f4;box-shadow:0 2px 12px rgba(244,165,176,.1);flex-shrink:0;z-index:10}
-.logo-title{font-size:19px;font-weight:900;color:#3d2440;letter-spacing:1px}
-.logo-sub{font-size:11px;color:#c4a0b0}
-.pill{background:#f4a5b0;color:#fff;padding:4px 13px;border-radius:20px;font-size:12px;font-weight:700}
-.logout-btn{background:transparent;border:1.5px solid #f0e8f4;color:#aaa;border-radius:20px;padding:4px 12px;font-size:12px;cursor:pointer;font-family:inherit}
+header{display:flex;justify-content:space-between;align-items:center;padding:11px 16px;background:rgba(255,255,255,.92);border-bottom:1px solid #f0e8f4;box-shadow:0 2px 12px rgba(244,165,176,.1);flex-shrink:0;z-index:10}
+.logo-title{font-size:17px;font-weight:900;color:#3d2440;letter-spacing:1px}
+.logo-sub{font-size:10px;color:#c4a0b0}
+.pill{background:#f4a5b0;color:#fff;padding:3px 11px;border-radius:20px;font-size:11px;font-weight:700}
+.logout-btn{background:transparent;border:1.5px solid #f0e8f4;color:#aaa;border-radius:20px;padding:3px 10px;font-size:11px;cursor:pointer;font-family:inherit}
 nav{display:flex;background:rgba(255,255,255,.95);border-bottom:1px solid #f0e8f4;flex-shrink:0;z-index:10}
-.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:9px 4px;border:none;background:transparent;cursor:pointer;color:#bbb;font-family:inherit;font-size:11px}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:1px;padding:8px 2px;border:none;background:transparent;cursor:pointer;color:#bbb;font-family:inherit;font-size:10px}
 .nav-btn.active{color:#c4547a;border-bottom:3px solid #f4a5b0;font-weight:700}
-.nav-icon{font-size:19px}
-main{flex:1;overflow-y:auto;padding:14px 14px 40px}
-.card{background:rgba(255,255,255,.93);border-radius:14px;padding:16px;box-shadow:0 3px 16px rgba(180,100,130,.07);border:1px solid #f5eef8;margin-bottom:12px}
+.nav-icon{font-size:18px}
+main{flex:1;overflow-y:auto;padding:12px 12px 40px}
+.card{background:rgba(255,255,255,.93);border-radius:14px;padding:14px;box-shadow:0 3px 16px rgba(180,100,130,.07);border:1px solid #f5eef8;margin-bottom:10px}
 .card-title{font-size:13px;font-weight:800;color:#3d2440;margin-bottom:10px;letter-spacing:.5px}
-.btn{border-radius:11px;border:none;cursor:pointer;font-family:inherit;font-weight:700;font-size:15px;padding:12px 20px;display:inline-flex;align-items:center;justify-content:center;gap:6px;transition:opacity .15s}
+.btn{border-radius:11px;border:none;cursor:pointer;font-family:inherit;font-weight:700;font-size:14px;padding:11px 18px;display:inline-flex;align-items:center;justify-content:center;gap:6px;transition:opacity .15s}
 .btn:disabled{opacity:.45;cursor:not-allowed}
 .btn-p{background:linear-gradient(135deg,#f4a5b0,#e87a95);color:#fff;box-shadow:0 3px 12px rgba(244,165,176,.4)}
 .btn-s{background:linear-gradient(135deg,#a5c4f4,#7aa8e8);color:#fff;box-shadow:0 3px 12px rgba(165,196,244,.35)}
@@ -39,50 +39,64 @@ main{flex:1;overflow-y:auto;padding:14px 14px 40px}
 .btn-green{background:#f0faf5;color:#3a9e72;border:1.5px solid #b8e8d4}
 .btn-blue{background:#f0f4ff;color:#4a6fa5;border:1.5px solid #c8d8f4}
 .btn-purple{background:#f5f0ff;color:#7a5aa5;border:1.5px solid #d8c8f4}
-.input{width:100%;padding:12px 14px;border-radius:10px;border:1.5px solid #f0e8f4;font-size:15px;outline:none;background:#fff;color:#3d2440;font-family:inherit}
-.select{width:100%;padding:12px 14px;border-radius:10px;border:1.5px solid #f0e8f4;font-size:15px;outline:none;background:#fff;color:#3d2440;font-family:inherit;cursor:pointer}
-.row-item{display:flex;align-items:center;gap:11px;padding:12px;background:#fafafa;border-radius:10px;border:1px solid #f0eef4;margin-bottom:8px;cursor:pointer}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.tag{padding:7px 13px;border-radius:18px;border:1.5px solid #f0e8f4;background:#fff;color:#7a5a7a;cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;margin:0 4px 6px 0}
-.tag.on{background:#f4a5b0;color:#fff;border-color:#f4a5b0}
-.fb{padding:9px 18px;border-radius:18px;border:1.5px solid #f0e8f4;background:#fff;color:#7a5a7a;cursor:pointer;font-family:inherit;font-size:13px;font-weight:600}
+.btn-teal{background:#f0fafa;color:#2a7a7a;border:1.5px solid #b8e0e0}
+.input{width:100%;padding:11px 13px;border-radius:10px;border:1.5px solid #f0e8f4;font-size:14px;outline:none;background:#fff;color:#3d2440;font-family:inherit}
+.textarea{width:100%;padding:11px 13px;border-radius:10px;border:1.5px solid #f0e8f4;font-size:14px;outline:none;background:#fff;color:#3d2440;font-family:inherit;resize:none;min-height:90px;line-height:1.6}
+.select{width:100%;padding:11px 13px;border-radius:10px;border:1.5px solid #f0e8f4;font-size:14px;outline:none;background:#fff;color:#3d2440;font-family:inherit;cursor:pointer}
+.row-item{display:flex;align-items:center;gap:10px;padding:11px;background:#fafafa;border-radius:10px;border:1px solid #f0eef4;margin-bottom:8px;cursor:pointer}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fb{padding:8px 16px;border-radius:18px;border:1.5px solid #f0e8f4;background:#fff;color:#7a5a7a;cursor:pointer;font-family:inherit;font-size:12px;font-weight:600}
 .fb.on{background:#f4a5b0;color:#fff;border-color:#f4a5b0}
-.empty{text-align:center;color:#ccc;padding:36px 0;font-size:15px}
-.back-btn{background:transparent;border:none;color:#f4a5b0;font-size:15px;cursor:pointer;font-weight:700;padding:7px 0;font-family:inherit}
+.empty{text-align:center;color:#ccc;padding:32px 0;font-size:14px}
+.back-btn{background:transparent;border:none;color:#f4a5b0;font-size:14px;cursor:pointer;font-weight:700;padding:6px 0;font-family:inherit}
 .sig-overlay{position:fixed;inset:0;background:rgba(30,10,40,.6);z-index:200;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(5px)}
-.sig-modal{background:#fff;border-radius:20px;padding:22px;width:min(95vw,950px);box-shadow:0 20px 80px rgba(0,0,0,.25)}
+.sig-modal{background:#fff;border-radius:20px;padding:20px;width:min(95vw,950px);box-shadow:0 20px 80px rgba(0,0,0,.25)}
 .sig-canvas{width:100%;border-radius:11px;border:2px solid #f0e8f4;background:#fff;display:block;touch-action:none}
-.toast-el{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);color:#fff;padding:12px 24px;border-radius:36px;font-size:15px;font-weight:700;box-shadow:0 6px 24px rgba(0,0,0,.15);z-index:300;white-space:nowrap;pointer-events:none;display:none}
-.stat-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
-.stat-card{flex:1;min-width:100px;text-align:center;border-radius:13px;padding:12px 6px;background:#fff;border:1px solid #f5eef8;box-shadow:0 2px 10px rgba(180,100,130,.06)}
-.alert-box{display:flex;gap:10px;align-items:flex-start;background:#fff5f0;border:1.5px solid #ffd0c0;border-radius:12px;padding:11px 14px;margin-bottom:12px}
-.ic{background:#fafafa;border-radius:9px;padding:9px 13px}
+.toast-el{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);color:#fff;padding:11px 22px;border-radius:36px;font-size:14px;font-weight:700;box-shadow:0 6px 24px rgba(0,0,0,.15);z-index:300;white-space:nowrap;pointer-events:none;display:none}
+.stat-row{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px}
+.stat-card{flex:1;min-width:90px;text-align:center;border-radius:12px;padding:10px 4px;background:#fff;border:1px solid #f5eef8;box-shadow:0 2px 8px rgba(180,100,130,.06)}
+.alert-box{display:flex;gap:10px;align-items:flex-start;background:#fff5f0;border:1.5px solid #ffd0c0;border-radius:12px;padding:10px 13px;margin-bottom:10px}
+.ic{background:#fafafa;border-radius:9px;padding:8px 12px}
 .ic-l{font-size:11px;color:#bbb;margin-bottom:2px}
-.ic-v{font-weight:700;font-size:14px;color:#3d2440}
-.no-sig{background:#fff8f0;border:1.5px dashed #f4a5b0;border-radius:11px;padding:14px;text-align:center;margin-top:10px}
-.warn-box{background:#fff8e1;border:1px solid #ffe082;border-radius:9px;padding:9px 13px;font-size:12px;color:#b8860b;margin-bottom:10px}
-.confirm-box{background:#fff5f5;border:1.5px solid #ffcdd2;border-radius:11px;padding:14px;text-align:center;margin-top:10px}
-.cash-tag{background:#e8f8f0;color:#2e7d52;border:1.5px solid #b8e8d0;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;display:inline-block;margin-top:2px}
+.ic-v{font-weight:700;font-size:13px;color:#3d2440}
+.no-sig{background:#fff8f0;border:1.5px dashed #f4a5b0;border-radius:11px;padding:13px;text-align:center;margin-top:10px}
+.warn-box{background:#fff8e1;border:1px solid #ffe082;border-radius:9px;padding:8px 12px;font-size:12px;color:#b8860b;margin-bottom:10px}
+.confirm-box{background:#fff5f5;border:1.5px solid #ffcdd2;border-radius:11px;padding:13px;text-align:center;margin-top:10px}
+.cash-tag{background:#e8f8f0;color:#2e7d52;border:1.5px solid #b8e8d0;border-radius:20px;padding:2px 9px;font-size:11px;font-weight:700;display:inline-block;margin-top:2px}
+.svc-tag{background:#f0e8ff;color:#6a3aa5;border:1.5px solid #d8c8f4;border-radius:20px;padding:2px 9px;font-size:11px;font-weight:700;display:inline-block;margin-top:2px}
 .loading{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;gap:14px;color:#f4a5b0;font-size:16px;font-weight:700}
 .spinner{width:44px;height:44px;border:4px solid #f0e8f4;border-top-color:#f4a5b0;border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.sync-indicator{position:fixed;top:14px;right:14px;font-size:11px;color:#aaa;z-index:50;pointer-events:none}
-.sync-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#6cc5a0;margin-right:4px;vertical-align:middle}
-.sync-dot.syncing{background:#f4a5b0;animation:pulse 1s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.consent-section{margin-bottom:16px}
+.consent-title{font-size:14px;font-weight:800;color:#3d2440;margin-bottom:8px;padding-bottom:4px;border-bottom:2px solid #f0e8f4}
+.consent-q{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #f8f4fc;font-size:13px;color:#444}
+.consent-q .yn{display:flex;gap:8px;flex-shrink:0}
+.yn-btn{padding:4px 12px;border-radius:20px;border:1.5px solid #f0e8f4;background:#fff;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit}
+.yn-btn.yes{background:#6cc5a0;color:#fff;border-color:#6cc5a0}
+.yn-btn.no{background:#f4a5b0;color:#fff;border-color:#f4a5b0}
+.consent-check{display:flex;align-items:flex-start;gap:10px;padding:7px 0;font-size:12px;color:#444;line-height:1.5}
+.check-box{width:20px;height:20px;border-radius:5px;border:1.5px solid #f0e8f4;background:#fff;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px}
+.check-box.checked{background:#6cc5a0;border-color:#6cc5a0;color:#fff}
+.consent-card{border-radius:12px;padding:12px;border:1.5px solid #f0e8f4;margin-bottom:10px;cursor:pointer;display:flex;align-items:center;gap:12px}
+.consent-card.signed{border-color:#6cc5a0;background:#f0fff8}
+.consent-card.unsigned{border-color:#f0e8f4;background:#fafafa}
+.receipt-box{background:linear-gradient(135deg,#fdf0f5,#f0f4ff);border-radius:14px;padding:16px;margin-bottom:12px}
+.receipt-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(244,165,176,.2);font-size:13px}
+.receipt-total{display:flex;justify-content:space-between;padding:10px 0;font-size:18px;font-weight:900;color:#3d2440}
+.sync-badge{font-size:10px;color:#aaa;text-align:right;padding:2px 12px}
+.tab-pills{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.section-lbl{font-size:11px;font-weight:700;color:#aaa;margin:12px 0 6px;letter-spacing:.5px;text-transform:uppercase}
 </style>
 </head>
 <body>
 <div id="root"><div class="loading"><div class="spinner"></div>載入中...</div></div>
 <div class="toast-el" id="toast-el"></div>
 
-<!-- Firebase SDK -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { getFirestore, collection, doc, getDocs, setDoc, deleteDoc, onSnapshot, writeBatch } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-// ── Firebase Config ──
 const firebaseConfig = {
   apiKey: "AIzaSyAxmbRDH1h43Ry8uauNdg5gjMx8_G-PeWo",
   authDomain: "moome-app.firebaseapp.com",
@@ -97,14 +111,112 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 // ── Constants ──
-const PLANS=[
+const SHEETS="https://script.google.com/macros/s/AKfycbxHKMd4hvAskNWG2YhclsValR7KT0s8dSjfiK-QYInn1Ky8O1GG9Eqb4moDwRPY_3MCGg/exec";
+const LOW=3000;
+const TOPUP_PLANS=[
   {label:"儲 19,800 元",value:19800,bonus:2200,total:22000},
   {label:"儲 36,800 元",value:36800,bonus:9200,total:46000},
   {label:"自訂金額",value:0,bonus:0,total:0,custom:true}
 ];
-const SERVICES=["基礎淨白","舒顏SPA","訂製安瓶","水光藻針","外泌體","私密處除毛","腋下除毛","體態精修"];
-const LOW=3000;
-const SHEETS="https://script.google.com/macros/s/AKfycbxHKMd4hvAskNWG2YhclsValR7KT0s8dSjfiK-QYInn1Ky8O1GG9Eqb4moDwRPY_3MCGg/exec";
+const PAY_METHODS=["現金","轉帳","免費"];
+
+// Consent form definitions
+const CONSENT_FORMS = {
+  beauty: {
+    title:"美容同意書",
+    icon:"🌸",
+    questions:[
+      "有無重大疾病或正接受治療中？（如：心臟病、癌症、糖尿病等）",
+      "曾有嚴重過敏、濕疹、皮膚炎等病史（如：精油過敏、對特定成分過敏等）",
+      "近期是否接受醫療或使用藥物？",
+      "是否有開刀或醫美診所做過療程？",
+      "目前正懷孕或哺乳",
+      "是否曾經被診斷為 B 型肝炎、C 型肝炎或其他與血液相關的疾病？",
+      "日常有無擦保養品習慣？",
+      "過去有無做臉習慣？如有，距離上次課程多久？"
+    ],
+    skinConcerns:["毛孔粗大","粉刺","痘痘","乾燥","暗沉","細紋","鬆弛"],
+    checks:[
+      "本人了解美容服務並非醫療行為，不具治療效果",
+      "本人已主動告知美容師身體狀況，如未如實填寫導致任何不適，願自負責任",
+      "本人知悉美容課程可能因膚質不同，導致出現紅腫的正常現象",
+      "本人授權美容師依肌膚狀況調整操作內容",
+      "本人同意美容師於課程中進行教學演示、拍攝教材或成果紀錄（不含正面臉部與個資）",
+      "本人了解並同意依《個人資料保護法》相關規範使用本同意書所提供之資料",
+      "我已詳讀並了解以上內容，此表格由我本人填寫，並以本人真實狀況為準，願意自願接受課程操作，並授權沐蜜美學作為課程紀錄與照護依據"
+    ]
+  },
+  brow: {
+    title:"除色同意書",
+    icon:"✨",
+    questions:[
+      "曾經動過眼部／額頭／眉毛相關手術（如雙眼皮、提眉、拉皮、雷射等）",
+      "本身有蟹足腫體質或容易留疤",
+      "曾有嚴重過敏、濕疹、皮膚炎等病史",
+      "對膠帶、敷料、修護產品、雷射療程等曾有過敏反應",
+      "有凝血功能異常、血小板低下，或正在服用抗凝血藥物",
+      "有免疫系統疾病或自體免疫病史（如紅斑性狼瘡、乾癬等）",
+      "目前正懷孕或哺乳",
+      "現在眉毛部位是否有紅腫、過敏、破皮、濕疹或其他皮膚問題？"
+    ],
+    checks:[
+      "我已清楚了解除色具非侵入性但仍有輕微風險，並願意配合課程與術後修復建議，尊重操作安排",
+      "本課程為非醫療行為，屬美容保養類除色課程，店家與操作者不涉及醫療診斷、治療或處方",
+      "效果會因個人膚質、體質、原始色料顏色與深淺不同而有所差異，我已充分與操作者溝通與評估，一旦施作完成，恕無法退費或重做",
+      "本人目前無蟹足腫體質、凝血功能異常、嚴重過敏體質、血液傳染病等情況",
+      "若未主動告知相關體質或病史，導致術後產生不適、傷口延遲癒合或其他不良反應，須自行承擔相關責任",
+      "若未依指示照護導致反黑、感染、色素殘留或修復不良，須由本人自行負責",
+      "如有任何不適應於72小時內主動反應，並可視情況尋求皮膚科醫師進一步檢查",
+      "為確保課程紀錄完整，顧客同意本店得於課程前後拍攝照片作為紀錄",
+      "操作過程中不得擅自錄影錄音，若有需求請先告知操作者並經同意",
+      "本人已理解課程非醫療性質，並同意放棄因效果差異或個人因素衍生之退費、賠償、訴訟等法律主張",
+      "我已詳讀並了解以上內容，此表格由我本人填寫，並以本人真實狀況為準，願意自願接受課程操作，並授權沐蜜美學作為課程紀錄與照護依據"
+    ]
+  },
+  body: {
+    title:"美體同意書",
+    icon:"💆",
+    questions:[
+      "有無重大疾病或正接受治療中？（如：心臟病、癌症、糖尿病等）",
+      "曾有嚴重過敏、濕疹、皮膚炎等病史",
+      "近期是否接受醫療或使用藥物？",
+      "是否有不利於接受美體之事項？（如：曾經開刀過？）",
+      "目前正懷孕或哺乳",
+      "是否曾經被診斷為 B 型肝炎、C 型肝炎或其他與血液相關的疾病？"
+    ],
+    checks:[
+      "本人了解美體服務並非醫療行為，不具治療效果",
+      "本人已主動告知美體師身體狀況，如未如實填寫導致任何不適，願自負責任",
+      "本人知悉美體課程可能因體質不同，導致出現瘀青、酸痛、泛紅、局部腫脹、代謝反應等情形，並屬正常範圍",
+      "本人授權美體師依身體狀況調整操作內容",
+      "本人同意美體師於課程中進行教學演示、拍攝教材或成果紀錄（不含正面臉部與個資）",
+      "本人了解並同意依《個人資料保護法》相關規範使用本同意書所提供之資料",
+      "我已詳讀並了解以上內容，此表格由我本人填寫，並以本人真實狀況為準，願意自願接受課程操作，並授權沐蜜美學作為課程紀錄與照護依據"
+    ]
+  },
+  lip: {
+    title:"唇淨淡色同意書",
+    icon:"💋",
+    questions:[
+      "曾經動過唇部相關手術",
+      "本身有蟹足腫體質或容易留疤",
+      "曾有嚴重過敏、濕疹、皮膚炎等病史",
+      "對膠帶、敷料、修護產品、雷射療程等曾有過敏反應",
+      "有凝血功能異常、血小板低下，或正在服用抗凝血藥物",
+      "有免疫系統疾病或自體免疫病史（如紅斑性狼瘡、乾癬等）",
+      "目前正懷孕或哺乳",
+      "現在唇部是否有紅腫、過敏、破皮、濕疹或其他皮膚問題？"
+    ],
+    checks:[
+      "我已詳細閱讀並了解除色服務的方式與風險",
+      "我已據實告知本人體質、皮膚狀況與過往唇部病史",
+      "我理解本服務屬非侵入式淡化療程，效果需視個人情況而定，並願意配合療程安排與術後照護",
+      "因個人膚況差異或不當照護所造成的效果不佳或唇部反應，本人願意自行承擔並不追究店家相關責任",
+      "我同意本店進行唇部除色前後拍照存檔，作為紀錄與教育用途使用（不公開個人姓名與隱私）",
+      "我已詳讀並了解以上內容，此表格由我本人填寫，並以本人真實狀況為準，願意自願接受課程操作，並授權沐蜜美學作為課程紀錄與照護依據"
+    ]
+  }
+};
 
 // ── Utils ──
 const uid=()=>Math.random().toString(36).slice(2,9);
@@ -118,75 +230,30 @@ const ce=(tag,cls,html="")=>{const e=document.createElement(tag);if(cls)e.classN
 const ap=(p,...cs)=>{cs.forEach(c=>{if(c)p.appendChild(c);});return p;};
 
 // ── State ──
-let customers=[], records=[], currentUser=null, syncing=false;
+let customers=[], records=[], serviceRecords=[], consentForms=[], currentUser=null;
 let currentTab="home";
 
 // ── Toast ──
 let toastTimer=null;
 function toast(msg,type="ok"){
-  const el=document.getElementById("toast-el");
-  if(!el)return;
+  const el=document.getElementById("toast-el");if(!el)return;
   el.textContent=msg;el.style.background=type==="warn"?"#e67e22":"#6cc5a0";el.style.display="block";
   if(toastTimer)clearTimeout(toastTimer);
   toastTimer=setTimeout(()=>{el.style.display="none";},3000);
 }
 
-// ── Sync indicator ──
-function setSyncing(val){
-  syncing=val;
-  const dot=document.querySelector(".sync-dot");
-  if(dot)dot.className="sync-dot"+(val?" syncing":"");
-}
+// ── Firebase ──
+async function saveDoc(col,data){try{await setDoc(doc(db,col,data.id),data);}catch(e){toast("⚠️ 儲存失敗","warn");}}
+async function delDoc(col,id){try{await deleteDoc(doc(db,col,id));}catch(e){}}
 
-// ── Firebase CRUD ──
-async function saveCustomer(c){
-  setSyncing(true);
-  try{ await setDoc(doc(db,"customers",c.id),c); }
-  catch(e){toast("⚠️ 儲存失敗，請檢查網路","warn");}
-  setSyncing(false);
-}
-async function deleteCustomer(id){
-  setSyncing(true);
-  try{ await deleteDoc(doc(db,"customers",id)); }catch{}
-  setSyncing(false);
-}
-async function saveRecord(r){
-  setSyncing(true);
-  try{ await setDoc(doc(db,"records",r.id),r); }
-  catch(e){toast("⚠️ 儲存失敗，請檢查網路","warn");}
-  setSyncing(false);
-}
-async function deleteRecord(id){
-  setSyncing(true);
-  try{ await deleteDoc(doc(db,"records",id)); }catch{}
-  setSyncing(false);
-}
-async function saveAllCustomers(cs){
-  setSyncing(true);
-  const batch=writeBatch(db);
-  cs.forEach(c=>batch.set(doc(db,"customers",c.id),c));
-  try{await batch.commit();}catch(e){toast("⚠️ 批次儲存失敗","warn");}
-  setSyncing(false);
-}
-
-// ── Real-time listeners ──
 function startListeners(){
-  onSnapshot(collection(db,"customers"),snap=>{
-    customers=snap.docs.map(d=>d.data());
-    renderAll();
-  });
-  onSnapshot(collection(db,"records"),snap=>{
-    records=snap.docs.map(d=>d.data()).sort((a,b)=>b.time.localeCompare(a.time));
-    renderAll();
-  });
+  onSnapshot(collection(db,"customers"),snap=>{customers=snap.docs.map(d=>d.data());renderAll();});
+  onSnapshot(collection(db,"records"),snap=>{records=snap.docs.map(d=>d.data()).sort((a,b)=>b.time.localeCompare(a.time));renderAll();});
+  onSnapshot(collection(db,"serviceRecords"),snap=>{serviceRecords=snap.docs.map(d=>d.data()).sort((a,b)=>b.time.localeCompare(a.time));renderAll();});
+  onSnapshot(collection(db,"consentForms"),snap=>{consentForms=snap.docs.map(d=>d.data());renderAll();});
 }
 
-// ── Auth ──
-onAuthStateChanged(auth, user=>{
-  currentUser=user;
-  if(user){ startListeners(); }
-  else{ renderLogin(); }
-});
+onAuthStateChanged(auth,user=>{currentUser=user;if(user)startListeners();else renderLogin();});
 
 // ── Avatar ──
 function mkAvatar(c,sz=52){
@@ -198,249 +265,393 @@ function mkAvatar(c,sz=52){
 }
 
 // ── Signature ──
-function openSig(cb){
+function openSig(title,cb){
   const overlay=ce("div","sig-overlay");
   const modal=ce("div","sig-modal");
-  const hdr=ce("div");hdr.style.cssText="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px";
-  hdr.innerHTML='<span style="font-size:19px;font-weight:900;color:#3d2440">✍️ 請簽名確認</span><span style="font-size:12px;color:#aaa">Apple Pencil 或手指</span>';
-  const wrap=ce("div");wrap.style.cssText="position:relative;margin-bottom:14px";
-  const canvas=ce("canvas","sig-canvas");canvas.width=900;canvas.height=340;
-  const ctx=canvas.getContext("2d");ctx.fillStyle="#fff";ctx.fillRect(0,0,900,340);ctx.strokeStyle="#111";ctx.lineWidth=2.5;ctx.lineCap="round";ctx.lineJoin="round";
+  const hdr=ce("div");hdr.style.cssText="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px";
+  hdr.innerHTML=`<span style="font-size:17px;font-weight:900;color:#3d2440">✍️ ${title||"請簽名確認"}</span><span style="font-size:11px;color:#aaa">Apple Pencil 或手指</span>`;
+  const wrap=ce("div");wrap.style.cssText="position:relative;margin-bottom:12px";
+  const canvas=ce("canvas","sig-canvas");canvas.width=900;canvas.height=300;
+  const ctx=canvas.getContext("2d");ctx.fillStyle="#fff";ctx.fillRect(0,0,900,300);ctx.strokeStyle="#111";ctx.lineWidth=2.5;ctx.lineCap="round";ctx.lineJoin="round";
   let drawing=false,lp=null;
-  const gp=e=>{const r=canvas.getBoundingClientRect(),s=e.touches?e.touches[0]:e;return{x:(s.clientX-r.left)*(900/r.width),y:(s.clientY-r.top)*(340/r.height)};};
+  const gp=e=>{const r=canvas.getBoundingClientRect(),s=e.touches?e.touches[0]:e;return{x:(s.clientX-r.left)*(900/r.width),y:(s.clientY-r.top)*(300/r.height)};};
   canvas.onpointerdown=e=>{e.preventDefault();drawing=true;lp=gp(e);};
   canvas.onpointermove=e=>{e.preventDefault();if(!drawing)return;const p=gp(e);ctx.beginPath();ctx.moveTo(lp.x,lp.y);ctx.lineTo(p.x,p.y);ctx.stroke();lp=p;};
   canvas.onpointerup=canvas.onpointerleave=e=>{e.preventDefault();drawing=false;};
-  const sigLine=ce("div");sigLine.style.cssText="position:absolute;bottom:48px;left:5%;right:5%;height:1.5px;background:#f0d0dc;pointer-events:none";
-  const sigLbl=ce("div");sigLbl.style.cssText="position:absolute;bottom:28px;left:50%;transform:translateX(-50%);font-size:11px;color:#e0c0cc;letter-spacing:2px";sigLbl.textContent="簽名於此";
+  const sigLine=ce("div");sigLine.style.cssText="position:absolute;bottom:44px;left:5%;right:5%;height:1.5px;background:#f0d0dc;pointer-events:none";
+  const sigLbl=ce("div");sigLbl.style.cssText="position:absolute;bottom:26px;left:50%;transform:translateX(-50%);font-size:11px;color:#e0c0cc;letter-spacing:2px";sigLbl.textContent="簽名於此";
   ap(wrap,canvas,sigLine,sigLbl);
   const acts=ce("div");acts.style.cssText="display:flex;gap:8px;justify-content:flex-end";
-  const bClr=ce("button","btn btn-g");bClr.textContent="清除";bClr.onclick=()=>{ctx.fillStyle="#fff";ctx.fillRect(0,0,900,340);};
+  const bClr=ce("button","btn btn-g");bClr.textContent="清除";bClr.onclick=()=>{ctx.fillStyle="#fff";ctx.fillRect(0,0,900,300);};
   const bCan=ce("button","btn btn-g");bCan.textContent="取消";bCan.style.color="#888";bCan.onclick=()=>overlay.remove();
   const bOk=ce("button","btn btn-p");bOk.textContent="確認簽名";bOk.onclick=()=>{overlay.remove();cb(canvas.toDataURL("image/png"));};
   ap(acts,bClr,bCan,bOk);ap(modal,hdr,wrap,acts);overlay.appendChild(modal);document.body.appendChild(overlay);
 }
 
-// ── addRecord ──
-async function addRecord(rec){
-  openSig(async sig=>{
-    const full={...rec,id:uid(),signature:sig,time:timeStr(rec.date)};
-    // Update customer balance
-    const cust=customers.find(c=>c.id===rec.cid);
-    if(cust){
-      const newBal=rec.type==="topup"?(cust.balance||0)+rec.total:(cust.balance||0)-rec.amount;
-      const updated={...cust,balance:newBal};
-      await saveCustomer(updated);
-    }
-    await saveRecord(full);
-    toast(rec.type==="topup"?"✅ 儲值完成，已同步雲端":"✅ 消費扣款完成，已同步雲端");
-    goTab(currentTab);
-  });
-}
-
 // ── Export ──
 function doExport(){
-  const data=JSON.stringify({customers,records,at:new Date().toLocaleString("zh-TW")},null,2);
+  const data=JSON.stringify({customers,records,serviceRecords,consentForms,at:new Date().toLocaleString("zh-TW")},null,2);
   const a=ce("a");a.href=URL.createObjectURL(new Blob([data],{type:"application/json"}));
   a.download=`沐蜜備份_${todayStr().replace(/\//g,"-")}.json`;a.click();
   toast("📤 備份已下載");
 }
 
-// ── Sheets backup ──
 async function doSheets(btn){
   btn.disabled=true;btn.textContent="⏳ 備份中...";
   try{
     await fetch(SHEETS,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/json"},body:JSON.stringify({type:"customers",rows:customers.map(c=>[c.name,c.phone||"",c.balance||0,c.createdAt||""])})});
-    await fetch(SHEETS,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/json"},body:JSON.stringify({type:"records",rows:records.map(r=>[r.time,r.customerName,r.type==="topup"?"儲值":"消費",r.type==="topup"?r.total:r.amount,r.service||r.plan||"",r.note||"",r.cash||""])})});
+    await fetch(SHEETS,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/json"},body:JSON.stringify({type:"records",rows:serviceRecords.map(r=>[r.time,r.customerName,r.service,r.amount||0,r.payMethod||"",r.notes||""])})});
     btn.textContent="✅ 成功";btn.style.background="#6cc5a0";btn.style.color="#fff";
     setTimeout(()=>{btn.textContent="☁️ 備份到 Google Sheets";btn.style.cssText="";btn.disabled=false;},3000);
   }catch{btn.textContent="❌ 失敗";btn.disabled=false;}
 }
 
-// ═══════════════════════
-// ── LOGIN PAGE ──
-// ═══════════════════════
+// ═══════════════════════════════════
+// ── LOGIN ──
+// ═══════════════════════════════════
 function renderLogin(){
-  const root=document.getElementById("root");
-  root.innerHTML="";
+  const root=document.getElementById("root");root.innerHTML="";
   const wrap=ce("div","login-wrap");
   const card=ce("div","login-card");
-  card.innerHTML=`<div class="login-logo">🌸</div><div class="login-title">沐蜜美學秘境</div><div class="login-sub">顧客儲值管理系統</div>`;
+  card.innerHTML=`<div class="login-logo">🌸</div><div class="login-title">沐蜜美學秘境</div><div class="login-sub">顧客管理系統</div>`;
   const emailIn=ce("input","input");emailIn.type="email";emailIn.placeholder="Email";emailIn.style.marginBottom="10px";
-  const pwIn=ce("input","input");pwIn.type="password";pwIn.placeholder="密碼";pwIn.style.marginBottom="16px";
-  const loginBtn=ce("button","btn btn-p");loginBtn.style.cssText="width:100%;font-size:17px;padding:15px";loginBtn.textContent="登入";
+  const pwIn=ce("input","input");pwIn.type="password";pwIn.placeholder="密碼";pwIn.style.marginBottom="14px";
+  const loginBtn=ce("button","btn btn-p");loginBtn.style.cssText="width:100%;font-size:16px;padding:14px";loginBtn.textContent="登入";
   const errDiv=ce("div","login-err");
-  loginBtn.onclick=async()=>{
-    loginBtn.disabled=true;loginBtn.textContent="登入中...";errDiv.textContent="";
-    try{
-      await signInWithEmailAndPassword(auth,emailIn.value.trim(),pwIn.value);
-    }catch(e){
-      errDiv.textContent="Email 或密碼錯誤，請重試";
-      loginBtn.disabled=false;loginBtn.textContent="登入";
-    }
-  };
+  loginBtn.onclick=async()=>{loginBtn.disabled=true;loginBtn.textContent="登入中...";errDiv.textContent="";try{await signInWithEmailAndPassword(auth,emailIn.value.trim(),pwIn.value);}catch(e){errDiv.textContent="Email 或密碼錯誤";loginBtn.disabled=false;loginBtn.textContent="登入";}};
   pwIn.onkeydown=e=>{if(e.key==="Enter")loginBtn.click();};
   ap(card,emailIn,pwIn,loginBtn,errDiv);wrap.appendChild(card);root.appendChild(wrap);
 }
 
-// ═══════════════════════
+// ═══════════════════════════════════
 // ── HOME ──
-// ═══════════════════════
+// ═══════════════════════════════════
 function renderHome(){
   const wrap=ce("div");
+  const totalSvc=serviceRecords.reduce((s,r)=>s+(Number(r.amount)||0),0);
   const totalTopup=records.filter(r=>r.type==="topup").reduce((s,r)=>s+(r.total||0),0);
-  const totalCharge=records.filter(r=>r.type==="charge").reduce((s,r)=>s+(r.amount||0),0);
-  const totalCash=records.reduce((s,r)=>s+(Number(r.cash)||0),0);
+  const totalCash=serviceRecords.filter(r=>r.payMethod==="現金").reduce((s,r)=>s+(Number(r.amount)||0),0)+records.filter(r=>r.cash).reduce((s,r)=>s+(Number(r.cash)||0),0);
   const totalBal=customers.reduce((s,c)=>s+(c.balance||0),0);
   const low=customers.filter(c=>(c.balance||0)<LOW&&(c.balance||0)>0);
   const sr=ce("div","stat-row");
-  [["💰","總儲值","$"+fmt(totalTopup),"#f4a5b0"],["✂️","總消費","$"+fmt(totalCharge),"#a5c4f4"],["💵","收現金額","$"+fmt(totalCash),"#a5e8c4"],["🏦","總餘額","$"+fmt(totalBal),"#a5f4c4"],["👥","顧客數",customers.length+" 位","#f4d0a5"]].forEach(([icon,lbl,val,color])=>{
-    const sc=ce("div","stat-card");sc.style.borderTop=`4px solid ${color}`;
-    sc.innerHTML=`<div style="font-size:22px;margin-bottom:3px">${icon}</div><div style="font-size:10px;color:#aaa;margin-bottom:3px">${lbl}</div><div style="font-size:15px;font-weight:800">${val}</div>`;
-    sr.appendChild(sc);
+  [["✂️","服務營業額","$"+fmt(totalSvc),"#a5c4f4"],["💳","儲值金額","$"+fmt(totalTopup),"#f4a5b0"],["💵","收現金額","$"+fmt(totalCash),"#a5e8c4"],["🏦","儲值餘額","$"+fmt(totalBal),"#a5f4c4"],["👥","客人數",customers.length+" 位","#f4d0a5"]].forEach(([icon,lbl,val,color])=>{
+    const sc=ce("div","stat-card");sc.style.borderTop=`4px solid ${color}`;sc.innerHTML=`<div style="font-size:20px;margin-bottom:2px">${icon}</div><div style="font-size:10px;color:#aaa;margin-bottom:2px">${lbl}</div><div style="font-size:14px;font-weight:800">${val}</div>`;sr.appendChild(sc);
   });
   wrap.appendChild(sr);
-  if(low.length>0){
-    const ab=ce("div","alert-box");ab.innerHTML=`<span style="font-size:20px">⚠️</span><div><div style="font-weight:700;color:#c0392b;font-size:13px;margin-bottom:2px">低餘額提醒</div><div style="font-size:12px;color:#666">${low.map(c=>`${c.name}（$${fmt(c.balance)}）`).join("、")}</div></div>`;
-    wrap.appendChild(ab);
-  }
-  const grid=ce("div");grid.style.cssText="display:grid;grid-template-columns:1fr auto;gap:12px;align-items:start";
+  if(low.length>0){const ab=ce("div","alert-box");ab.innerHTML=`<span style="font-size:18px">⚠️</span><div><div style="font-weight:700;color:#c0392b;font-size:12px;margin-bottom:2px">低餘額提醒</div><div style="font-size:11px;color:#666">${low.map(c=>`${c.name}（$${fmt(c.balance)}）`).join("、")}</div></div>`;wrap.appendChild(ab);}
+  const grid=ce("div");grid.style.cssText="display:grid;grid-template-columns:1fr auto;gap:10px;align-items:start";
   const recCard=ce("div","card");
-  const rt=ce("div","card-title");rt.textContent="最近紀錄";recCard.appendChild(rt);
-  records.slice(0,6).forEach(r=>{
-    const row=ce("div");row.style.cssText="display:flex;gap:9px;align-items:center;padding:9px 0;border-bottom:1px solid #f5f0f8";
-    row.innerHTML=`<span style="font-size:17px">${r.type==="topup"?"💳":"✂️"}</span><div style="flex:1"><div style="font-weight:600;font-size:14px">${r.customerName}</div><div style="font-size:11px;color:#aaa">${r.time}</div></div><div style="text-align:right"><div style="font-weight:700;font-size:14px;color:${r.type==="topup"?"#6cc5a0":"#f4a5b0"}">${r.type==="topup"?"+$"+fmt(r.total):"-$"+fmt(r.amount)}</div>${r.cash?`<div class="cash-tag">現 $${fmt(r.cash)}</div>`:""}</div>`;
-    recCard.appendChild(row);
-  });
-  if(!records.length){const e=ce("div","empty");e.textContent="尚無紀錄";recCard.appendChild(e);}
+  const rt=ce("div","card-title");rt.textContent="最近服務紀錄";recCard.appendChild(rt);
+  const recent=[...serviceRecords].slice(0,5);
+  if(!recent.length){const e=ce("div","empty");e.textContent="尚無服務紀錄";recCard.appendChild(e);}
+  recent.forEach(r=>{const row=ce("div");row.style.cssText="display:flex;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid #f5f0f8";row.innerHTML=`<span style="font-size:16px">✂️</span><div style="flex:1"><div style="font-weight:600;font-size:13px">${r.customerName}</div><div style="font-size:11px;color:#aaa">${r.service} · ${r.time}</div></div><div style="text-align:right"><div style="font-weight:700;font-size:13px;color:#6a3aa5">$${fmt(r.amount)}</div><div style="font-size:10px;color:#aaa">${r.payMethod||""}</div></div>`;recCard.appendChild(row);});
   grid.appendChild(recCard);
-  const btns=ce("div");btns.style.cssText="display:flex;flex-direction:column;gap:9px";
-  const mk=(cls,txt,fn)=>{const b=ce("button","btn "+cls);b.style.fontSize="15px";b.textContent=txt;b.onclick=fn;return b;};
-  const bSheets=ce("button","btn btn-green");bSheets.style.fontSize="13px";bSheets.textContent="☁️ 備份到 Google Sheets";bSheets.onclick=()=>doSheets(bSheets);
-  const sepLbl=ce("div");sepLbl.style.cssText="font-size:11px;color:#bbb;text-align:center;font-weight:600;border-top:1px solid #f0e8f4;padding-top:10px";sepLbl.textContent="完整備份（含簽名）";
-  const bExp=ce("button","btn btn-blue");bExp.style.fontSize="13px";bExp.textContent="📤 匯出備份";bExp.onclick=doExport;
-  ap(btns,mk("btn-p","💳 儲值",()=>goTab("topup")),mk("btn-s","✂️ 消費扣款",()=>goTab("charge")),mk("btn-g","👥 顧客管理",()=>goTab("customers")),bSheets,sepLbl,bExp);
+  const btns=ce("div");btns.style.cssText="display:flex;flex-direction:column;gap:8px";
+  const mk=(cls,txt,fn)=>{const b=ce("button","btn "+cls);b.style.fontSize="13px";b.textContent=txt;b.onclick=fn;return b;};
+  const bSheets=ce("button","btn btn-green");bSheets.style.fontSize="12px";bSheets.textContent="☁️ 備份 Google Sheets";bSheets.onclick=()=>doSheets(bSheets);
+  const bExp=ce("button","btn btn-blue");bExp.style.fontSize="12px";bExp.textContent="📤 匯出備份";bExp.onclick=doExport;
+  ap(btns,mk("btn-teal","✂️ 新增服務",()=>goTab("service")),mk("btn-p","💳 儲值",()=>goTab("topup")),mk("btn-s","💸 扣款",()=>goTab("charge")),mk("btn-g","👥 客人管理",()=>goTab("customers")),bSheets,bExp);
   grid.appendChild(btns);wrap.appendChild(grid);return wrap;
 }
 
-// ═══════════════════════
+// ═══════════════════════════════════
 // ── CUSTOMERS ──
-// ═══════════════════════
-let cMode="list",cSel=null,cSearch="",cRecTab="all",cDelConfirm=false;
+// ═══════════════════════════════════
+let cMode="list",cSel=null,cSearch="",cSubTab="service",cDelConfirm=false,cConsentType=null,cConsentView=null;
+
 function renderCustomers(){
   const wrap=ce("div");
-  if(cMode==="add"){
-    const back=ce("button","back-btn");back.textContent="← 返回";back.onclick=()=>{cMode="list";goTab("customers");};
-    const hdr=ce("div");hdr.style.cssText="display:flex;align-items:center;gap:12px;margin-bottom:20px";
-    const t=ce("span");t.style.cssText="font-size:19px;font-weight:800;color:#3d2440";t.textContent="新增顧客";ap(hdr,back,t);wrap.appendChild(hdr);
-    let photoVal="";
-    const pWrap=ce("div");pWrap.style.cssText="display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:14px";
-    const pCircle=ce("div");pCircle.style.cssText="width:84px;height:84px;border-radius:50%;background:#fdf0f5;border:2.5px dashed #f4a5b0;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;font-size:26px";pCircle.textContent="📷";
-    const pInput=ce("input");pInput.type="file";pInput.accept="image/*";pInput.style.display="none";
-    pInput.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{photoVal=ev.target.result;pCircle.innerHTML=`<img src="${photoVal}" style="width:100%;height:100%;object-fit:cover">`;};r.readAsDataURL(f);};
-    pCircle.onclick=()=>pInput.click();
-    const pLbl=ce("span");pLbl.style.cssText="font-size:11px;color:#bbb";pLbl.textContent="點擊上傳照片";
-    ap(pWrap,pCircle,pLbl,pInput);wrap.appendChild(pWrap);
-    const nameIn=ce("input","input");nameIn.placeholder="顧客姓名 *";nameIn.style.marginBottom="10px";
-    const phoneIn=ce("input","input");phoneIn.placeholder="手機號碼";phoneIn.style.marginBottom="14px";
-    const subBtn=ce("button","btn btn-p");subBtn.style.cssText="width:100%;font-size:17px;padding:16px";subBtn.textContent="確認新增";
-    subBtn.onclick=async()=>{
-      if(!nameIn.value.trim())return toast("請輸入顧客姓名","warn");
-      subBtn.disabled=true;subBtn.textContent="儲存中...";
-      const c={id:uid(),balance:0,createdAt:todayStr(),name:nameIn.value.trim(),phone:phoneIn.value.trim(),photo:photoVal};
-      await saveCustomer(c);
-      cMode="list";toast("✅ 顧客新增完成，已同步雲端");goTab("customers");
-    };
-    ap(wrap,nameIn,phoneIn,subBtn);return wrap;
-  }
-  if(cMode==="detail"&&cSel){
-    const c=customers.find(x=>x.id===cSel);if(!c){cMode="list";return renderCustomers();}
-    const cRecs=records.filter(r=>r.cid===c.id||r.customerId===c.id);
-    const shown=cRecTab==="all"?cRecs:cRecs.filter(r=>r.type===cRecTab);
-    const cTopup=cRecs.filter(r=>r.type==="topup").reduce((s,r)=>s+(r.total||0),0);
-    const cCharge=cRecs.filter(r=>r.type==="charge").reduce((s,r)=>s+(r.amount||0),0);
-    const cCash=cRecs.reduce((s,r)=>s+(Number(r.cash)||0),0);
-    const back=ce("button","back-btn");back.textContent="← 返回";back.onclick=()=>{cMode="list";cSel=null;cDelConfirm=false;goTab("customers");};
-    const hdr=ce("div");hdr.style.cssText="display:flex;align-items:center;gap:12px;margin-bottom:14px";
-    const t=ce("span");t.style.cssText="font-size:19px;font-weight:800;color:#3d2440";t.textContent="顧客詳情";ap(hdr,back,t);wrap.appendChild(hdr);
-    const grid=ce("div","g2");
-    const prof=ce("div","card");prof.style.textAlign="center";
-    const av=mkAvatar(c,76);av.style.margin="0 auto 10px";prof.appendChild(av);
-    const nm=ce("div");nm.style.cssText="font-size:20px;font-weight:800;margin-bottom:3px";nm.textContent=c.name;
-    const ph=ce("div");ph.style.cssText="font-size:13px;color:#888;margin-bottom:10px";ph.textContent=c.phone||"未填電話";
-    const balBox=ce("div");balBox.style.cssText=`background:${(c.balance||0)<LOW?"#fff5f5":"#f0fff6"};border-radius:11px;padding:10px 0;margin-bottom:8px`;
-    balBox.innerHTML=`<div style="font-size:11px;color:#aaa;margin-bottom:2px">目前餘額</div><div style="font-size:26px;font-weight:900;color:${(c.balance||0)<LOW?"#e74c3c":"#6cc5a0"}">$${fmt(c.balance||0)}</div>${(c.balance||0)<LOW&&(c.balance||0)>0?'<div style="color:#e74c3c;font-size:11px;margin-top:3px">⚠️ 建議儲值</div>':""}`;
-    const sg=ce("div");sg.style.cssText="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:8px";
-    sg.innerHTML=`<div style="background:#f0fff6;border-radius:9px;padding:8px 0;text-align:center"><div style="font-size:10px;color:#aaa">累計儲值</div><div style="font-weight:800;color:#6cc5a0;font-size:13px">$${fmt(cTopup)}</div></div><div style="background:#fdf0f5;border-radius:9px;padding:8px 0;text-align:center"><div style="font-size:10px;color:#aaa">累計消費</div><div style="font-weight:800;color:#f4a5b0;font-size:13px">$${fmt(cCharge)}</div></div><div style="background:#e8f8f0;border-radius:9px;padding:8px 0;text-align:center"><div style="font-size:10px;color:#aaa">收現金額</div><div style="font-weight:800;color:#2e7d52;font-size:13px">$${fmt(cCash)}</div></div>`;
-    const dtDiv=ce("div");dtDiv.style.cssText="font-size:10px;color:#ccc;margin-top:6px";dtDiv.textContent="建檔："+c.createdAt;
-    ap(prof,nm,ph,balBox,sg,dtDiv);
-    if(cDelConfirm){
-      const cb=ce("div","confirm-box");cb.innerHTML=`<div style="font-weight:700;color:#c0392b;margin-bottom:6px">確定刪除此顧客？</div><div style="font-size:12px;color:#888;margin-bottom:10px">顧客及所有紀錄將永久刪除（雲端同步）</div>`;
-      const ca=ce("div");ca.style.cssText="display:flex;gap:8px;justify-content:center";
-      const cNo=ce("button","btn btn-g");cNo.style.fontSize="13px";cNo.textContent="取消";cNo.onclick=()=>{cDelConfirm=false;goTab("customers");};
-      const cYes=ce("button","btn");cYes.style.cssText="background:#e74c3c;color:#fff;font-size:13px";cYes.textContent="確認刪除";
-      cYes.onclick=async()=>{
-        cYes.disabled=true;cYes.textContent="刪除中...";
-        const cRecs2=records.filter(r=>r.cid===c.id||r.customerId===c.id);
-        for(const r of cRecs2)await deleteRecord(r.id);
-        await deleteCustomer(c.id);
-        cMode="list";cSel=null;cDelConfirm=false;toast("🗑️ 顧客已刪除");goTab("customers");
-      };
-      ap(ca,cNo,cYes);cb.appendChild(ca);prof.appendChild(cb);
-    }else{
-      const db2=ce("button","btn btn-red");db2.style.cssText="width:100%;font-size:13px;margin-top:10px";db2.textContent="🗑️ 刪除此顧客";db2.onclick=()=>{cDelConfirm=true;goTab("customers");};prof.appendChild(db2);
-    }
-    grid.appendChild(prof);
-    const rc=ce("div","card");
-    const rh=ce("div");rh.style.cssText="display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap";
-    const rht=ce("div","card-title");rht.style.margin="0";rht.textContent="交易紀錄";rh.appendChild(rht);
-    const fw=ce("div");fw.style.cssText="display:flex;gap:5px;margin-left:auto";
-    [["all","全部"],["topup","儲值"],["charge","消費"]].forEach(([k,l])=>{const fb=ce("button","fb"+(cRecTab===k?" on":""));fb.textContent=l;fb.onclick=()=>{cRecTab=k;goTab("customers");};fw.appendChild(fb);});
-    rh.appendChild(fw);rc.appendChild(rh);
-    if(!shown.length){const e=ce("div","empty");e.textContent="尚無紀錄";rc.appendChild(e);}
-    const rl=ce("div");rl.style.cssText="max-height:400px;overflow-y:auto";
-    shown.forEach(r=>{
-      const row=ce("div","row-item");
-      row.innerHTML=`<span style="font-size:20px">${r.type==="topup"?"💳":"✂️"}</span><div style="flex:1"><div style="font-weight:600;font-size:13px">${r.type==="topup"?r.plan:r.service}</div><div style="font-size:11px;color:#aaa">${r.time}</div>${r.note?`<div style="font-size:11px;color:#bbb">備註：${r.note}</div>`:""}</div><div style="text-align:right"><div style="font-weight:800;font-size:14px;color:${r.type==="topup"?"#6cc5a0":"#f4a5b0"}">${r.type==="topup"?"+$"+fmt(r.total):"-$"+fmt(r.amount)}</div>${r.cash?`<div class="cash-tag">現 $${fmt(r.cash)}</div>`:""}</div>`;
-      rl.appendChild(row);
-    });
-    rc.appendChild(rl);grid.appendChild(rc);wrap.appendChild(grid);return wrap;
-  }
-  const topBar=ce("div");topBar.style.cssText="display:flex;gap:9px;margin-bottom:14px";
+  if(cConsentView){return renderConsentView(wrap);}
+  if(cConsentType){return renderConsentForm(wrap);}
+  if(cMode==="add"){return renderAddCustomer(wrap);}
+  if(cMode==="detail"&&cSel){return renderCustomerDetail(wrap);}
+  // List
+  const topBar=ce("div");topBar.style.cssText="display:flex;gap:8px;margin-bottom:12px";
   const si=ce("input","input");si.placeholder="🔍 搜尋姓名或電話";si.value=cSearch;si.style.flex="1";si.oninput=e=>{cSearch=e.target.value;goTab("customers");};
   const ab=ce("button","btn btn-p");ab.style.whiteSpace="nowrap";ab.textContent="＋ 新增";ab.onclick=()=>{cMode="add";goTab("customers");};
   ap(topBar,si,ab);wrap.appendChild(topBar);
   const filtered=customers.filter(c=>c.name.includes(cSearch)||(c.phone||"").includes(cSearch));
-  if(!filtered.length){const e=ce("div","empty");e.textContent="尚無顧客資料";wrap.appendChild(e);}
+  if(!filtered.length){const e=ce("div","empty");e.textContent="尚無客人資料";wrap.appendChild(e);}
   filtered.forEach(c=>{
-    const row=ce("div","row-item");row.appendChild(mkAvatar(c,50));
-    const info=ce("div");info.style.flex="1";info.innerHTML=`<div style="font-weight:700;font-size:16px">${c.name}</div><div style="font-size:12px;color:#aaa">${c.phone||"未填電話"}</div>`;
-    const bal=ce("div");bal.style.textAlign="right";bal.innerHTML=`<div style="font-size:11px;color:#aaa">餘額</div><div style="font-size:18px;font-weight:800;color:${(c.balance||0)<LOW?"#e74c3c":"#333"}">$${fmt(c.balance||0)}</div>`;
-    ap(row,info,bal);row.onclick=()=>{cSel=c.id;cMode="detail";cRecTab="all";cDelConfirm=false;goTab("customers");};wrap.appendChild(row);
+    const cSvcRecs=serviceRecords.filter(r=>r.customerId===c.id);
+    const lastSvc=cSvcRecs[0];
+    const row=ce("div","row-item");row.appendChild(mkAvatar(c,48));
+    const info=ce("div");info.style.flex="1";info.innerHTML=`<div style="font-weight:700;font-size:15px">${c.name}</div><div style="font-size:11px;color:#aaa">${c.phone||"未填電話"}${lastSvc?` · 上次：${lastSvc.time.slice(0,10)}`:""}  </div>`;
+    const right=ce("div");right.style.textAlign="right";right.innerHTML=`<div style="font-size:11px;color:#aaa">服務 ${cSvcRecs.length} 次</div>${(c.balance||0)>0?`<div style="font-size:13px;font-weight:800;color:#6cc5a0">餘額 $${fmt(c.balance)}</div>`:""}`;
+    ap(row,info,right);row.onclick=()=>{cSel=c.id;cMode="detail";cSubTab="service";cDelConfirm=false;goTab("customers");};wrap.appendChild(row);
   });
   return wrap;
 }
 
-// ═══════════════════════
+function renderAddCustomer(wrap){
+  const back=ce("button","back-btn");back.textContent="← 返回";back.onclick=()=>{cMode="list";goTab("customers");};
+  const hdr=ce("div");hdr.style.cssText="display:flex;align-items:center;gap:10px;margin-bottom:16px";
+  ap(hdr,back,Object.assign(ce("span"),{style:"font-size:17px;font-weight:800;color:#3d2440",textContent:"新增客人"}));wrap.appendChild(hdr);
+  let photoVal="";
+  const pWrap=ce("div");pWrap.style.cssText="display:flex;flex-direction:column;align-items:center;gap:5px;margin-bottom:12px";
+  const pCircle=ce("div");pCircle.style.cssText="width:80px;height:80px;border-radius:50%;background:#fdf0f5;border:2.5px dashed #f4a5b0;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;font-size:24px";pCircle.textContent="📷";
+  const pInput=ce("input");pInput.type="file";pInput.accept="image/*";pInput.style.display="none";
+  pInput.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{photoVal=ev.target.result;pCircle.innerHTML=`<img src="${photoVal}" style="width:100%;height:100%;object-fit:cover">`;};r.readAsDataURL(f);};
+  pCircle.onclick=()=>pInput.click();
+  ap(pWrap,pCircle,Object.assign(ce("span"),{style:"font-size:11px;color:#bbb",textContent:"點擊上傳照片"}),pInput);wrap.appendChild(pWrap);
+  const nameIn=ce("input","input");nameIn.placeholder="客人姓名 *";nameIn.style.marginBottom="8px";
+  const phoneIn=ce("input","input");phoneIn.placeholder="手機號碼";phoneIn.style.marginBottom="8px";
+  const bdIn=ce("input","input");bdIn.placeholder="生日（選填，例：1990/01/01）";bdIn.style.marginBottom="8px";
+  const refIn=ce("input","input");refIn.placeholder="如何得知本店（選填）";refIn.style.marginBottom="14px";
+  const subBtn=ce("button","btn btn-p");subBtn.style.cssText="width:100%;font-size:16px;padding:14px";subBtn.textContent="確認新增";
+  subBtn.onclick=async()=>{
+    if(!nameIn.value.trim())return toast("請輸入客人姓名","warn");
+    subBtn.disabled=true;subBtn.textContent="儲存中...";
+    const c={id:uid(),balance:0,createdAt:todayStr(),name:nameIn.value.trim(),phone:phoneIn.value.trim(),birthday:bdIn.value.trim(),referral:refIn.value.trim(),photo:photoVal};
+    await saveDoc("customers",c);cMode="list";toast("✅ 客人新增完成");goTab("customers");
+  };
+  ap(wrap,nameIn,phoneIn,bdIn,refIn,subBtn);return wrap;
+}
+
+function renderCustomerDetail(wrap){
+  const c=customers.find(x=>x.id===cSel);if(!c){cMode="list";return renderCustomers();}
+  const cSvcRecs=serviceRecords.filter(r=>r.customerId===c.id);
+  const cTopupRecs=records.filter(r=>(r.cid===c.id||r.customerId===c.id)&&r.type==="topup");
+  const cChargeRecs=records.filter(r=>(r.cid===c.id||r.customerId===c.id)&&r.type==="charge");
+  const cConsents=consentForms.filter(f=>f.customerId===c.id);
+  const totalSvc=cSvcRecs.reduce((s,r)=>s+(Number(r.amount)||0),0);
+  const back=ce("button","back-btn");back.textContent="← 返回";back.onclick=()=>{cMode="list";cSel=null;cDelConfirm=false;goTab("customers");};
+  const hdr=ce("div");hdr.style.cssText="display:flex;align-items:center;gap:10px;margin-bottom:12px";
+  ap(hdr,back,Object.assign(ce("span"),{style:"font-size:17px;font-weight:800;color:#3d2440",textContent:"客人詳情"}));wrap.appendChild(hdr);
+  // Profile card
+  const prof=ce("div","card");prof.style.cssText="display:flex;gap:14px;align-items:flex-start";
+  prof.appendChild(mkAvatar(c,64));
+  const pInfo=ce("div");pInfo.style.flex="1";
+  pInfo.innerHTML=`<div style="font-size:19px;font-weight:800;margin-bottom:2px">${c.name}</div><div style="font-size:12px;color:#888;margin-bottom:2px">${c.phone||"未填電話"}</div>${c.birthday?`<div style="font-size:12px;color:#aaa">🎂 ${c.birthday}</div>`:""}<div style="font-size:11px;color:#ccc;margin-top:4px">建檔：${c.createdAt}</div>`;
+  const pStats=ce("div");pStats.style.cssText="display:flex;flex-direction:column;gap:5px;text-align:right;flex-shrink:0";
+  pStats.innerHTML=`<div style="background:#f0fff6;border-radius:9px;padding:6px 10px;text-align:center"><div style="font-size:10px;color:#aaa">服務次數</div><div style="font-weight:800;color:#6a3aa5;font-size:16px">${cSvcRecs.length} 次</div></div><div style="background:#f0f8ff;border-radius:9px;padding:6px 10px;text-align:center"><div style="font-size:10px;color:#aaa">服務消費</div><div style="font-weight:800;color:#4a6fa5;font-size:14px">$${fmt(totalSvc)}</div></div>${(c.balance||0)>0?`<div style="background:#f0fff6;border-radius:9px;padding:6px 10px;text-align:center"><div style="font-size:10px;color:#aaa">儲值餘額</div><div style="font-weight:800;color:#6cc5a0;font-size:14px">$${fmt(c.balance)}</div></div>`:""}`;
+  ap(prof,pInfo,pStats);wrap.appendChild(prof);
+  // Sub tabs
+  const pills=ce("div","tab-pills");
+  [["service","✂️ 服務紀錄"],["consent","📋 同意書"],["topup","💳 儲值紀錄"]].forEach(([k,l])=>{
+    const fb=ce("button","fb"+(cSubTab===k?" on":""));fb.textContent=l;fb.onclick=()=>{cSubTab=k;goTab("customers");};pills.appendChild(fb);
+  });
+  wrap.appendChild(pills);
+  if(cSubTab==="service"){
+    const addSvcBtn=ce("button","btn btn-teal");addSvcBtn.style.cssText="width:100%;margin-bottom:10px;font-size:13px";addSvcBtn.textContent="＋ 新增服務紀錄";
+    addSvcBtn.onclick=()=>{svcPreCid=c.id;goTab("service");};wrap.appendChild(addSvcBtn);
+    if(!cSvcRecs.length){const e=ce("div","empty");e.textContent="尚無服務紀錄";wrap.appendChild(e);}
+    cSvcRecs.forEach(r=>{
+      const row=ce("div","row-item");row.onclick=()=>{rSvcSel=r.id;goTab("records");};
+      row.innerHTML=`<span style="font-size:20px">✂️</span><div style="flex:1"><div style="font-weight:700;font-size:14px">${r.service}</div><div style="font-size:11px;color:#aaa">${r.time}</div>${r.notes?`<div style="font-size:11px;color:#bbb;margin-top:2px">${r.notes.slice(0,40)}${r.notes.length>40?"...":""}</div>`:""}</div><div style="text-align:right"><div style="font-weight:800;font-size:14px;color:#6a3aa5">$${fmt(r.amount)}</div><div style="font-size:10px;color:#aaa">${r.payMethod||""}</div>${r.signature?'<div style="font-size:10px;color:#ccc">✍️ 已簽</div>':'<div style="font-size:10px;color:#f4a5b0;font-weight:700">⚠️ 未簽</div>'}</div>`;
+      wrap.appendChild(row);
+    });
+  } else if(cSubTab==="consent"){
+    const addConsentDiv=ce("div","card");addConsentDiv.style.marginBottom="10px";
+    const ct=ce("div","card-title");ct.textContent="新增同意書";addConsentDiv.appendChild(ct);
+    const cg=ce("div");cg.style.cssText="display:grid;grid-template-columns:1fr 1fr;gap:8px";
+    Object.entries(CONSENT_FORMS).forEach(([key,form])=>{
+      const existing=cConsents.find(f=>f.formType===key);
+      const cb=ce("button","consent-card "+(existing?"signed":"unsigned"));
+      cb.innerHTML=`<span style="font-size:22px">${form.icon}</span><div><div style="font-weight:700;font-size:13px">${form.title}</div><div style="font-size:11px;color:${existing?"#6cc5a0":"#bbb"}">${existing?"✅ 已簽 "+existing.signedAt.slice(0,10):"尚未填寫"}</div></div>`;
+      cb.onclick=()=>{if(existing){cConsentView=existing;goTab("customers");}else{cConsentType=key;goTab("customers");}};
+      cg.appendChild(cb);
+    });
+    addConsentDiv.appendChild(cg);wrap.appendChild(addConsentDiv);
+  } else if(cSubTab==="topup"){
+    const allRecs=[...cTopupRecs,...cChargeRecs].sort((a,b)=>b.time.localeCompare(a.time));
+    if(!allRecs.length){const e=ce("div","empty");e.textContent="尚無儲值紀錄";wrap.appendChild(e);}
+    allRecs.forEach(r=>{
+      const row=ce("div","row-item");
+      row.innerHTML=`<span style="font-size:20px">${r.type==="topup"?"💳":"💸"}</span><div style="flex:1"><div style="font-weight:600;font-size:13px">${r.type==="topup"?r.plan:"扣款"}</div><div style="font-size:11px;color:#aaa">${r.time}</div></div><div style="font-weight:800;font-size:14px;color:${r.type==="topup"?"#6cc5a0":"#f4a5b0"}">${r.type==="topup"?"+$"+fmt(r.total):"-$"+fmt(r.amount)}</div>`;
+      wrap.appendChild(row);
+    });
+  }
+  // Delete
+  if(cDelConfirm){
+    const cb=ce("div","confirm-box");cb.innerHTML=`<div style="font-weight:700;color:#c0392b;margin-bottom:6px">確定刪除此客人？</div><div style="font-size:12px;color:#888;margin-bottom:10px">客人及所有紀錄將永久刪除</div>`;
+    const ca=ce("div");ca.style.cssText="display:flex;gap:8px;justify-content:center";
+    const cNo=ce("button","btn btn-g");cNo.style.fontSize="12px";cNo.textContent="取消";cNo.onclick=()=>{cDelConfirm=false;goTab("customers");};
+    const cYes=ce("button","btn");cYes.style.cssText="background:#e74c3c;color:#fff;font-size:12px";cYes.textContent="確認刪除";
+    cYes.onclick=async()=>{cYes.disabled=true;cYes.textContent="刪除中...";const allR=[...cSvcRecs,...cTopupRecs,...cChargeRecs,...cConsents];for(const r of allR){await delDoc(r.formType?"consentForms":"serviceRecords",r.id);}await delDoc("customers",c.id);cMode="list";cSel=null;cDelConfirm=false;toast("🗑️ 客人已刪除");goTab("customers");};
+    ap(ca,cNo,cYes);cb.appendChild(ca);wrap.appendChild(cb);
+  }else{
+    const db2=ce("button","btn btn-red");db2.style.cssText="width:100%;font-size:12px;margin-top:10px";db2.textContent="🗑️ 刪除此客人";db2.onclick=()=>{cDelConfirm=true;goTab("customers");};wrap.appendChild(db2);
+  }
+  return wrap;
+}
+
+function renderConsentForm(wrap){
+  const c=customers.find(x=>x.id===cSel);
+  const form=CONSENT_FORMS[cConsentType];
+  const back=ce("button","back-btn");back.textContent="← 返回";back.onclick=()=>{cConsentType=null;goTab("customers");};
+  const hdr=ce("div");hdr.style.cssText="display:flex;align-items:center;gap:10px;margin-bottom:14px";
+  ap(hdr,back,Object.assign(ce("span"),{style:"font-size:16px;font-weight:800;color:#3d2440",textContent:form.icon+" "+form.title}));wrap.appendChild(hdr);
+  // Basic info
+  const basicCard=ce("div","card");
+  const bt=ce("div","card-title");bt.textContent="顧客基本資料";basicCard.appendChild(bt);
+  basicCard.innerHTML+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px;color:#444"><div><span style="color:#aaa">姓名：</span>${c?.name||""}</div><div><span style="color:#aaa">電話：</span>${c?.phone||""}</div><div><span style="color:#aaa">生日：</span>${c?.birthday||""}</div><div><span style="color:#aaa">日期：</span>${todayStr()}</div></div>`;
+  wrap.appendChild(basicCard);
+  // Questions
+  const answers={};
+  const qCard=ce("div","card");
+  const qt=ce("div","card-title");qt.textContent="請依自身狀況圈選填寫";qCard.appendChild(qt);
+  form.questions.forEach((q,i)=>{
+    answers[i]="";
+    const qRow=ce("div","consent-q");
+    const yn=ce("div","yn");
+    const yBtn=ce("button","yn-btn");yBtn.textContent="Yes";
+    const nBtn=ce("button","yn-btn");nBtn.textContent="No";
+    yBtn.onclick=()=>{answers[i]="Yes";yBtn.className="yn-btn yes";nBtn.className="yn-btn";};
+    nBtn.onclick=()=>{answers[i]="No";yBtn.className="yn-btn";nBtn.className="yn-btn no";};
+    ap(yn,yBtn,nBtn);
+    const qt2=ce("div");qt2.style.cssText="flex:1;font-size:12px;line-height:1.5";qt2.textContent=q;
+    ap(qRow,yn,qt2);qCard.appendChild(qRow);
+  });
+  // Skin concerns if beauty form
+  if(form.skinConcerns){
+    const scLbl=ce("div");scLbl.style.cssText="font-size:12px;color:#aaa;margin:10px 0 6px;font-weight:700";scLbl.textContent="想改善的狀況為？";qCard.appendChild(scLbl);
+    const scWrap=ce("div");scWrap.style.cssText="display:flex;flex-wrap:wrap;gap:6px";
+    const selected=new Set();
+    form.skinConcerns.forEach(sc=>{
+      const b=ce("button","fb");b.textContent=sc;b.onclick=()=>{if(selected.has(sc)){selected.delete(sc);b.classList.remove("on");}else{selected.add(sc);b.classList.add("on");}};
+      scWrap.appendChild(b);
+    });
+    answers.skinConcerns=selected;qCard.appendChild(scWrap);
+  }
+  wrap.appendChild(qCard);
+  // Checks
+  const chkCard=ce("div","card");
+  const cht=ce("div","card-title");cht.textContent="請仔細閱讀下列事項並打勾確認";chkCard.appendChild(cht);
+  const checked=new Set();
+  form.checks.forEach((chk,i)=>{
+    const row=ce("div","consent-check");
+    const box=ce("div","check-box");
+    box.onclick=()=>{if(checked.has(i)){checked.delete(i);box.className="check-box";box.textContent="";}else{checked.add(i);box.className="check-box checked";box.textContent="✓";}};
+    const txt=ce("div");txt.style.cssText="flex:1;font-size:12px;line-height:1.5";txt.textContent=chk;
+    ap(row,box,txt);chkCard.appendChild(row);
+  });
+  wrap.appendChild(chkCard);
+  // Sign button
+  const signBtn=ce("button","btn btn-p");signBtn.style.cssText="width:100%;font-size:16px;padding:14px;margin-top:4px";signBtn.textContent="✍️ 前往簽名";
+  signBtn.onclick=()=>{
+    if(checked.size<form.checks.length){return toast("請確認所有條款後再簽名","warn");}
+    openSig(form.title+"簽名",async sig=>{
+      const fd={id:uid(),customerId:c.id,customerName:c.name,formType:cConsentType,formTitle:form.title,answers,checkedAll:true,signature:sig,signedAt:timeStr(todayISO())};
+      await saveDoc("consentForms",fd);cConsentType=null;cSubTab="consent";toast("✅ 同意書已簽署完成");goTab("customers");
+    });
+  };
+  wrap.appendChild(signBtn);return wrap;
+}
+
+function renderConsentView(wrap){
+  const form=CONSENT_FORMS[cConsentView.formType];
+  const back=ce("button","back-btn");back.textContent="← 返回";back.onclick=()=>{cConsentView=null;goTab("customers");};
+  const hdr=ce("div");hdr.style.cssText="display:flex;align-items:center;gap:10px;margin-bottom:14px";
+  ap(hdr,back,Object.assign(ce("span"),{style:"font-size:16px;font-weight:800;color:#3d2440",textContent:form.icon+" "+form.title}));wrap.appendChild(hdr);
+  const infoCard=ce("div","card");
+  infoCard.innerHTML=`<div style="font-size:12px;color:#aaa;margin-bottom:4px">客人：<strong style="color:#3d2440">${cConsentView.customerName}</strong></div><div style="font-size:12px;color:#aaa">簽署日期：${cConsentView.signedAt}</div>`;
+  wrap.appendChild(infoCard);
+  if(cConsentView.signature){
+    const sd=ce("div","card");sd.innerHTML=`<div style="font-weight:700;color:#aaa;font-size:12px;margin-bottom:8px">✍️ 客人簽名存證</div>`;
+    const si=ce("img");si.src=cConsentView.signature;si.style.cssText="width:100%;border-radius:9px;border:1.5px solid #eee";sd.appendChild(si);wrap.appendChild(sd);
+  }
+  return wrap;
+}
+
+// ═══════════════════════════════════
+// ── SERVICE (新增服務紀錄) ──
+// ═══════════════════════════════════
+let svcPreCid="",svcCid="",svcDate=todayISO(),svcService="",svcNotes="",svcPay="現金",svcAmt="";
+
+function renderService(){
+  const wrap=ce("div");
+  const cust=customers.find(c=>c.id===(svcPreCid||svcCid));
+  if(svcPreCid&&!svcCid){svcCid=svcPreCid;svcPreCid="";}
+  // Customer select
+  const lc=ce("div","card");const lt=ce("div","card-title");lt.textContent="選擇客人";lc.appendChild(lt);
+  const sel=ce("select","select");sel.innerHTML=`<option value="">— 請選擇客人 —</option>`+customers.map(c=>`<option value="${c.id}">${c.name}${c.phone?" ("+c.phone+")":""}</option>`).join("");
+  sel.value=svcCid;sel.onchange=e=>{svcCid=e.target.value;goTab("service");};lc.appendChild(sel);
+  if(cust){const ci=ce("div");ci.style.cssText="display:flex;align-items:center;gap:10px;margin-top:10px;padding:10px;background:#fdf6f9;border-radius:9px";ci.appendChild(mkAvatar(cust,40));const cii=ce("div");cii.innerHTML=`<div style="font-weight:700;font-size:14px">${cust.name}</div><div style="color:#aaa;font-size:11px">${cust.phone||""}</div>`;ci.appendChild(cii);lc.appendChild(ci);}
+  const dlbl=ce("div");dlbl.style.cssText="font-size:11px;color:#aaa;margin:10px 0 4px";dlbl.textContent="📅 服務日期";
+  const din=ce("input","input");din.type="date";din.value=svcDate;din.onchange=e=>{svcDate=e.target.value;};ap(lc,dlbl,din);wrap.appendChild(lc);
+  // Service + notes
+  const rc=ce("div","card");const rt2=ce("div","card-title");rt2.textContent="服務內容";rc.appendChild(rt2);
+  const svcLbl=ce("div");svcLbl.style.cssText="font-size:11px;color:#aaa;margin-bottom:4px";svcLbl.textContent="服務項目";
+  const svcIn=ce("input","input");svcIn.placeholder="例：首次霧眉 / 補色 / 深層清潔";svcIn.value=svcService;svcIn.oninput=e=>{svcService=e.target.value;};
+  const notesLbl=ce("div");notesLbl.style.cssText="font-size:11px;color:#aaa;margin:10px 0 4px";notesLbl.textContent="操作備註（色乳、手法、產品、贈品等）";
+  const notesIn=ce("textarea","textarea");notesIn.placeholder="例：使用 XX 品牌色乳 / 色號 #123\n例：贈送 XX 試用品\n例：推薦購買 XX 產品";notesIn.value=svcNotes;notesIn.oninput=e=>{svcNotes=e.target.value;};
+  ap(rc,svcLbl,svcIn,notesLbl,notesIn);wrap.appendChild(rc);
+  // Payment
+  const pc=ce("div","card");const pt=ce("div","card-title");pt.textContent="收款";pc.appendChild(pt);
+  const payRow=ce("div");payRow.style.cssText="display:flex;gap:8px;margin-bottom:10px";
+  PAY_METHODS.forEach(m=>{const fb=ce("button","fb"+(svcPay===m?" on":""));fb.textContent=m;fb.onclick=()=>{svcPay=m;const amtIn=document.getElementById("svc-amt");if(m==="免費"&&amtIn)amtIn.value="0";goTab("service");};payRow.appendChild(fb);});
+  const amtLbl=ce("div");amtLbl.style.cssText="font-size:11px;color:#aaa;margin-bottom:4px";amtLbl.textContent="收款金額";
+  const amtRow=ce("div");amtRow.style.cssText="display:flex;gap:8px;align-items:center";
+  const amtIn=ce("input","input");amtIn.id="svc-amt";amtIn.type="number";amtIn.placeholder="0";amtIn.style.cssText="flex:1;font-size:24px;font-weight:800;text-align:center";
+  amtIn.value=svcPay==="免費"?"0":svcAmt;amtIn.disabled=svcPay==="免費";amtIn.oninput=e=>{svcAmt=e.target.value;};
+  const amtUnit=ce("div");amtUnit.style.cssText="font-size:20px;color:#ddd";amtUnit.textContent="元";
+  ap(amtRow,amtIn,amtUnit);ap(pc,payRow,amtLbl,amtRow);wrap.appendChild(pc);
+  // Submit
+  const sb=ce("button","btn btn-teal");sb.style.cssText="width:100%;font-size:16px;padding:14px;margin-top:4px";sb.textContent="✂️ 完成服務，前往簽名收據";
+  sb.onclick=()=>{
+    const finalAmt=svcPay==="免費"?0:Number(amtIn.value)||0;
+    const finalSvc=svcIn.value.trim();
+    const finalNotes=notesIn.value.trim();
+    if(!cust)return toast("請選擇客人","warn");
+    if(!finalSvc)return toast("請輸入服務項目","warn");
+    const rec={id:uid(),customerId:cust.id,customerName:cust.name,service:finalSvc,notes:finalNotes,amount:finalAmt,payMethod:svcPay,date:svcDate,time:timeStr(svcDate)};
+    // Show receipt then sign
+    showReceipt(rec,cust,async sig=>{
+      rec.signature=sig;await saveDoc("serviceRecords",rec);
+      svcCid="";svcService="";svcNotes="";svcAmt="";svcDate=todayISO();svcPay="現金";
+      toast("✅ 服務紀錄已儲存");goTab("records");
+    });
+  };
+  wrap.appendChild(sb);return wrap;
+}
+
+function showReceipt(rec,cust,onSign){
+  const overlay=ce("div","sig-overlay");
+  const modal=ce("div","sig-modal");modal.style.maxHeight="90vh";modal.style.overflowY="auto";
+  const title=ce("div");title.style.cssText="text-align:center;margin-bottom:14px";
+  title.innerHTML=`<div style="font-size:22px">🌸</div><div style="font-size:16px;font-weight:900;color:#3d2440">沐蜜美學秘境</div><div style="font-size:11px;color:#aaa">服務收據</div>`;
+  const box=ce("div","receipt-box");
+  const rows=[["客人",cust.name],["電話",cust.phone||""],["服務日期",isoToDisp(rec.date)],["服務項目",rec.service],rec.notes?["操作備註",rec.notes]:null,["付款方式",rec.payMethod]].filter(Boolean);
+  rows.forEach(([k,v])=>{const r=ce("div","receipt-row");r.innerHTML=`<span style="color:#aaa">${k}</span><span style="font-weight:600">${v}</span>`;box.appendChild(r);});
+  const tot=ce("div","receipt-total");tot.innerHTML=`<span>實收金額</span><span style="color:${rec.payMethod==="免費"?"#6cc5a0":"#3d2440"}">$${fmt(rec.amount)}${rec.payMethod==="免費"?" (免費)":""}</span>`;box.appendChild(tot);
+  const sigTitle=ce("div");sigTitle.style.cssText="font-size:13px;font-weight:700;color:#3d2440;margin:14px 0 8px";sigTitle.textContent="✍️ 客人簽名確認";
+  const canvas=ce("canvas","sig-canvas");canvas.width=900;canvas.height=260;
+  const ctx=canvas.getContext("2d");ctx.fillStyle="#fff";ctx.fillRect(0,0,900,260);ctx.strokeStyle="#111";ctx.lineWidth=2.5;ctx.lineCap="round";ctx.lineJoin="round";
+  let drawing=false,lp=null;
+  const gp=e=>{const r=canvas.getBoundingClientRect(),s=e.touches?e.touches[0]:e;return{x:(s.clientX-r.left)*(900/r.width),y:(s.clientY-r.top)*(260/r.height)};};
+  canvas.onpointerdown=e=>{e.preventDefault();drawing=true;lp=gp(e);};
+  canvas.onpointermove=e=>{e.preventDefault();if(!drawing)return;const p=gp(e);ctx.beginPath();ctx.moveTo(lp.x,lp.y);ctx.lineTo(p.x,p.y);ctx.stroke();lp=p;};
+  canvas.onpointerup=canvas.onpointerleave=e=>{e.preventDefault();drawing=false;};
+  const sigLine=ce("div");sigLine.style.cssText="position:relative;height:1.5px;background:#f0d0dc;margin:0 5%;margin-top:-40px;pointer-events:none";
+  const sigLbl=ce("div");sigLbl.style.cssText="text-align:center;font-size:11px;color:#e0c0cc;letter-spacing:2px;margin-bottom:10px";sigLbl.textContent="簽名於此";
+  const acts=ce("div");acts.style.cssText="display:flex;gap:8px;justify-content:flex-end;margin-top:10px";
+  const bClr=ce("button","btn btn-g");bClr.textContent="清除";bClr.onclick=()=>{ctx.fillStyle="#fff";ctx.fillRect(0,0,900,260);};
+  const bCan=ce("button","btn btn-g");bCan.textContent="取消";bCan.style.color="#888";bCan.onclick=()=>overlay.remove();
+  const bOk=ce("button","btn btn-p");bOk.textContent="✅ 確認簽名，完成結帳";
+  bOk.onclick=()=>{overlay.remove();onSign(canvas.toDataURL("image/png"));};
+  ap(acts,bClr,bCan,bOk);ap(modal,title,box,sigTitle,canvas,sigLine,sigLbl,acts);overlay.appendChild(modal);document.body.appendChild(overlay);
+}
+
+// ═══════════════════════════════════
 // ── TOPUP ──
-// ═══════════════════════
+// ═══════════════════════════════════
 let tCid="",tPlan=null,tCustom="",tNote="",tDate=todayISO(),tCash="";
 function renderTopup(){
   const wrap=ce("div");
   const grid=ce("div","g2");
-  const lc=ce("div","card");const lt=ce("div","card-title");lt.textContent="選擇顧客";lc.appendChild(lt);
-  const sel=ce("select","select");sel.innerHTML=`<option value="">— 請選擇顧客 —</option>`+customers.map(c=>`<option value="${c.id}">${c.name}（餘額 $${fmt(c.balance||0)}）</option>`).join("");
+  const lc=ce("div","card");const lt=ce("div","card-title");lt.textContent="選擇客人";lc.appendChild(lt);
+  const sel=ce("select","select");sel.innerHTML=`<option value="">— 請選擇客人 —</option>`+customers.map(c=>`<option value="${c.id}">${c.name}（餘額 $${fmt(c.balance||0)}）</option>`).join("");
   sel.value=tCid;sel.onchange=e=>{tCid=e.target.value;goTab("topup");};lc.appendChild(sel);
   const cust=customers.find(c=>c.id===tCid);
-  if(cust){const ci=ce("div");ci.style.cssText="display:flex;align-items:center;gap:10px;margin-top:10px;padding:10px;background:#fdf6f9;border-radius:9px";ci.appendChild(mkAvatar(cust,44));const cii=ce("div");cii.innerHTML=`<div style="font-weight:700;font-size:15px">${cust.name}</div><div style="color:#aaa;font-size:12px">目前餘額 $${fmt(cust.balance||0)}</div>`;ci.appendChild(cii);lc.appendChild(ci);}
-  const dlbl=ce("div");dlbl.style.cssText="font-size:12px;color:#aaa;margin:12px 0 5px";dlbl.textContent="📅 交易日期";
+  if(cust){const ci=ce("div");ci.style.cssText="display:flex;align-items:center;gap:10px;margin-top:10px;padding:10px;background:#fdf6f9;border-radius:9px";ci.appendChild(mkAvatar(cust,40));const cii=ce("div");cii.innerHTML=`<div style="font-weight:700;font-size:14px">${cust.name}</div><div style="color:#aaa;font-size:11px">目前餘額 $${fmt(cust.balance||0)}</div>`;ci.appendChild(cii);lc.appendChild(ci);}
+  const dlbl=ce("div");dlbl.style.cssText="font-size:11px;color:#aaa;margin:10px 0 4px";dlbl.textContent="📅 交易日期";
   const din=ce("input","input");din.type="date";din.value=tDate;din.onchange=e=>{tDate=e.target.value;};ap(lc,dlbl,din);grid.appendChild(lc);
   const rc=ce("div","card");const rt2=ce("div","card-title");rt2.textContent="選擇方案";rc.appendChild(rt2);
-  PLANS.forEach(p=>{
-    const pb=ce("button");pb.style.cssText=`display:flex;justify-content:space-between;align-items:center;padding:11px 14px;border-radius:9px;border:${tPlan===p?"2px solid #f4a5b0":"1.5px solid #f0e8f4"};background:${tPlan===p?"#fff0f4":"#fff"};cursor:pointer;font-family:inherit;width:100%;margin-bottom:7px`;
-    const pl=ce("div");pl.innerHTML=`<div style="font-weight:700;font-size:14px;color:${tPlan===p?"#c4547a":"#333"}">${p.label}</div>${!p.custom?`<div style="font-size:11px;color:#aaa;margin-top:1px">入帳 $${fmt(p.total)} 元</div>`:""}`;
-    pb.appendChild(pl);
-    if(!p.custom){const badge=ce("span");badge.style.cssText="background:#f4a5b0;color:#fff;padding:2px 9px;border-radius:18px;font-size:11px;white-space:nowrap";badge.textContent="贈 $"+fmt(p.bonus);pb.appendChild(badge);}
+  TOPUP_PLANS.forEach(p=>{
+    const pb=ce("button");pb.style.cssText=`display:flex;justify-content:space-between;align-items:center;padding:10px 13px;border-radius:9px;border:${tPlan===p?"2px solid #f4a5b0":"1.5px solid #f0e8f4"};background:${tPlan===p?"#fff0f4":"#fff"};cursor:pointer;font-family:inherit;width:100%;margin-bottom:6px`;
+    const pl=ce("div");pl.innerHTML=`<div style="font-weight:700;font-size:13px;color:${tPlan===p?"#c4547a":"#333"}">${p.label}</div>${!p.custom?`<div style="font-size:11px;color:#aaa">入帳 $${fmt(p.total)} 元</div>`:""}`;
+    pb.appendChild(pl);if(!p.custom){const badge=ce("span");badge.style.cssText="background:#f4a5b0;color:#fff;padding:2px 8px;border-radius:18px;font-size:11px;white-space:nowrap";badge.textContent="贈 $"+fmt(p.bonus);pb.appendChild(badge);}
     pb.onclick=()=>{tPlan=p;goTab("topup");};rc.appendChild(pb);
   });
   if(tPlan?.custom){const ci2=ce("input","input");ci2.type="number";ci2.placeholder="輸入儲值金額";ci2.value=tCustom;ci2.oninput=e=>{tCustom=e.target.value;};rc.appendChild(ci2);}
@@ -449,49 +660,48 @@ function renderTopup(){
   const total=tPlan?.custom?amount:(tPlan?.total||0);
   const bonus=tPlan?.custom?0:(tPlan?.bonus||0);
   if(tPlan&&amount>0){
-    const sc=ce("div","card");sc.style.background="linear-gradient(135deg,#fdf0f5,#f9f0ff)";sc.style.marginTop="12px";
+    const sc=ce("div","card");sc.style.background="linear-gradient(135deg,#fdf0f5,#f9f0ff)";sc.style.marginTop="10px";
     const sh=ce("div");sh.style.cssText="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:10px";
-    const sl=ce("div");sl.innerHTML=`<div style="font-size:12px;color:#aaa">本次入帳</div><div style="font-size:30px;font-weight:900;color:#6cc5a0">+$${fmt(total)}</div>${bonus>0?`<div style="font-size:12px;color:#f4a5b0">（付 $${fmt(amount)} + 贈 $${fmt(bonus)}）</div>`:""}`;
-    sh.appendChild(sl);
-    if(cust){const sr2=ce("div");sr2.style.textAlign="right";sr2.innerHTML=`<div style="font-size:12px;color:#aaa">儲值後餘額</div><div style="font-size:22px;font-weight:800">$${fmt((cust.balance||0)+total)}</div>`;sh.appendChild(sr2);}
+    const sl=ce("div");sl.innerHTML=`<div style="font-size:11px;color:#aaa">本次入帳</div><div style="font-size:28px;font-weight:900;color:#6cc5a0">+$${fmt(total)}</div>${bonus>0?`<div style="font-size:11px;color:#f4a5b0">（付 $${fmt(amount)} + 贈 $${fmt(bonus)}）</div>`:""}`;
+    sh.appendChild(sl);if(cust){const sr2=ce("div");sr2.style.textAlign="right";sr2.innerHTML=`<div style="font-size:11px;color:#aaa">儲值後餘額</div><div style="font-size:20px;font-weight:800">$${fmt((cust.balance||0)+total)}</div>`;sh.appendChild(sr2);}
     sc.appendChild(sh);
     const ni=ce("input","input");ni.placeholder="備註（選填）";ni.value=tNote;ni.oninput=e=>{tNote=e.target.value;};ni.style.marginBottom="8px";sc.appendChild(ni);
-    const cashLbl=ce("div");cashLbl.style.cssText="font-size:12px;color:#2e7d52;font-weight:700;margin:0 0 5px";cashLbl.textContent="💵 實際收現金額（選填）";
-    const cashIn=ce("input","input");cashIn.type="number";cashIn.placeholder="0";cashIn.value=tCash;cashIn.oninput=e=>{tCash=e.target.value;};cashIn.style.borderColor="#b8e8d0";
-    ap(sc,cashLbl,cashIn);
-    const sb=ce("button","btn btn-p");sb.style.cssText="width:100%;font-size:17px;padding:15px;margin-top:10px";sb.textContent="💳 確認儲值，前往簽名";sb.disabled=!cust;
-    sb.onclick=()=>{if(!cust)return;addRecord({type:"topup",cid:cust.id,customerId:cust.id,customerName:cust.name,amount,bonus,total,plan:tPlan?.label||"自訂",note:tNote,cash:tCash?Number(tCash):null,date:tDate});tPlan=null;tCustom="";tNote="";tCid="";tDate=todayISO();tCash="";};
+    const cashLbl=ce("div");cashLbl.style.cssText="font-size:11px;color:#2e7d52;font-weight:700;margin:0 0 4px";cashLbl.textContent="💵 實際收現金額（選填）";
+    const cashIn=ce("input","input");cashIn.type="number";cashIn.placeholder="0";cashIn.value=tCash;cashIn.oninput=e=>{tCash=e.target.value;};cashIn.style.borderColor="#b8e8d0";ap(sc,cashLbl,cashIn);
+    const sb=ce("button","btn btn-p");sb.style.cssText="width:100%;font-size:16px;padding:14px;margin-top:10px";sb.textContent="💳 確認儲值，前往簽名";sb.disabled=!cust;
+    sb.onclick=()=>{
+      if(!cust)return;
+      openSig("儲值確認簽名",async sig=>{
+        const full={id:uid(),type:"topup",cid:cust.id,customerId:cust.id,customerName:cust.name,amount,bonus,total,plan:tPlan?.label||"自訂",note:tNote,cash:tCash?Number(tCash):null,date:tDate,time:timeStr(tDate),signature:sig};
+        const newBal=(cust.balance||0)+total;
+        await saveDoc("customers",{...cust,balance:newBal});
+        await saveDoc("records",full);
+        tPlan=null;tCustom="";tNote="";tCid="";tDate=todayISO();tCash="";
+        toast("✅ 儲值完成");goTab("home");
+      });
+    };
     sc.appendChild(sb);wrap.appendChild(sc);
   }
   return wrap;
 }
 
-// ═══════════════════════
+// ═══════════════════════════════════
 // ── CHARGE ──
-// ═══════════════════════
-let chCid="",chSvc="",chNote="",chDate=todayISO(),chCash="";
+// ═══════════════════════════════════
+let chCid="",chNote="",chDate=todayISO(),chCash="";
 function renderCharge(){
   const wrap=ce("div");
-  const grid=ce("div","g2");
-  const lc=ce("div","card");const lt=ce("div","card-title");lt.textContent="選擇顧客";lc.appendChild(lt);
-  const sel=ce("select","select");sel.innerHTML=`<option value="">— 請選擇顧客 —</option>`+customers.map(c=>`<option value="${c.id}">${c.name}（餘額 $${fmt(c.balance||0)}）</option>`).join("");
+  const lc=ce("div","card");const lt=ce("div","card-title");lt.textContent="選擇客人";lc.appendChild(lt);
+  const sel=ce("select","select");sel.innerHTML=`<option value="">— 請選擇客人 —</option>`+customers.map(c=>`<option value="${c.id}">${c.name}（餘額 $${fmt(c.balance||0)}）</option>`).join("");
   sel.value=chCid;sel.onchange=e=>{chCid=e.target.value;goTab("charge");};lc.appendChild(sel);
   const cust=customers.find(c=>c.id===chCid);
-  if(cust){const ci=ce("div");ci.style.cssText="display:flex;align-items:center;gap:10px;margin-top:10px;padding:10px;background:#fdf6f9;border-radius:9px";ci.appendChild(mkAvatar(cust,44));const cii=ce("div");cii.innerHTML=`<div style="font-weight:700;font-size:15px">${cust.name}</div><div style="color:${(cust.balance||0)<LOW?"#e74c3c":"#aaa"};font-size:12px">${(cust.balance||0)<LOW?"⚠️ ":""}目前餘額 $${fmt(cust.balance||0)}</div>`;ci.appendChild(cii);lc.appendChild(ci);}
-  const dlbl=ce("div");dlbl.style.cssText="font-size:12px;color:#aaa;margin:12px 0 5px";dlbl.textContent="📅 交易日期";
-  const din=ce("input","input");din.type="date";din.value=chDate;din.onchange=e=>{chDate=e.target.value;};ap(lc,dlbl,din);grid.appendChild(lc);
-  const rc=ce("div","card");const rt2=ce("div","card-title");rt2.textContent="服務 / 購買項目";rc.appendChild(rt2);
-  const tw=ce("div");tw.style.cssText="display:flex;flex-wrap:wrap;margin-bottom:10px";
-  SERVICES.forEach(sv=>{const tb=ce("button","tag"+(chSvc===sv?" on":""));tb.textContent=sv;tb.onclick=()=>{chSvc=sv;const si2=document.getElementById("svc-input");if(si2)si2.value=sv;tw.querySelectorAll(".tag").forEach(b=>b.classList.remove("on"));tb.classList.add("on");};tw.appendChild(tb);});
-  rc.appendChild(tw);
-  const si=ce("input","input");si.id="svc-input";si.placeholder="自行輸入服務或購買產品項目";si.value=chSvc;si.oninput=e=>{chSvc=e.target.value;};rc.appendChild(si);
-  grid.appendChild(rc);wrap.appendChild(grid);
-  // Amount card - NO goTab on input to prevent keyboard dismiss
-  const amtCard=ce("div","card");amtCard.style.marginTop="12px";
-  const at=ce("div","card-title");at.textContent="消費金額";amtCard.appendChild(at);
-  const ar=ce("div");ar.style.cssText="display:flex;gap:10px;align-items:center";
-  const ai=ce("input","input");ai.type="number";ai.placeholder="0";ai.style.cssText="flex:1;font-size:26px;font-weight:800;text-align:center";
-  const au=ce("div");au.style.cssText="font-size:22px;color:#ddd";au.textContent="元";ap(ar,ai,au);amtCard.appendChild(ar);
+  if(cust){const ci=ce("div");ci.style.cssText="display:flex;align-items:center;gap:10px;margin-top:10px;padding:10px;background:#fdf6f9;border-radius:9px";ci.appendChild(mkAvatar(cust,40));const cii=ce("div");cii.innerHTML=`<div style="font-weight:700;font-size:14px">${cust.name}</div><div style="color:${(cust.balance||0)<LOW?"#e74c3c":"#aaa"};font-size:11px">${(cust.balance||0)<LOW?"⚠️ ":""}餘額 $${fmt(cust.balance||0)}</div>`;ci.appendChild(cii);lc.appendChild(ci);}
+  const dlbl=ce("div");dlbl.style.cssText="font-size:11px;color:#aaa;margin:10px 0 4px";dlbl.textContent="📅 交易日期";
+  const din=ce("input","input");din.type="date";din.value=chDate;din.onchange=e=>{chDate=e.target.value;};ap(lc,dlbl,din);wrap.appendChild(lc);
+  const amtCard=ce("div","card");const at=ce("div","card-title");at.textContent="扣款金額";amtCard.appendChild(at);
+  const ar=ce("div");ar.style.cssText="display:flex;gap:8px;align-items:center";
+  const ai=ce("input","input");ai.type="number";ai.placeholder="0";ai.style.cssText="flex:1;font-size:24px;font-weight:800;text-align:center";
+  const au=ce("div");au.style.cssText="font-size:20px;color:#ddd";au.textContent="元";ap(ar,ai,au);amtCard.appendChild(ar);
   const bb=ce("div");bb.style.marginTop="10px";amtCard.appendChild(bb);
   function updatePreview(){
     const a=Number(ai.value)||0;const sb2=document.getElementById("charge-sb");
@@ -499,197 +709,150 @@ function renderCharge(){
     const after=(cust.balance||0)-a;
     bb.style.cssText=`margin-top:10px;padding:10px;background:${after<0?"#fff0f0":"#f0fff6"};border-radius:9px`;
     if(after<0){bb.innerHTML=`<div style="color:#e74c3c;font-weight:700">⚠️ 餘額不足！差 $${fmt(Math.abs(after))}</div>`;}
-    else{bb.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center"><div><div style="color:#aaa;font-size:12px">扣款後餘額</div><div style="font-size:24px;font-weight:900;color:${after<LOW?"#e67e22":"#6cc5a0"}">$${fmt(after)}</div>${after<LOW?'<div style="color:#e67e22;font-size:11px">⚠️ 即將不足</div>':""}</div><div style="font-size:28px">${after<LOW?"⚠️":"✅"}</div></div>`;}
-    if(sb2)sb2.disabled=!(cust&&chSvc.trim()&&a>0&&(cust.balance||0)>=a);
+    else{bb.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center"><div><div style="color:#aaa;font-size:11px">扣款後餘額</div><div style="font-size:22px;font-weight:900;color:${after<LOW?"#e67e22":"#6cc5a0"}">$${fmt(after)}</div></div><div style="font-size:26px">${after<LOW?"⚠️":"✅"}</div></div>`;}
+    if(sb2)sb2.disabled=!(cust&&a>0&&(cust.balance||0)>=a);
   }
   ai.oninput=updatePreview;
-  const cashLbl=ce("div");cashLbl.style.cssText="font-size:12px;color:#2e7d52;font-weight:700;margin:12px 0 5px";cashLbl.textContent="💵 實際收現金額（選填）";
-  const cashIn=ce("input","input");cashIn.type="number";cashIn.placeholder="0（若有收現金請填寫）";cashIn.value=chCash;cashIn.oninput=e=>{chCash=e.target.value;};cashIn.style.borderColor="#b8e8d0";
-  const ni=ce("input","input");ni.placeholder="備註（選填）";ni.value=chNote;ni.oninput=e=>{chNote=e.target.value;};ni.style.marginTop="8px";
-  ap(amtCard,cashLbl,cashIn,ni);
-  const sb=ce("button","btn btn-s");sb.id="charge-sb";sb.style.cssText="width:100%;font-size:17px;padding:15px;margin-top:10px";sb.textContent="✂️ 確認消費，前往簽名";sb.disabled=true;
+  const ni=ce("input","input");ni.placeholder="備註（選填）";ni.value=chNote;ni.oninput=e=>{chNote=e.target.value;};ni.style.margin="10px 0 0";amtCard.appendChild(ni);
+  const sb=ce("button","btn btn-s");sb.id="charge-sb";sb.style.cssText="width:100%;font-size:16px;padding:14px;margin-top:10px";sb.textContent="💸 確認扣款，前往簽名";sb.disabled=true;
   sb.onclick=async()=>{
     const finalAmt=Number(ai.value)||0;
-    if(!cust||!chSvc.trim()||!finalAmt||(cust.balance||0)<finalAmt)return;
+    if(!cust||!finalAmt||(cust.balance||0)<finalAmt)return;
     const afterBal=(cust.balance||0)-finalAmt;
-    addRecord({type:"charge",cid:cust.id,customerId:cust.id,customerName:cust.name,service:chSvc,amount:finalAmt,beforeBalance:cust.balance||0,afterBalance:afterBal,note:ni.value,cash:cashIn.value?Number(cashIn.value):null,date:chDate});
-    chCid="";chSvc="";chNote="";chDate=todayISO();chCash="";
+    openSig("扣款確認簽名",async sig=>{
+      const full={id:uid(),type:"charge",cid:cust.id,customerId:cust.id,customerName:cust.name,amount:finalAmt,beforeBalance:cust.balance||0,afterBalance:afterBal,note:ni.value,date:chDate,time:timeStr(chDate),signature:sig};
+      await saveDoc("customers",{...cust,balance:afterBal});
+      await saveDoc("records",full);
+      chCid="";chNote="";chDate=todayISO();chCash="";
+      toast("✅ 扣款完成");goTab("home");
+    });
   };
   amtCard.appendChild(sb);wrap.appendChild(amtCard);return wrap;
 }
 
-// ═══════════════════════
+// ═══════════════════════════════════
 // ── RECORDS ──
-// ═══════════════════════
-let rFilter="all",rSel=null,rSearch="",rDate="",rMonth="",rEditing=false,rDelConfirm=false;
+// ═══════════════════════════════════
+let rFilter="all",rSvcSel=null,rSearch="",rDate="",rMonth="",rDelConfirm=false;
 function renderRecords(){
   const wrap=ce("div");
-  if(rSel){const det=records.find(r=>r.id===rSel);if(!det){rSel=null;return renderRecords();}return renderRecordDetail(det,wrap);}
-  const fr=ce("div");fr.style.cssText="display:flex;gap:8px;margin-bottom:9px;flex-wrap:wrap";
-  [["all","全部"],["topup","儲值"],["charge","消費"]].forEach(([k,l])=>{const fb=ce("button","fb"+(rFilter===k?" on":""));fb.textContent=l;fb.onclick=()=>{rFilter=k;goTab("records");};fr.appendChild(fb);});
+  if(rSvcSel){const det=serviceRecords.find(r=>r.id===rSvcSel);if(!det){rSvcSel=null;return renderRecords();}return renderSvcDetail(det,wrap);}
+  const fr=ce("div");fr.style.cssText="display:flex;gap:7px;margin-bottom:8px;flex-wrap:wrap";
+  [["all","全部"],["service","服務"],["topup","儲值"],["charge","扣款"]].forEach(([k,l])=>{const fb=ce("button","fb"+(rFilter===k?" on":""));fb.textContent=l;fb.onclick=()=>{rFilter=k;goTab("records");};fr.appendChild(fb);});
   wrap.appendChild(fr);
   const sr=ce("div");sr.style.cssText="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap";
-  const si=ce("input","input");si.placeholder="🔍 搜尋顧客姓名";si.value=rSearch;si.style.flex="1";si.style.minWidth="140px";si.oninput=e=>{rSearch=e.target.value;goTab("records");};
-  const dw=ce("div");dw.style.cssText="display:flex;align-items:center;gap:6px;background:#fff;border:1.5px solid #f0e8f4;border-radius:10px;padding:0 10px;flex:1;min-width:150px";
+  const si=ce("input","input");si.placeholder="🔍 搜尋客人姓名";si.value=rSearch;si.style.flex="1";si.oninput=e=>{rSearch=e.target.value;goTab("records");};
+  const dw=ce("div");dw.style.cssText="display:flex;align-items:center;gap:5px;background:#fff;border:1.5px solid #f0e8f4;border-radius:10px;padding:0 9px;flex:1;min-width:130px";
   dw.innerHTML='<span style="font-size:13px;color:#aaa">📅</span>';
-  const di=ce("input");di.type="date";di.style.cssText="flex:1;border:none;outline:none;font-size:14px;color:#3d2440;background:transparent;padding:11px 0;font-family:inherit";di.value=rDate;di.onchange=e=>{rDate=e.target.value;rMonth="";goTab("records");};dw.appendChild(di);
-  if(rDate){const clr=ce("button");clr.style.cssText="background:none;border:none;color:#ccc;cursor:pointer;font-size:17px;padding:0 2px";clr.textContent="×";clr.onclick=()=>{rDate="";goTab("records");};dw.appendChild(clr);}
+  const di=ce("input");di.type="date";di.style.cssText="flex:1;border:none;outline:none;font-size:13px;color:#3d2440;background:transparent;padding:10px 0;font-family:inherit";di.value=rDate;di.onchange=e=>{rDate=e.target.value;rMonth="";goTab("records");};dw.appendChild(di);
+  if(rDate){const clr=ce("button");clr.style.cssText="background:none;border:none;color:#ccc;cursor:pointer;font-size:16px;padding:0 2px";clr.textContent="×";clr.onclick=()=>{rDate="";goTab("records");};dw.appendChild(clr);}
   ap(sr,si,dw);wrap.appendChild(sr);
   const mr=ce("div");mr.style.cssText="display:flex;gap:8px;margin-bottom:10px;align-items:center";
-  const mlbl=ce("div");mlbl.style.cssText="font-size:12px;color:#888;font-weight:700;white-space:nowrap";mlbl.textContent="📆 月份統計";
-  const mw=ce("div");mw.style.cssText="display:flex;align-items:center;gap:6px;background:#fff;border:1.5px solid #f0e8f4;border-radius:10px;padding:0 10px;flex:1";
+  const mlbl=ce("div");mlbl.style.cssText="font-size:11px;color:#888;font-weight:700;white-space:nowrap";mlbl.textContent="📆 月份統計";
+  const mw=ce("div");mw.style.cssText="display:flex;align-items:center;gap:5px;background:#fff;border:1.5px solid #f0e8f4;border-radius:10px;padding:0 9px;flex:1";
   mw.innerHTML='<span style="font-size:13px;color:#aaa">月份</span>';
-  const mi=ce("input");mi.type="month";mi.style.cssText="flex:1;border:none;outline:none;font-size:14px;color:#3d2440;background:transparent;padding:11px 0;font-family:inherit";mi.value=rMonth;mi.onchange=e=>{rMonth=e.target.value;rDate="";goTab("records");};mw.appendChild(mi);
-  if(rMonth){const mclr=ce("button");mclr.style.cssText="background:none;border:none;color:#ccc;cursor:pointer;font-size:17px;padding:0 2px";mclr.textContent="×";mclr.onclick=()=>{rMonth="";goTab("records");};mw.appendChild(mclr);}
+  const mi=ce("input");mi.type="month";mi.style.cssText="flex:1;border:none;outline:none;font-size:13px;color:#3d2440;background:transparent;padding:10px 0;font-family:inherit";mi.value=rMonth;mi.onchange=e=>{rMonth=e.target.value;rDate="";goTab("records");};mw.appendChild(mi);
+  if(rMonth){const mclr=ce("button");mclr.style.cssText="background:none;border:none;color:#ccc;cursor:pointer;font-size:16px;padding:0 2px";mclr.textContent="×";mclr.onclick=()=>{rMonth="";goTab("records");};mw.appendChild(mclr);}
   ap(mr,mlbl,mw);wrap.appendChild(mr);
   if(rMonth){
     const [my,mm]=rMonth.split("-");
-    const mRecs=records.filter(r=>{const d=r.time.match(/(\d{4})\/(\d{2})/);return d&&d[1]===my&&d[2]===mm;});
-    const mTopup=mRecs.filter(r=>r.type==="topup").reduce((s,r)=>s+(r.total||0),0);
-    const mCharge=mRecs.filter(r=>r.type==="charge").reduce((s,r)=>s+(r.amount||0),0);
-    const mCash=mRecs.reduce((s,r)=>s+(Number(r.cash)||0),0);
-    const ms=ce("div","card");ms.style.cssText="background:linear-gradient(135deg,#fdf0f5,#f0f8ff);padding:14px;margin-bottom:10px";
-    ms.innerHTML=`<div style="font-size:13px;font-weight:800;color:#3d2440;margin-bottom:10px">📊 ${my} 年 ${mm} 月統計</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px"><div style="text-align:center;background:rgba(255,255,255,.85);border-radius:10px;padding:10px 4px;border:1px solid #f0e8f4"><div style="font-size:10px;color:#aaa;margin-bottom:3px">💳 儲值金額</div><div style="font-weight:900;color:#6cc5a0;font-size:15px">$${fmt(mTopup)}</div><div style="font-size:10px;color:#ccc;margin-top:2px">${mRecs.filter(r=>r.type==="topup").length} 筆</div></div><div style="text-align:center;background:rgba(255,255,255,.85);border-radius:10px;padding:10px 4px;border:1px solid #f0e8f4"><div style="font-size:10px;color:#aaa;margin-bottom:3px">✂️ 消費金額</div><div style="font-weight:900;color:#f4a5b0;font-size:15px">$${fmt(mCharge)}</div><div style="font-size:10px;color:#ccc;margin-top:2px">${mRecs.filter(r=>r.type==="charge").length} 筆</div></div><div style="text-align:center;background:rgba(255,255,255,.85);border-radius:10px;padding:10px 4px;border:1px solid #f0e8f4"><div style="font-size:10px;color:#aaa;margin-bottom:3px">💵 收現金額</div><div style="font-weight:900;color:#2e7d52;font-size:15px">$${fmt(mCash)}</div><div style="font-size:10px;color:#ccc;margin-top:2px">${mRecs.filter(r=>r.cash).length} 筆</div></div></div>`;
+    const mSvc=serviceRecords.filter(r=>{const d=r.time.match(/(\d{4})\/(\d{2})/);return d&&d[1]===my&&d[2]===mm;});
+    const mTop=records.filter(r=>r.type==="topup"&&r.time.match(/(\d{4})\/(\d{2})/)?.slice(1).join("-")===`${my}-${mm}`);
+    const mSvcAmt=mSvc.reduce((s,r)=>s+(Number(r.amount)||0),0);
+    const mTopAmt=mTop.reduce((s,r)=>s+(r.total||0),0);
+    const mCash=mSvc.filter(r=>r.payMethod==="現金").reduce((s,r)=>s+(Number(r.amount)||0),0);
+    const ms=ce("div","card");ms.style.cssText="background:linear-gradient(135deg,#fdf0f5,#f0f8ff);padding:13px;margin-bottom:10px";
+    ms.innerHTML=`<div style="font-size:12px;font-weight:800;color:#3d2440;margin-bottom:9px">📊 ${my} 年 ${mm} 月統計</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px"><div style="text-align:center;background:rgba(255,255,255,.85);border-radius:9px;padding:9px 3px;border:1px solid #f0e8f4"><div style="font-size:10px;color:#aaa;margin-bottom:2px">✂️ 服務金額</div><div style="font-weight:900;color:#6a3aa5;font-size:14px">$${fmt(mSvcAmt)}</div><div style="font-size:10px;color:#ccc;margin-top:1px">${mSvc.length} 筆</div></div><div style="text-align:center;background:rgba(255,255,255,.85);border-radius:9px;padding:9px 3px;border:1px solid #f0e8f4"><div style="font-size:10px;color:#aaa;margin-bottom:2px">💳 儲值金額</div><div style="font-weight:900;color:#f4a5b0;font-size:14px">$${fmt(mTopAmt)}</div><div style="font-size:10px;color:#ccc;margin-top:1px">${mTop.length} 筆</div></div><div style="text-align:center;background:rgba(255,255,255,.85);border-radius:9px;padding:9px 3px;border:1px solid #f0e8f4"><div style="font-size:10px;color:#aaa;margin-bottom:2px">💵 收現金額</div><div style="font-weight:900;color:#2e7d52;font-size:14px">$${fmt(mCash)}</div><div style="font-size:10px;color:#ccc;margin-top:1px">現金 ${mSvc.filter(r=>r.payMethod==="現金").length} 筆</div></div></div>`;
     wrap.appendChild(ms);
   }
-  if(rDate){const lbl=ce("div");lbl.style.cssText="font-size:12px;color:#f4a5b0;margin-bottom:9px;font-weight:600";lbl.textContent="📅 "+isoToDisp(rDate)+" 的紀錄";wrap.appendChild(lbl);}
-  const filtered=records.filter(r=>{
-    if(rFilter!=="all"&&r.type!==rFilter)return false;
+  // Combine and filter
+  const allSvc=serviceRecords.map(r=>({...r,_type:"service"}));
+  const allRec=records.map(r=>({...r,_type:r.type}));
+  let combined=[...allSvc,...allRec].sort((a,b)=>b.time.localeCompare(a.time));
+  combined=combined.filter(r=>{
+    if(rFilter==="service"&&r._type!=="service")return false;
+    if(rFilter==="topup"&&r._type!=="topup")return false;
+    if(rFilter==="charge"&&r._type!=="charge")return false;
     if(rSearch&&!r.customerName.includes(rSearch))return false;
     if(rDate&&!r.time.startsWith(isoToDisp(rDate)))return false;
     if(rMonth){const[my,mm]=rMonth.split("-");const d=r.time.match(/(\d{4})\/(\d{2})/);if(!d||d[1]!==my||d[2]!==mm)return false;}
     return true;
   });
-  if(!filtered.length){const e=ce("div","empty");e.textContent="尚無符合紀錄";wrap.appendChild(e);}
-  filtered.forEach(r=>{
+  if(!combined.length){const e=ce("div","empty");e.textContent="尚無符合紀錄";wrap.appendChild(e);}
+  combined.forEach(r=>{
     const row=ce("div","row-item");
-    row.innerHTML=`<span style="font-size:24px">${r.type==="topup"?"💳":"✂️"}</span><div style="flex:1"><div style="font-weight:700;font-size:15px">${r.customerName}</div><div style="font-size:12px;color:#aaa">${r.type==="topup"?r.plan:r.service} · ${r.time}</div></div><div style="text-align:right"><div style="font-weight:800;font-size:15px;color:${r.type==="topup"?"#6cc5a0":"#f4a5b0"}">${r.type==="topup"?"+$"+fmt(r.total):"-$"+fmt(r.amount)}</div>${r.cash?`<div class="cash-tag">現 $${fmt(r.cash)}</div>`:`<div style="font-size:10px;color:${r.signature?"#ccc":"#f4a5b0"};font-weight:${r.signature?"400":"700"}">${r.signature?"✍️ 已簽名":"⚠️ 未簽名"}</div>`}</div>`;
-    row.onclick=()=>{rSel=r.id;rEditing=false;rDelConfirm=false;goTab("records");};wrap.appendChild(row);
+    const isS=r._type==="service";
+    const iT=r._type==="topup";
+    row.innerHTML=`<span style="font-size:22px">${isS?"✂️":iT?"💳":"💸"}</span><div style="flex:1"><div style="font-weight:700;font-size:14px">${r.customerName}</div><div style="font-size:11px;color:#aaa">${isS?r.service:iT?r.plan:"扣款"} · ${r.time}</div></div><div style="text-align:right"><div style="font-weight:800;font-size:14px;color:${isS?"#6a3aa5":iT?"#6cc5a0":"#f4a5b0"}">${isS?"$"+fmt(r.amount):iT?"+$"+fmt(r.total):"-$"+fmt(r.amount)}</div>${isS?(r.payMethod?`<div style="font-size:10px;color:#aaa">${r.payMethod}</div>`:""):""}${r.signature?'<div style="font-size:10px;color:#ccc">✍️ 已簽</div>':'<div style="font-size:10px;color:#f4a5b0;font-weight:700">⚠️ 未簽</div>'}</div>`;
+    row.onclick=()=>{if(isS){rSvcSel=r.id;goTab("records");}};wrap.appendChild(row);
   });
   return wrap;
 }
 
-function renderRecordDetail(det,wrap){
-  const back=ce("button","back-btn");back.textContent="← 返回";back.onclick=()=>{rSel=null;goTab("records");};
-  const editBtn=ce("button","btn btn-g");editBtn.style.cssText="font-size:13px;padding:8px 16px;margin-left:auto";editBtn.textContent="✏️ 修改";editBtn.onclick=()=>{rEditing=!rEditing;goTab("records");};
-  const hdr=ce("div");hdr.style.cssText="display:flex;align-items:center;gap:9px;margin-bottom:13px";
-  const ht=ce("span");ht.style.cssText="font-size:17px;font-weight:800;color:#3d2440;flex:1";ht.textContent="紀錄詳情";
-  ap(hdr,back,ht);if(!rEditing)hdr.appendChild(editBtn);wrap.appendChild(hdr);
-  const card=ce("div","card");card.style.maxWidth="640px";
-  card.innerHTML=`<div style="display:flex;gap:11px;align-items:center;margin-bottom:14px"><span style="font-size:28px">${det.type==="topup"?"💳":"✂️"}</span><div style="flex:1"><div style="font-weight:800;font-size:17px">${det.customerName}</div><div style="color:#aaa;font-size:12px">${det.time}</div></div><div style="font-weight:900;font-size:20px;color:${det.type==="topup"?"#6cc5a0":"#f4a5b0"}">${det.type==="topup"?"+$"+fmt(det.total):"-$"+fmt(det.amount)}</div></div>`;
-  if(rEditing){
-    const wb=ce("div","warn-box");wb.textContent="⚠️ 金額無法修改（需刪除後重建）。可修改日期、服務項目、收現金額、備註。";card.appendChild(wb);
-    const dlbl=ce("div");dlbl.style.cssText="font-size:12px;color:#aaa;margin-bottom:5px";dlbl.textContent="📅 交易日期";
-    const din=ce("input","input");din.type="date";din.value=timeToISO(det.time);card.appendChild(dlbl);card.appendChild(din);
-    let editSvc=det.service||"";
-    if(det.type==="charge"){
-      const sl=ce("div");sl.style.cssText="font-size:12px;color:#aaa;margin:10px 0 5px";sl.textContent="服務項目";
-      const tw=ce("div");tw.style.cssText="display:flex;flex-wrap:wrap;margin-bottom:8px";
-      SERVICES.forEach(sv=>{const tb=ce("button","tag"+(editSvc===sv?" on":""));tb.textContent=sv;tb.onclick=()=>{editSvc=sv;svcIn.value=sv;tw.querySelectorAll(".tag").forEach(b=>b.classList.remove("on"));tb.classList.add("on");};tw.appendChild(tb);});
-      const svcIn=ce("input","input");svcIn.value=editSvc;svcIn.placeholder="自行輸入";
-      const cl=ce("div");cl.style.cssText="font-size:12px;color:#2e7d52;font-weight:700;margin:10px 0 5px";cl.textContent="💵 收現金額";
-      const ci=ce("input","input");ci.type="number";ci.value=det.cash||"";ci.style.borderColor="#b8e8d0";
-      const nl=ce("div");nl.style.cssText="font-size:12px;color:#aaa;margin:10px 0 5px";nl.textContent="備註";
-      const ni=ce("input","input");ni.value=det.note||"";
-      ap(card,sl,tw,svcIn,cl,ci,nl,ni);
-      const ar=ce("div");ar.style.cssText="display:flex;gap:8px;margin-top:12px";
-      const cn=ce("button","btn btn-g");cn.style.flex="1";cn.textContent="取消";cn.onclick=()=>{rEditing=false;goTab("records");};
-      const sv2=ce("button","btn btn-p");sv2.style.flex="2";sv2.textContent="✅ 儲存修改";
-      sv2.onclick=async()=>{sv2.disabled=true;sv2.textContent="儲存中...";const updated={...det,service:svcIn.value||editSvc,cash:ci.value?Number(ci.value):null,note:ni.value,date:din.value,time:timeStr(din.value)};await saveRecord(updated);rEditing=false;toast("✅ 紀錄已更新");goTab("records");};
-      ap(ar,cn,sv2);card.appendChild(ar);
-    }else{
-      const pl=ce("div");pl.style.cssText="font-size:12px;color:#aaa;margin:10px 0 5px";pl.textContent="方案名稱";
-      const pi=ce("input","input");pi.value=det.plan||"";
-      const cl=ce("div");cl.style.cssText="font-size:12px;color:#2e7d52;font-weight:700;margin:10px 0 5px";cl.textContent="💵 收現金額";
-      const ci=ce("input","input");ci.type="number";ci.value=det.cash||"";ci.style.borderColor="#b8e8d0";
-      const nl=ce("div");nl.style.cssText="font-size:12px;color:#aaa;margin:10px 0 5px";nl.textContent="備註";
-      const ni=ce("input","input");ni.value=det.note||"";
-      ap(card,pl,pi,cl,ci,nl,ni);
-      const ar=ce("div");ar.style.cssText="display:flex;gap:8px;margin-top:12px";
-      const cn=ce("button","btn btn-g");cn.style.flex="1";cn.textContent="取消";cn.onclick=()=>{rEditing=false;goTab("records");};
-      const sv2=ce("button","btn btn-p");sv2.style.flex="2";sv2.textContent="✅ 儲存修改";
-      sv2.onclick=async()=>{sv2.disabled=true;sv2.textContent="儲存中...";const updated={...det,plan:pi.value,cash:ci.value?Number(ci.value):null,note:ni.value,date:din.value,time:timeStr(din.value)};await saveRecord(updated);rEditing=false;toast("✅ 紀錄已更新");goTab("records");};
-      ap(ar,cn,sv2);card.appendChild(ar);
-    }
+function renderSvcDetail(det,wrap){
+  const back=ce("button","back-btn");back.textContent="← 返回";back.onclick=()=>{rSvcSel=null;goTab("records");};
+  const hdr=ce("div");hdr.style.cssText="display:flex;align-items:center;gap:9px;margin-bottom:12px";
+  ap(hdr,back,Object.assign(ce("span"),{style:"font-size:16px;font-weight:800;color:#3d2440;flex:1",textContent:"服務紀錄詳情"}));wrap.appendChild(hdr);
+  const card=ce("div","card");
+  const ch=ce("div");ch.style.cssText="display:flex;gap:10px;align-items:center;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #f0e8f4";
+  ch.innerHTML=`<span style="font-size:26px">✂️</span><div style="flex:1"><div style="font-weight:800;font-size:16px">${det.customerName}</div><div style="color:#aaa;font-size:11px">${det.time}</div></div><div style="text-align:right"><div style="font-weight:900;font-size:18px;color:#6a3aa5">$${fmt(det.amount)}</div><div style="font-size:11px;color:#aaa">${det.payMethod||""}</div></div>`;
+  card.appendChild(ch);
+  const ig=ce("div");ig.style.cssText="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px";
+  const ic2=(l,v)=>{const d=ce("div","ic");d.innerHTML=`<div class="ic-l">${l}</div><div class="ic-v">${v}</div>`;return d;};
+  ap(ig,ic2("服務項目",det.service),ic2("付款方式",det.payMethod||""),ic2("服務日期",isoToDisp(det.date)||det.time.slice(0,10)),ic2("實收金額","$"+fmt(det.amount)));
+  card.appendChild(ig);
+  if(det.notes){const nb=ce("div","ic");nb.style.marginBottom="12px";nb.innerHTML=`<div class="ic-l">操作備註</div><div style="font-size:13px;color:#3d2440;line-height:1.6;white-space:pre-wrap">${det.notes}</div>`;card.appendChild(nb);}
+  if(det.signature){
+    const sd=ce("div");sd.style.marginBottom="12px";
+    sd.innerHTML='<div style="font-weight:700;color:#aaa;font-size:12px;margin-bottom:7px">✍️ 客人簽名收據</div>';
+    const si=ce("img");si.src=det.signature;si.style.cssText="width:100%;border-radius:9px;border:1.5px solid #eee";sd.appendChild(si);card.appendChild(sd);
   }else{
-    const ig=ce("div");ig.style.cssText="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px";
-    const ic2=(l,v)=>{const d=ce("div","ic");d.innerHTML=`<div class="ic-l">${l}</div><div class="ic-v">${v}</div>`;return d;};
-    ig.appendChild(ic2("類型",det.type==="topup"?"儲值":"消費扣款"));
-    if(det.type==="topup"){ap(ig,ic2("入帳金額","$"+fmt(det.total)),ic2("方案",det.plan));if(det.bonus>0)ig.appendChild(ic2("贈點","$"+fmt(det.bonus)));}
-    else{ap(ig,ic2("服務項目",det.service),ic2("消費金額","$"+fmt(det.amount)),ic2("扣款前餘額","$"+fmt(det.beforeBalance)),ic2("扣款後餘額","$"+fmt(det.afterBalance)));}
-    if(det.cash)ig.appendChild(ic2("💵 收現金額","$"+fmt(det.cash)));
-    if(det.note)ig.appendChild(ic2("備註",det.note));
-    card.appendChild(ig);
-    if(det.signature){
-      const sd=ce("div");sd.style.marginBottom="12px";
-      const sl=ce("div");sl.style.cssText="font-weight:700;color:#aaa;font-size:12px;margin-bottom:7px";sl.textContent="✍️ 顧客簽名存證";
-      const si2=ce("img");si2.src=det.signature;si2.style.cssText="width:100%;border-radius:9px;border:1.5px solid #eee";
-      ap(sd,sl,si2);card.appendChild(sd);
-    }else{
-      const ns=ce("div","no-sig");ns.innerHTML=`<div style="font-size:13px;color:#c4547a;font-weight:700;margin-bottom:6px">⚠️ 尚未簽名</div><div style="font-size:12px;color:#aaa;margin-bottom:10px">可補簽名</div>`;
-      const sb2=ce("button","btn btn-p");sb2.style.cssText="font-size:14px;padding:10px 24px";sb2.textContent="✍️ 補簽名";
-      sb2.onclick=()=>openSig(async sig=>{await saveRecord({...det,signature:sig});toast("✅ 簽名已補存");goTab("records");});
-      ns.appendChild(sb2);card.appendChild(ns);
-    }
-    if(rDelConfirm){
-      const cb=ce("div","confirm-box");
-      cb.innerHTML=`<div style="font-weight:700;color:#c0392b;margin-bottom:6px">確定要刪除此筆紀錄？</div><div style="font-size:12px;color:#888;margin-bottom:10px">${det.type==="charge"?"✅ 將自動把 $"+fmt(det.amount)+" 還回顧客餘額":"⚠️ 將自動從顧客餘額扣除 $"+fmt(det.total)}</div>`;
-      const ca=ce("div");ca.style.cssText="display:flex;gap:8px;justify-content:center";
-      const cNo=ce("button","btn btn-g");cNo.textContent="取消";cNo.onclick=()=>{rDelConfirm=false;goTab("records");};
-      const cYes=ce("button","btn");cYes.style.cssText="background:#e74c3c;color:#fff";cYes.textContent="確認刪除";
-      cYes.onclick=async()=>{
-        cYes.disabled=true;cYes.textContent="刪除中...";
-        const cust=customers.find(c=>c.id===det.cid||c.id===det.customerId);
-        if(cust){
-          const newBal=det.type==="charge"?(cust.balance||0)+det.amount:Math.max(0,(cust.balance||0)-det.total);
-          await saveCustomer({...cust,balance:newBal});
-        }
-        await deleteRecord(det.id);
-        rSel=null;rDelConfirm=false;toast("🗑️ 紀錄已刪除，餘額已還原");goTab("records");
-      };
-      ap(ca,cNo,cYes);cb.appendChild(ca);card.appendChild(cb);
-    }else{
-      const db2=ce("button","btn btn-red");db2.style.cssText="width:100%;margin-top:10px";db2.textContent="🗑️ 刪除此筆紀錄";db2.onclick=()=>{rDelConfirm=true;goTab("records");};card.appendChild(db2);
-    }
+    const ns=ce("div","no-sig");ns.innerHTML='<div style="font-size:12px;color:#c4547a;font-weight:700;margin-bottom:5px">⚠️ 尚未簽名</div><div style="font-size:11px;color:#aaa;margin-bottom:10px">可補簽名</div>';
+    const sb2=ce("button","btn btn-p");sb2.style.cssText="font-size:13px;padding:9px 22px";sb2.textContent="✍️ 補簽名";
+    sb2.onclick=()=>openSig("補簽名",async sig=>{await saveDoc("serviceRecords",{...det,signature:sig});toast("✅ 簽名已補存");goTab("records");});
+    ns.appendChild(sb2);card.appendChild(ns);
+  }
+  if(rDelConfirm){
+    const cb=ce("div","confirm-box");cb.innerHTML='<div style="font-weight:700;color:#c0392b;margin-bottom:6px">確定要刪除此筆紀錄？</div><div style="font-size:12px;color:#888;margin-bottom:10px">此操作無法復原</div>';
+    const ca=ce("div");ca.style.cssText="display:flex;gap:8px;justify-content:center";
+    const cNo=ce("button","btn btn-g");cNo.textContent="取消";cNo.onclick=()=>{rDelConfirm=false;goTab("records");};
+    const cYes=ce("button","btn");cYes.style.cssText="background:#e74c3c;color:#fff";cYes.textContent="確認刪除";
+    cYes.onclick=async()=>{cYes.disabled=true;await delDoc("serviceRecords",det.id);rSvcSel=null;rDelConfirm=false;toast("🗑️ 紀錄已刪除");goTab("records");};
+    ap(ca,cNo,cYes);cb.appendChild(ca);card.appendChild(cb);
+  }else{
+    const db2=ce("button","btn btn-red");db2.style.cssText="width:100%;margin-top:10px;font-size:13px";db2.textContent="🗑️ 刪除此筆紀錄";db2.onclick=()=>{rDelConfirm=true;goTab("records");};card.appendChild(db2);
   }
   wrap.appendChild(card);return wrap;
 }
 
-// ═══════════════════════
+// ═══════════════════════════════════
 // ── RENDER ALL ──
-// ═══════════════════════
+// ═══════════════════════════════════
 function goTab(tab){currentTab=tab;renderAll();}
 
 function renderAll(){
   if(!currentUser){renderLogin();return;}
   const root=document.getElementById("root");root.innerHTML="";
-  const app=ce("div");app.id="app";app.style.cssText="height:100vh;display:flex;flex-direction:column";
+  const appDiv=ce("div");appDiv.style.cssText="height:100vh;display:flex;flex-direction:column";
   const hdr=ce("header");
-  hdr.innerHTML=`<div style="display:flex;align-items:center;gap:11px"><span style="font-size:30px">🌸</span><div><div class="logo-title">沐蜜美學秘境</div><div class="logo-sub">顧客儲值管理系統</div></div></div><div style="display:flex;align-items:center;gap:8px"><div class="pill">顧客 ${customers.length} 位</div><button class="logout-btn" onclick="import('https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js').then(m=>m.signOut(auth))">登出</button></div>`;
-  // fix logout btn
-  hdr.querySelector(".logout-btn").onclick=async()=>{
-    const {signOut:so}=await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
-    await signOut(auth);
-  };
-  app.appendChild(hdr);
+  const logo=ce("div");logo.style.cssText="display:flex;align-items:center;gap:10px";logo.innerHTML='<span style="font-size:26px">🌸</span><div><div class="logo-title">沐蜜美學秘境</div><div class="logo-sub">顧客管理系統</div></div>';
+  const right=ce("div");right.style.cssText="display:flex;align-items:center;gap:7px";
+  const pill=ce("div","pill");pill.textContent="客人 "+customers.length+" 位";
+  const logoutBtn=ce("button","logout-btn");logoutBtn.textContent="登出";logoutBtn.onclick=async()=>await signOut(auth);
+  ap(right,pill,logoutBtn);ap(hdr,logo,right);appDiv.appendChild(hdr);
   const nav=ce("nav");
-  [["home","🏠","首頁"],["customers","👥","顧客"],["topup","💳","儲值"],["charge","✂️","消費"],["records","📋","紀錄"]].forEach(([key,icon,label])=>{
-    const btn=ce("button","nav-btn"+(currentTab===key?" active":""));
-    btn.innerHTML=`<span class="nav-icon">${icon}</span><span>${label}</span>`;
-    btn.onclick=()=>goTab(key);nav.appendChild(btn);
+  [["home","🏠","首頁"],["customers","👥","客人"],["service","✂️","服務"],["topup","💳","儲值"],["charge","💸","扣款"],["records","📋","紀錄"]].forEach(([key,icon,label])=>{
+    const btn=ce("button","nav-btn"+(currentTab===key?" active":""));btn.innerHTML=`<span class="nav-icon">${icon}</span><span>${label}</span>`;btn.onclick=()=>{if(key==="service"){svcPreCid="";}goTab(key);};nav.appendChild(btn);
   });
-  app.appendChild(nav);
-  // Sync indicator
-  const syncInd=ce("div","sync-indicator");syncInd.innerHTML=`<span class="sync-dot${syncing?" syncing":""}"></span>${syncing?"同步中...":"已同步雲端"}`;
-  app.appendChild(syncInd);
+  appDiv.appendChild(nav);
   const main=ce("main");
   if(currentTab==="home")main.appendChild(renderHome());
   else if(currentTab==="customers")main.appendChild(renderCustomers());
+  else if(currentTab==="service")main.appendChild(renderService());
   else if(currentTab==="topup")main.appendChild(renderTopup());
   else if(currentTab==="charge")main.appendChild(renderCharge());
   else if(currentTab==="records")main.appendChild(renderRecords());
-  app.appendChild(main);
-  root.appendChild(app);
+  appDiv.appendChild(main);root.appendChild(appDiv);
 }
 </script>
 </body>
