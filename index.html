@@ -12,10 +12,17 @@
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'Noto Sans TC','PingFang TC',sans-serif;background:#fdf8fc;height:100vh;overflow:hidden}
 #root{height:100vh;display:flex;flex-direction:column}
+.login-wrap{height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#fdf0f5,#f0f4ff)}
+.login-card{background:#fff;border-radius:24px;padding:40px 36px;width:min(90vw,420px);box-shadow:0 20px 60px rgba(180,100,130,.15);text-align:center}
+.login-logo{font-size:48px;margin-bottom:12px}
+.login-title{font-size:22px;font-weight:900;color:#3d2440;margin-bottom:4px}
+.login-sub{font-size:13px;color:#c4a0b0;margin-bottom:28px}
+.login-err{color:#e74c3c;font-size:13px;margin-top:10px;min-height:18px}
 header{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;background:rgba(255,255,255,.92);border-bottom:1px solid #f0e8f4;box-shadow:0 2px 12px rgba(244,165,176,.1);flex-shrink:0;z-index:10}
 .logo-title{font-size:19px;font-weight:900;color:#3d2440;letter-spacing:1px}
 .logo-sub{font-size:11px;color:#c4a0b0}
 .pill{background:#f4a5b0;color:#fff;padding:4px 13px;border-radius:20px;font-size:12px;font-weight:700}
+.logout-btn{background:transparent;border:1.5px solid #f0e8f4;color:#aaa;border-radius:20px;padding:4px 12px;font-size:12px;cursor:pointer;font-family:inherit}
 nav{display:flex;background:rgba(255,255,255,.95);border-bottom:1px solid #f0e8f4;flex-shrink:0;z-index:10}
 .nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:9px 4px;border:none;background:transparent;cursor:pointer;color:#bbb;font-family:inherit;font-size:11px}
 .nav-btn.active{color:#c4547a;border-bottom:3px solid #f4a5b0;font-weight:700}
@@ -32,7 +39,6 @@ main{flex:1;overflow-y:auto;padding:14px 14px 40px}
 .btn-green{background:#f0faf5;color:#3a9e72;border:1.5px solid #b8e8d4}
 .btn-blue{background:#f0f4ff;color:#4a6fa5;border:1.5px solid #c8d8f4}
 .btn-purple{background:#f5f0ff;color:#7a5aa5;border:1.5px solid #d8c8f4}
-.btn-orange{background:#fff8f0;color:#c4547a;border:1.5px solid #f4a5b0}
 .input{width:100%;padding:12px 14px;border-radius:10px;border:1.5px solid #f0e8f4;font-size:15px;outline:none;background:#fff;color:#3d2440;font-family:inherit}
 .select{width:100%;padding:12px 14px;border-radius:10px;border:1.5px solid #f0e8f4;font-size:15px;outline:none;background:#fff;color:#3d2440;font-family:inherit;cursor:pointer}
 .row-item{display:flex;align-items:center;gap:11px;padding:12px;background:#fafafa;border-radius:10px;border:1px solid #f0eef4;margin-bottom:8px;cursor:pointer}
@@ -48,7 +54,7 @@ main{flex:1;overflow-y:auto;padding:14px 14px 40px}
 .sig-canvas{width:100%;border-radius:11px;border:2px solid #f0e8f4;background:#fff;display:block;touch-action:none}
 .toast-el{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);color:#fff;padding:12px 24px;border-radius:36px;font-size:15px;font-weight:700;box-shadow:0 6px 24px rgba(0,0,0,.15);z-index:300;white-space:nowrap;pointer-events:none;display:none}
 .stat-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
-.stat-card{flex:1;min-width:110px;text-align:center;border-radius:13px;padding:12px 6px;background:#fff;border:1px solid #f5eef8;box-shadow:0 2px 10px rgba(180,100,130,.06)}
+.stat-card{flex:1;min-width:100px;text-align:center;border-radius:13px;padding:12px 6px;background:#fff;border:1px solid #f5eef8;box-shadow:0 2px 10px rgba(180,100,130,.06)}
 .alert-box{display:flex;gap:10px;align-items:flex-start;background:#fff5f0;border:1.5px solid #ffd0c0;border-radius:12px;padding:11px 14px;margin-bottom:12px}
 .ic{background:#fafafa;border-radius:9px;padding:9px 13px}
 .ic-l{font-size:11px;color:#bbb;margin-bottom:2px}
@@ -56,16 +62,40 @@ main{flex:1;overflow-y:auto;padding:14px 14px 40px}
 .no-sig{background:#fff8f0;border:1.5px dashed #f4a5b0;border-radius:11px;padding:14px;text-align:center;margin-top:10px}
 .warn-box{background:#fff8e1;border:1px solid #ffe082;border-radius:9px;padding:9px 13px;font-size:12px;color:#b8860b;margin-bottom:10px}
 .confirm-box{background:#fff5f5;border:1.5px solid #ffcdd2;border-radius:11px;padding:14px;text-align:center;margin-top:10px}
-.sep-line{border:none;border-top:1px solid #f0e8f4;margin:10px 0}
-.cash-tag{background:#e8f8f0;color:#2e7d52;border:1.5px solid #b8e8d0;border-radius:20px;padding:3px 12px;font-size:12px;font-weight:700}
+.cash-tag{background:#e8f8f0;color:#2e7d52;border:1.5px solid #b8e8d0;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;display:inline-block;margin-top:2px}
+.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;gap:14px;color:#f4a5b0;font-size:16px;font-weight:700}
+.spinner{width:44px;height:44px;border:4px solid #f0e8f4;border-top-color:#f4a5b0;border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sync-indicator{position:fixed;top:14px;right:14px;font-size:11px;color:#aaa;z-index:50;pointer-events:none}
+.sync-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#6cc5a0;margin-right:4px;vertical-align:middle}
+.sync-dot.syncing{background:#f4a5b0;animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 </style>
 </head>
 <body>
-<div id="root"></div>
+<div id="root"><div class="loading"><div class="spinner"></div>載入中...</div></div>
 <div class="toast-el" id="toast-el"></div>
-<input type="file" id="import-input" accept=".json" style="display:none">
 
-<script>
+<!-- Firebase SDK -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getFirestore, collection, doc, getDocs, setDoc, deleteDoc, onSnapshot, writeBatch } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+// ── Firebase Config ──
+const firebaseConfig = {
+  apiKey: "AIzaSyAxmbRDH1h43Ry8uauNdg5gjMx8_G-PeWo",
+  authDomain: "moome-app.firebaseapp.com",
+  projectId: "moome-app",
+  storageBucket: "moome-app.firebasestorage.app",
+  messagingSenderId: "998982761646",
+  appId: "1:998982761646:web:d56d7313b981f50d18413f"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
 // ── Constants ──
 const PLANS=[
   {label:"儲 19,800 元",value:19800,bonus:2200,total:22000},
@@ -84,23 +114,79 @@ const todayISO=()=>new Date().toISOString().slice(0,10);
 const isoToDisp=iso=>{if(!iso)return"";const[y,m,d]=iso.split("-");return`${y}/${m}/${d}`;};
 const timeStr=iso=>{const t=new Date().toLocaleTimeString("zh-TW",{hour12:false,hour:"2-digit",minute:"2-digit"});return`${isoToDisp(iso)} ${t}`;};
 const timeToISO=s=>{if(!s)return todayISO();const m=s.match(/(\d{4})\/(\d{2})\/(\d{2})/);return m?`${m[1]}-${m[2]}-${m[3]}`:todayISO();};
-const ld=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch{return d;}};
-const sv=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
 const ce=(tag,cls,html="")=>{const e=document.createElement(tag);if(cls)e.className=cls;if(html)e.innerHTML=html;return e;};
 const ap=(p,...cs)=>{cs.forEach(c=>{if(c)p.appendChild(c);});return p;};
 
-// ── Data ──
-let customers=ld("mmC",[]),records=ld("mmR",[]);
-const saveAll=()=>{sv("mmC",customers);sv("mmR",records);};
+// ── State ──
+let customers=[], records=[], currentUser=null, syncing=false;
+let currentTab="home";
 
 // ── Toast ──
 let toastTimer=null;
 function toast(msg,type="ok"){
   const el=document.getElementById("toast-el");
+  if(!el)return;
   el.textContent=msg;el.style.background=type==="warn"?"#e67e22":"#6cc5a0";el.style.display="block";
   if(toastTimer)clearTimeout(toastTimer);
   toastTimer=setTimeout(()=>{el.style.display="none";},3000);
 }
+
+// ── Sync indicator ──
+function setSyncing(val){
+  syncing=val;
+  const dot=document.querySelector(".sync-dot");
+  if(dot)dot.className="sync-dot"+(val?" syncing":"");
+}
+
+// ── Firebase CRUD ──
+async function saveCustomer(c){
+  setSyncing(true);
+  try{ await setDoc(doc(db,"customers",c.id),c); }
+  catch(e){toast("⚠️ 儲存失敗，請檢查網路","warn");}
+  setSyncing(false);
+}
+async function deleteCustomer(id){
+  setSyncing(true);
+  try{ await deleteDoc(doc(db,"customers",id)); }catch{}
+  setSyncing(false);
+}
+async function saveRecord(r){
+  setSyncing(true);
+  try{ await setDoc(doc(db,"records",r.id),r); }
+  catch(e){toast("⚠️ 儲存失敗，請檢查網路","warn");}
+  setSyncing(false);
+}
+async function deleteRecord(id){
+  setSyncing(true);
+  try{ await deleteDoc(doc(db,"records",id)); }catch{}
+  setSyncing(false);
+}
+async function saveAllCustomers(cs){
+  setSyncing(true);
+  const batch=writeBatch(db);
+  cs.forEach(c=>batch.set(doc(db,"customers",c.id),c));
+  try{await batch.commit();}catch(e){toast("⚠️ 批次儲存失敗","warn");}
+  setSyncing(false);
+}
+
+// ── Real-time listeners ──
+function startListeners(){
+  onSnapshot(collection(db,"customers"),snap=>{
+    customers=snap.docs.map(d=>d.data());
+    renderAll();
+  });
+  onSnapshot(collection(db,"records"),snap=>{
+    records=snap.docs.map(d=>d.data()).sort((a,b)=>b.time.localeCompare(a.time));
+    renderAll();
+  });
+}
+
+// ── Auth ──
+onAuthStateChanged(auth, user=>{
+  currentUser=user;
+  if(user){ startListeners(); }
+  else{ renderLogin(); }
+});
 
 // ── Avatar ──
 function mkAvatar(c,sz=52){
@@ -115,8 +201,8 @@ function mkAvatar(c,sz=52){
 function openSig(cb){
   const overlay=ce("div","sig-overlay");
   const modal=ce("div","sig-modal");
-  const hdr=ce("div","",`<span style="font-size:19px;font-weight:900;color:#3d2440">✍️ 請簽名確認</span><span style="font-size:12px;color:#aaa;float:right">Apple Pencil 或手指</span>`);
-  hdr.style.marginBottom="14px";
+  const hdr=ce("div");hdr.style.cssText="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px";
+  hdr.innerHTML='<span style="font-size:19px;font-weight:900;color:#3d2440">✍️ 請簽名確認</span><span style="font-size:12px;color:#aaa">Apple Pencil 或手指</span>';
   const wrap=ce("div");wrap.style.cssText="position:relative;margin-bottom:14px";
   const canvas=ce("canvas","sig-canvas");canvas.width=900;canvas.height=340;
   const ctx=canvas.getContext("2d");ctx.fillStyle="#fff";ctx.fillRect(0,0,900,340);ctx.strokeStyle="#111";ctx.lineWidth=2.5;ctx.lineCap="round";ctx.lineJoin="round";
@@ -136,37 +222,31 @@ function openSig(cb){
 }
 
 // ── addRecord ──
-function addRecord(rec){
-  openSig(sig=>{
+async function addRecord(rec){
+  openSig(async sig=>{
     const full={...rec,id:uid(),signature:sig,time:timeStr(rec.date)};
-    records.unshift(full);
-    if(rec.type==="topup"){customers=customers.map(c=>c.id===rec.cid?{...c,balance:(c.balance||0)+rec.total}:c);}
-    else{customers=customers.map(c=>c.id===rec.cid?{...c,balance:(c.balance||0)-rec.amount}:c);}
-    saveAll();
-    toast(rec.type==="topup"?"✅ 儲值完成":"✅ 消費扣款完成");
+    // Update customer balance
+    const cust=customers.find(c=>c.id===rec.cid);
+    if(cust){
+      const newBal=rec.type==="topup"?(cust.balance||0)+rec.total:(cust.balance||0)-rec.amount;
+      const updated={...cust,balance:newBal};
+      await saveCustomer(updated);
+    }
+    await saveRecord(full);
+    toast(rec.type==="topup"?"✅ 儲值完成，已同步雲端":"✅ 消費扣款完成，已同步雲端");
     goTab(currentTab);
   });
 }
 
-// ── Export / Import ──
+// ── Export ──
 function doExport(){
   const data=JSON.stringify({customers,records,at:new Date().toLocaleString("zh-TW")},null,2);
   const a=ce("a");a.href=URL.createObjectURL(new Blob([data],{type:"application/json"}));
   a.download=`沐蜜備份_${todayStr().replace(/\//g,"-")}.json`;a.click();
-  toast("📤 備份已下載（含所有資料與簽名）");
+  toast("📤 備份已下載");
 }
-document.getElementById("import-input").onchange=function(e){
-  const file=e.target.files[0];if(!file)return;
-  const r=new FileReader();r.onload=ev=>{
-    try{
-      const d=JSON.parse(ev.target.result);
-      if(!d.customers||!d.records)return toast("❌ 格式錯誤","warn");
-      if(!confirm(`確定還原資料？\n顧客 ${d.customers.length} 位，紀錄 ${d.records.length} 筆\n⚠️ 目前資料將被覆蓋`))return;
-      customers=d.customers;records=d.records;saveAll();
-      toast(`✅ 還原完成！顧客 ${d.customers.length} 位`);goTab("home");
-    }catch{toast("❌ 無法讀取備份","warn");}
-  };r.readAsText(file);this.value="";
-};
+
+// ── Sheets backup ──
 async function doSheets(btn){
   btn.disabled=true;btn.textContent="⏳ 備份中...";
   try{
@@ -177,80 +257,82 @@ async function doSheets(btn){
   }catch{btn.textContent="❌ 失敗";btn.disabled=false;}
 }
 
-// ═══════════════════════════════
-// ── TAB: HOME ──
-// ═══════════════════════════════
+// ═══════════════════════
+// ── LOGIN PAGE ──
+// ═══════════════════════
+function renderLogin(){
+  const root=document.getElementById("root");
+  root.innerHTML="";
+  const wrap=ce("div","login-wrap");
+  const card=ce("div","login-card");
+  card.innerHTML=`<div class="login-logo">🌸</div><div class="login-title">沐蜜美學秘境</div><div class="login-sub">顧客儲值管理系統</div>`;
+  const emailIn=ce("input","input");emailIn.type="email";emailIn.placeholder="Email";emailIn.style.marginBottom="10px";
+  const pwIn=ce("input","input");pwIn.type="password";pwIn.placeholder="密碼";pwIn.style.marginBottom="16px";
+  const loginBtn=ce("button","btn btn-p");loginBtn.style.cssText="width:100%;font-size:17px;padding:15px";loginBtn.textContent="登入";
+  const errDiv=ce("div","login-err");
+  loginBtn.onclick=async()=>{
+    loginBtn.disabled=true;loginBtn.textContent="登入中...";errDiv.textContent="";
+    try{
+      await signInWithEmailAndPassword(auth,emailIn.value.trim(),pwIn.value);
+    }catch(e){
+      errDiv.textContent="Email 或密碼錯誤，請重試";
+      loginBtn.disabled=false;loginBtn.textContent="登入";
+    }
+  };
+  pwIn.onkeydown=e=>{if(e.key==="Enter")loginBtn.click();};
+  ap(card,emailIn,pwIn,loginBtn,errDiv);wrap.appendChild(card);root.appendChild(wrap);
+}
+
+// ═══════════════════════
+// ── HOME ──
+// ═══════════════════════
 function renderHome(){
   const wrap=ce("div");
   const totalTopup=records.filter(r=>r.type==="topup").reduce((s,r)=>s+(r.total||0),0);
   const totalCharge=records.filter(r=>r.type==="charge").reduce((s,r)=>s+(r.amount||0),0);
-  const totalCash=records.filter(r=>r.cash).reduce((s,r)=>s+(Number(r.cash)||0),0);
+  const totalCash=records.reduce((s,r)=>s+(Number(r.cash)||0),0);
   const totalBal=customers.reduce((s,c)=>s+(c.balance||0),0);
   const low=customers.filter(c=>(c.balance||0)<LOW&&(c.balance||0)>0);
-
-  // Stats
   const sr=ce("div","stat-row");
-  [["💰","總儲值","$"+fmt(totalTopup),"#f4a5b0"],
-   ["✂️","總消費","$"+fmt(totalCharge),"#a5c4f4"],
-   ["💵","收現金額","$"+fmt(totalCash),"#a5e8c4"],
-   ["🏦","總餘額","$"+fmt(totalBal),"#a5f4c4"],
-   ["👥","顧客數",customers.length+" 位","#f4d0a5"]
-  ].forEach(([icon,lbl,val,color])=>{
+  [["💰","總儲值","$"+fmt(totalTopup),"#f4a5b0"],["✂️","總消費","$"+fmt(totalCharge),"#a5c4f4"],["💵","收現金額","$"+fmt(totalCash),"#a5e8c4"],["🏦","總餘額","$"+fmt(totalBal),"#a5f4c4"],["👥","顧客數",customers.length+" 位","#f4d0a5"]].forEach(([icon,lbl,val,color])=>{
     const sc=ce("div","stat-card");sc.style.borderTop=`4px solid ${color}`;
     sc.innerHTML=`<div style="font-size:22px;margin-bottom:3px">${icon}</div><div style="font-size:10px;color:#aaa;margin-bottom:3px">${lbl}</div><div style="font-size:15px;font-weight:800">${val}</div>`;
     sr.appendChild(sc);
   });
   wrap.appendChild(sr);
-
-  // Low balance
   if(low.length>0){
-    const ab=ce("div","alert-box");
-    ab.innerHTML=`<span style="font-size:20px">⚠️</span><div><div style="font-weight:700;color:#c0392b;font-size:13px;margin-bottom:2px">低餘額提醒</div><div style="font-size:12px;color:#666">${low.map(c=>`${c.name}（$${fmt(c.balance)}）`).join("、")}</div></div>`;
+    const ab=ce("div","alert-box");ab.innerHTML=`<span style="font-size:20px">⚠️</span><div><div style="font-weight:700;color:#c0392b;font-size:13px;margin-bottom:2px">低餘額提醒</div><div style="font-size:12px;color:#666">${low.map(c=>`${c.name}（$${fmt(c.balance)}）`).join("、")}</div></div>`;
     wrap.appendChild(ab);
   }
-
-  // Grid: recent + buttons
   const grid=ce("div");grid.style.cssText="display:grid;grid-template-columns:1fr auto;gap:12px;align-items:start";
   const recCard=ce("div","card");
   const rt=ce("div","card-title");rt.textContent="最近紀錄";recCard.appendChild(rt);
-  const recent=records.slice(0,6);
-  if(!recent.length){const e=ce("div","empty");e.textContent="尚無紀錄";recCard.appendChild(e);}
-  recent.forEach(r=>{
+  records.slice(0,6).forEach(r=>{
     const row=ce("div");row.style.cssText="display:flex;gap:9px;align-items:center;padding:9px 0;border-bottom:1px solid #f5f0f8";
     row.innerHTML=`<span style="font-size:17px">${r.type==="topup"?"💳":"✂️"}</span><div style="flex:1"><div style="font-weight:600;font-size:14px">${r.customerName}</div><div style="font-size:11px;color:#aaa">${r.time}</div></div><div style="text-align:right"><div style="font-weight:700;font-size:14px;color:${r.type==="topup"?"#6cc5a0":"#f4a5b0"}">${r.type==="topup"?"+$"+fmt(r.total):"-$"+fmt(r.amount)}</div>${r.cash?`<div class="cash-tag">現 $${fmt(r.cash)}</div>`:""}</div>`;
     recCard.appendChild(row);
   });
+  if(!records.length){const e=ce("div","empty");e.textContent="尚無紀錄";recCard.appendChild(e);}
   grid.appendChild(recCard);
-
   const btns=ce("div");btns.style.cssText="display:flex;flex-direction:column;gap:9px";
-  const mk=(cls,txt,fn)=>{const b=ce("button","btn "+cls);b.textContent=txt;b.onclick=fn;return b;};
+  const mk=(cls,txt,fn)=>{const b=ce("button","btn "+cls);b.style.fontSize="15px";b.textContent=txt;b.onclick=fn;return b;};
   const bSheets=ce("button","btn btn-green");bSheets.style.fontSize="13px";bSheets.textContent="☁️ 備份到 Google Sheets";bSheets.onclick=()=>doSheets(bSheets);
-  const sep=ce("hr","sep-line");
-  const sepLbl=ce("div");sepLbl.style.cssText="font-size:11px;color:#bbb;text-align:center;font-weight:600";sepLbl.textContent="完整備份（含簽名）";
+  const sepLbl=ce("div");sepLbl.style.cssText="font-size:11px;color:#bbb;text-align:center;font-weight:600;border-top:1px solid #f0e8f4;padding-top:10px";sepLbl.textContent="完整備份（含簽名）";
   const bExp=ce("button","btn btn-blue");bExp.style.fontSize="13px";bExp.textContent="📤 匯出備份";bExp.onclick=doExport;
-  const bImp=ce("button","btn btn-purple");bImp.style.fontSize="13px";bImp.textContent="📥 匯入還原";bImp.onclick=()=>document.getElementById("import-input").click();
-  ap(btns,
-    mk("btn-p","💳 儲值",()=>goTab("topup")),
-    mk("btn-s","✂️ 消費扣款",()=>goTab("charge")),
-    mk("btn-g","👥 顧客管理",()=>goTab("customers")),
-    bSheets,sep,sepLbl,bExp,bImp
-  );
-  grid.appendChild(btns);
-  wrap.appendChild(grid);
-  return wrap;
+  ap(btns,mk("btn-p","💳 儲值",()=>goTab("topup")),mk("btn-s","✂️ 消費扣款",()=>goTab("charge")),mk("btn-g","👥 顧客管理",()=>goTab("customers")),bSheets,sepLbl,bExp);
+  grid.appendChild(btns);wrap.appendChild(grid);return wrap;
 }
 
-// ═══════════════════════════════
-// ── TAB: CUSTOMERS ──
-// ═══════════════════════════════
+// ═══════════════════════
+// ── CUSTOMERS ──
+// ═══════════════════════
 let cMode="list",cSel=null,cSearch="",cRecTab="all",cDelConfirm=false;
 function renderCustomers(){
   const wrap=ce("div");
   if(cMode==="add"){
     const back=ce("button","back-btn");back.textContent="← 返回";back.onclick=()=>{cMode="list";goTab("customers");};
     const hdr=ce("div");hdr.style.cssText="display:flex;align-items:center;gap:12px;margin-bottom:20px";
-    const t=ce("span");t.style.cssText="font-size:19px;font-weight:800;color:#3d2440";t.textContent="新增顧客";
-    ap(hdr,back,t);wrap.appendChild(hdr);
+    const t=ce("span");t.style.cssText="font-size:19px;font-weight:800;color:#3d2440";t.textContent="新增顧客";ap(hdr,back,t);wrap.appendChild(hdr);
     let photoVal="";
     const pWrap=ce("div");pWrap.style.cssText="display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:14px";
     const pCircle=ce("div");pCircle.style.cssText="width:84px;height:84px;border-radius:50%;background:#fdf0f5;border:2.5px dashed #f4a5b0;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;font-size:26px";pCircle.textContent="📷";
@@ -262,10 +344,12 @@ function renderCustomers(){
     const nameIn=ce("input","input");nameIn.placeholder="顧客姓名 *";nameIn.style.marginBottom="10px";
     const phoneIn=ce("input","input");phoneIn.placeholder="手機號碼";phoneIn.style.marginBottom="14px";
     const subBtn=ce("button","btn btn-p");subBtn.style.cssText="width:100%;font-size:17px;padding:16px";subBtn.textContent="確認新增";
-    subBtn.onclick=()=>{
+    subBtn.onclick=async()=>{
       if(!nameIn.value.trim())return toast("請輸入顧客姓名","warn");
-      customers.unshift({id:uid(),balance:0,createdAt:todayStr(),name:nameIn.value.trim(),phone:phoneIn.value.trim(),photo:photoVal});
-      saveAll();cMode="list";toast("✅ 顧客新增完成");goTab("customers");
+      subBtn.disabled=true;subBtn.textContent="儲存中...";
+      const c={id:uid(),balance:0,createdAt:todayStr(),name:nameIn.value.trim(),phone:phoneIn.value.trim(),photo:photoVal};
+      await saveCustomer(c);
+      cMode="list";toast("✅ 顧客新增完成，已同步雲端");goTab("customers");
     };
     ap(wrap,nameIn,phoneIn,subBtn);return wrap;
   }
@@ -275,12 +359,11 @@ function renderCustomers(){
     const shown=cRecTab==="all"?cRecs:cRecs.filter(r=>r.type===cRecTab);
     const cTopup=cRecs.filter(r=>r.type==="topup").reduce((s,r)=>s+(r.total||0),0);
     const cCharge=cRecs.filter(r=>r.type==="charge").reduce((s,r)=>s+(r.amount||0),0);
-    const cCash=cRecs.filter(r=>r.cash).reduce((s,r)=>s+(Number(r.cash)||0),0);
+    const cCash=cRecs.reduce((s,r)=>s+(Number(r.cash)||0),0);
     const back=ce("button","back-btn");back.textContent="← 返回";back.onclick=()=>{cMode="list";cSel=null;cDelConfirm=false;goTab("customers");};
     const hdr=ce("div");hdr.style.cssText="display:flex;align-items:center;gap:12px;margin-bottom:14px";
     const t=ce("span");t.style.cssText="font-size:19px;font-weight:800;color:#3d2440";t.textContent="顧客詳情";ap(hdr,back,t);wrap.appendChild(hdr);
     const grid=ce("div","g2");
-    // Profile
     const prof=ce("div","card");prof.style.textAlign="center";
     const av=mkAvatar(c,76);av.style.margin="0 auto 10px";prof.appendChild(av);
     const nm=ce("div");nm.style.cssText="font-size:20px;font-weight:800;margin-bottom:3px";nm.textContent=c.name;
@@ -292,26 +375,27 @@ function renderCustomers(){
     const dtDiv=ce("div");dtDiv.style.cssText="font-size:10px;color:#ccc;margin-top:6px";dtDiv.textContent="建檔："+c.createdAt;
     ap(prof,nm,ph,balBox,sg,dtDiv);
     if(cDelConfirm){
-      const cb=ce("div","confirm-box");
-      cb.innerHTML=`<div style="font-weight:700;color:#c0392b;margin-bottom:6px">確定刪除此顧客？</div><div style="font-size:12px;color:#888;margin-bottom:10px">顧客及所有紀錄將永久刪除</div>`;
+      const cb=ce("div","confirm-box");cb.innerHTML=`<div style="font-weight:700;color:#c0392b;margin-bottom:6px">確定刪除此顧客？</div><div style="font-size:12px;color:#888;margin-bottom:10px">顧客及所有紀錄將永久刪除（雲端同步）</div>`;
       const ca=ce("div");ca.style.cssText="display:flex;gap:8px;justify-content:center";
       const cNo=ce("button","btn btn-g");cNo.style.fontSize="13px";cNo.textContent="取消";cNo.onclick=()=>{cDelConfirm=false;goTab("customers");};
       const cYes=ce("button","btn");cYes.style.cssText="background:#e74c3c;color:#fff;font-size:13px";cYes.textContent="確認刪除";
-      cYes.onclick=()=>{records=records.filter(r=>(r.cid||r.customerId)!==c.id);customers=customers.filter(x=>x.id!==c.id);saveAll();cMode="list";cSel=null;cDelConfirm=false;toast("🗑️ 顧客已刪除");goTab("customers");};
+      cYes.onclick=async()=>{
+        cYes.disabled=true;cYes.textContent="刪除中...";
+        const cRecs2=records.filter(r=>r.cid===c.id||r.customerId===c.id);
+        for(const r of cRecs2)await deleteRecord(r.id);
+        await deleteCustomer(c.id);
+        cMode="list";cSel=null;cDelConfirm=false;toast("🗑️ 顧客已刪除");goTab("customers");
+      };
       ap(ca,cNo,cYes);cb.appendChild(ca);prof.appendChild(cb);
-    } else {
-      const db=ce("button","btn btn-red");db.style.cssText="width:100%;font-size:13px;margin-top:10px";db.textContent="🗑️ 刪除此顧客";db.onclick=()=>{cDelConfirm=true;goTab("customers");};prof.appendChild(db);
+    }else{
+      const db2=ce("button","btn btn-red");db2.style.cssText="width:100%;font-size:13px;margin-top:10px";db2.textContent="🗑️ 刪除此顧客";db2.onclick=()=>{cDelConfirm=true;goTab("customers");};prof.appendChild(db2);
     }
     grid.appendChild(prof);
-    // Records
     const rc=ce("div","card");
     const rh=ce("div");rh.style.cssText="display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap";
     const rht=ce("div","card-title");rht.style.margin="0";rht.textContent="交易紀錄";rh.appendChild(rht);
     const fw=ce("div");fw.style.cssText="display:flex;gap:5px;margin-left:auto";
-    [["all","全部"],["topup","儲值"],["charge","消費"]].forEach(([k,l])=>{
-      const fb=ce("button","fb"+(cRecTab===k?" on":""));fb.textContent=l;
-      fb.onclick=()=>{cRecTab=k;goTab("customers");};fw.appendChild(fb);
-    });
+    [["all","全部"],["topup","儲值"],["charge","消費"]].forEach(([k,l])=>{const fb=ce("button","fb"+(cRecTab===k?" on":""));fb.textContent=l;fb.onclick=()=>{cRecTab=k;goTab("customers");};fw.appendChild(fb);});
     rh.appendChild(fw);rc.appendChild(rh);
     if(!shown.length){const e=ce("div","empty");e.textContent="尚無紀錄";rc.appendChild(e);}
     const rl=ce("div");rl.style.cssText="max-height:400px;overflow-y:auto";
@@ -322,10 +406,8 @@ function renderCustomers(){
     });
     rc.appendChild(rl);grid.appendChild(rc);wrap.appendChild(grid);return wrap;
   }
-  // List
   const topBar=ce("div");topBar.style.cssText="display:flex;gap:9px;margin-bottom:14px";
-  const si=ce("input","input");si.placeholder="🔍 搜尋姓名或電話";si.value=cSearch;si.style.flex="1";
-  si.oninput=e=>{cSearch=e.target.value;goTab("customers");};
+  const si=ce("input","input");si.placeholder="🔍 搜尋姓名或電話";si.value=cSearch;si.style.flex="1";si.oninput=e=>{cSearch=e.target.value;goTab("customers");};
   const ab=ce("button","btn btn-p");ab.style.whiteSpace="nowrap";ab.textContent="＋ 新增";ab.onclick=()=>{cMode="add";goTab("customers");};
   ap(topBar,si,ab);wrap.appendChild(topBar);
   const filtered=customers.filter(c=>c.name.includes(cSearch)||(c.phone||"").includes(cSearch));
@@ -339,27 +421,20 @@ function renderCustomers(){
   return wrap;
 }
 
-// ═══════════════════════════════
-// ── TAB: TOPUP ──
-// ═══════════════════════════════
+// ═══════════════════════
+// ── TOPUP ──
+// ═══════════════════════
 let tCid="",tPlan=null,tCustom="",tNote="",tDate=todayISO(),tCash="";
 function renderTopup(){
   const wrap=ce("div");
   const grid=ce("div","g2");
-  // Left
-  const lc=ce("div","card");
-  const lt=ce("div","card-title");lt.textContent="選擇顧客";lc.appendChild(lt);
+  const lc=ce("div","card");const lt=ce("div","card-title");lt.textContent="選擇顧客";lc.appendChild(lt);
   const sel=ce("select","select");sel.innerHTML=`<option value="">— 請選擇顧客 —</option>`+customers.map(c=>`<option value="${c.id}">${c.name}（餘額 $${fmt(c.balance||0)}）</option>`).join("");
   sel.value=tCid;sel.onchange=e=>{tCid=e.target.value;goTab("topup");};lc.appendChild(sel);
   const cust=customers.find(c=>c.id===tCid);
-  if(cust){
-    const ci=ce("div");ci.style.cssText="display:flex;align-items:center;gap:10px;margin-top:10px;padding:10px;background:#fdf6f9;border-radius:9px";
-    ci.appendChild(mkAvatar(cust,44));const cii=ce("div");cii.innerHTML=`<div style="font-weight:700;font-size:15px">${cust.name}</div><div style="color:#aaa;font-size:12px">目前餘額 $${fmt(cust.balance||0)}</div>`;ci.appendChild(cii);lc.appendChild(ci);
-  }
+  if(cust){const ci=ce("div");ci.style.cssText="display:flex;align-items:center;gap:10px;margin-top:10px;padding:10px;background:#fdf6f9;border-radius:9px";ci.appendChild(mkAvatar(cust,44));const cii=ce("div");cii.innerHTML=`<div style="font-weight:700;font-size:15px">${cust.name}</div><div style="color:#aaa;font-size:12px">目前餘額 $${fmt(cust.balance||0)}</div>`;ci.appendChild(cii);lc.appendChild(ci);}
   const dlbl=ce("div");dlbl.style.cssText="font-size:12px;color:#aaa;margin:12px 0 5px";dlbl.textContent="📅 交易日期";
-  const din=ce("input","input");din.type="date";din.value=tDate;din.onchange=e=>{tDate=e.target.value;};
-  ap(lc,dlbl,din);grid.appendChild(lc);
-  // Right
+  const din=ce("input","input");din.type="date";din.value=tDate;din.onchange=e=>{tDate=e.target.value;};ap(lc,dlbl,din);grid.appendChild(lc);
   const rc=ce("div","card");const rt2=ce("div","card-title");rt2.textContent="選擇方案";rc.appendChild(rt2);
   PLANS.forEach(p=>{
     const pb=ce("button");pb.style.cssText=`display:flex;justify-content:space-between;align-items:center;padding:11px 14px;border-radius:9px;border:${tPlan===p?"2px solid #f4a5b0":"1.5px solid #f0e8f4"};background:${tPlan===p?"#fff0f4":"#fff"};cursor:pointer;font-family:inherit;width:100%;margin-bottom:7px`;
@@ -380,22 +455,21 @@ function renderTopup(){
     sh.appendChild(sl);
     if(cust){const sr2=ce("div");sr2.style.textAlign="right";sr2.innerHTML=`<div style="font-size:12px;color:#aaa">儲值後餘額</div><div style="font-size:22px;font-weight:800">$${fmt((cust.balance||0)+total)}</div>`;sh.appendChild(sr2);}
     sc.appendChild(sh);
-    const ni=ce("input","input");ni.placeholder="備註（選填）";ni.value=tNote;ni.oninput=e=>{tNote=e.target.value;};ni.style.marginBottom="8px";
-    sc.appendChild(ni);
-    const cashLbl2=ce("div");cashLbl2.style.cssText="font-size:12px;color:#2e7d52;font-weight:700;margin:8px 0 5px";cashLbl2.textContent="💵 實際收現金額（選填）";
-    const cashIn2=ce("input","input");cashIn2.type="number";cashIn2.placeholder="0（若有收現金請填寫）";cashIn2.value=tCash;cashIn2.oninput=e=>{tCash=e.target.value;};cashIn2.style.cssText="border-color:#b8e8d0;margin-bottom:8px";
-    sc.appendChild(cashLbl2);sc.appendChild(cashIn2);
-    const sb=ce("button","btn btn-p");sb.style.cssText="width:100%;font-size:17px;padding:15px";sb.textContent="💳 確認儲值，前往簽名";sb.disabled=!cust;
+    const ni=ce("input","input");ni.placeholder="備註（選填）";ni.value=tNote;ni.oninput=e=>{tNote=e.target.value;};ni.style.marginBottom="8px";sc.appendChild(ni);
+    const cashLbl=ce("div");cashLbl.style.cssText="font-size:12px;color:#2e7d52;font-weight:700;margin:0 0 5px";cashLbl.textContent="💵 實際收現金額（選填）";
+    const cashIn=ce("input","input");cashIn.type="number";cashIn.placeholder="0";cashIn.value=tCash;cashIn.oninput=e=>{tCash=e.target.value;};cashIn.style.borderColor="#b8e8d0";
+    ap(sc,cashLbl,cashIn);
+    const sb=ce("button","btn btn-p");sb.style.cssText="width:100%;font-size:17px;padding:15px;margin-top:10px";sb.textContent="💳 確認儲值，前往簽名";sb.disabled=!cust;
     sb.onclick=()=>{if(!cust)return;addRecord({type:"topup",cid:cust.id,customerId:cust.id,customerName:cust.name,amount,bonus,total,plan:tPlan?.label||"自訂",note:tNote,cash:tCash?Number(tCash):null,date:tDate});tPlan=null;tCustom="";tNote="";tCid="";tDate=todayISO();tCash="";};
     sc.appendChild(sb);wrap.appendChild(sc);
   }
   return wrap;
 }
 
-// ═══════════════════════════════
-// ── TAB: CHARGE ──
-// ═══════════════════════════════
-let chCid="",chSvc="",chAmt="",chNote="",chDate=todayISO(),chCash="";
+// ═══════════════════════
+// ── CHARGE ──
+// ═══════════════════════
+let chCid="",chSvc="",chNote="",chDate=todayISO(),chCash="";
 function renderCharge(){
   const wrap=ce("div");
   const grid=ce("div","g2");
@@ -408,22 +482,19 @@ function renderCharge(){
   const din=ce("input","input");din.type="date";din.value=chDate;din.onchange=e=>{chDate=e.target.value;};ap(lc,dlbl,din);grid.appendChild(lc);
   const rc=ce("div","card");const rt2=ce("div","card-title");rt2.textContent="服務 / 購買項目";rc.appendChild(rt2);
   const tw=ce("div");tw.style.cssText="display:flex;flex-wrap:wrap;margin-bottom:10px";
-  SERVICES.forEach(sv=>{const tb=ce("button","tag"+(chSvc===sv?" on":""));tb.textContent=sv;tb.onclick=()=>{chSvc=sv;goTab("charge");};tw.appendChild(tb);});rc.appendChild(tw);
-  const si=ce("input","input");si.placeholder="自行輸入服務或購買產品項目";si.value=chSvc;si.oninput=e=>{chSvc=e.target.value;};rc.appendChild(si);
+  SERVICES.forEach(sv=>{const tb=ce("button","tag"+(chSvc===sv?" on":""));tb.textContent=sv;tb.onclick=()=>{chSvc=sv;const si2=document.getElementById("svc-input");if(si2)si2.value=sv;tw.querySelectorAll(".tag").forEach(b=>b.classList.remove("on"));tb.classList.add("on");};tw.appendChild(tb);});
+  rc.appendChild(tw);
+  const si=ce("input","input");si.id="svc-input";si.placeholder="自行輸入服務或購買產品項目";si.value=chSvc;si.oninput=e=>{chSvc=e.target.value;};rc.appendChild(si);
   grid.appendChild(rc);wrap.appendChild(grid);
+  // Amount card - NO goTab on input to prevent keyboard dismiss
   const amtCard=ce("div","card");amtCard.style.marginTop="12px";
   const at=ce("div","card-title");at.textContent="消費金額";amtCard.appendChild(at);
   const ar=ce("div");ar.style.cssText="display:flex;gap:10px;align-items:center";
-  const ai=ce("input","input");ai.type="number";ai.placeholder="0";ai.style.cssText="flex:1;font-size:26px;font-weight:800;text-align:center";ai.value=chAmt;
-  // 只存值，不重渲染，避免鍵盤跳掉
-  ai.oninput=e=>{ chAmt=e.target.value; updateBalPreview(); };
+  const ai=ce("input","input");ai.type="number";ai.placeholder="0";ai.style.cssText="flex:1;font-size:26px;font-weight:800;text-align:center";
   const au=ce("div");au.style.cssText="font-size:22px;color:#ddd";au.textContent="元";ap(ar,ai,au);amtCard.appendChild(ar);
-  // Balance preview div - updated dynamically
-  const bb=ce("div");bb.id="bal-preview";bb.style.marginTop="10px";
-  amtCard.appendChild(bb);
-  function updateBalPreview(){
-    const a=Number(ai.value)||0;
-    const sb2=document.getElementById("charge-submit-btn");
+  const bb=ce("div");bb.style.marginTop="10px";amtCard.appendChild(bb);
+  function updatePreview(){
+    const a=Number(ai.value)||0;const sb2=document.getElementById("charge-sb");
     if(!a||!cust){bb.innerHTML="";if(sb2)sb2.disabled=true;return;}
     const after=(cust.balance||0)-a;
     bb.style.cssText=`margin-top:10px;padding:10px;background:${after<0?"#fff0f0":"#f0fff6"};border-radius:9px`;
@@ -431,80 +502,57 @@ function renderCharge(){
     else{bb.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center"><div><div style="color:#aaa;font-size:12px">扣款後餘額</div><div style="font-size:24px;font-weight:900;color:${after<LOW?"#e67e22":"#6cc5a0"}">$${fmt(after)}</div>${after<LOW?'<div style="color:#e67e22;font-size:11px">⚠️ 即將不足</div>':""}</div><div style="font-size:28px">${after<LOW?"⚠️":"✅"}</div></div>`;}
     if(sb2)sb2.disabled=!(cust&&chSvc.trim()&&a>0&&(cust.balance||0)>=a);
   }
-  updateBalPreview();
-  // Cash field
+  ai.oninput=updatePreview;
   const cashLbl=ce("div");cashLbl.style.cssText="font-size:12px;color:#2e7d52;font-weight:700;margin:12px 0 5px";cashLbl.textContent="💵 實際收現金額（選填）";
   const cashIn=ce("input","input");cashIn.type="number";cashIn.placeholder="0（若有收現金請填寫）";cashIn.value=chCash;cashIn.oninput=e=>{chCash=e.target.value;};cashIn.style.borderColor="#b8e8d0";
   const ni=ce("input","input");ni.placeholder="備註（選填）";ni.value=chNote;ni.oninput=e=>{chNote=e.target.value;};ni.style.marginTop="8px";
   ap(amtCard,cashLbl,cashIn,ni);
-  const sb=ce("button","btn btn-s");sb.id="charge-submit-btn";sb.style.cssText="width:100%;font-size:17px;padding:15px;margin-top:10px";sb.textContent="✂️ 確認消費，前往簽名";
-  const initAmt=Number(chAmt)||0;
-  sb.disabled=!(cust&&chSvc.trim()&&initAmt>0&&(cust.balance||0)>=initAmt);
-  sb.onclick=()=>{
+  const sb=ce("button","btn btn-s");sb.id="charge-sb";sb.style.cssText="width:100%;font-size:17px;padding:15px;margin-top:10px";sb.textContent="✂️ 確認消費，前往簽名";sb.disabled=true;
+  sb.onclick=async()=>{
     const finalAmt=Number(ai.value)||0;
     if(!cust||!chSvc.trim()||!finalAmt||(cust.balance||0)<finalAmt)return;
-    chAmt=String(finalAmt);
     const afterBal=(cust.balance||0)-finalAmt;
     addRecord({type:"charge",cid:cust.id,customerId:cust.id,customerName:cust.name,service:chSvc,amount:finalAmt,beforeBalance:cust.balance||0,afterBalance:afterBal,note:ni.value,cash:cashIn.value?Number(cashIn.value):null,date:chDate});
-    chCid="";chSvc="";chAmt="";chNote="";chDate=todayISO();chCash="";
+    chCid="";chSvc="";chNote="";chDate=todayISO();chCash="";
   };
   amtCard.appendChild(sb);wrap.appendChild(amtCard);return wrap;
 }
 
-// ═══════════════════════════════
-// ── TAB: RECORDS ──
-// ═══════════════════════════════
+// ═══════════════════════
+// ── RECORDS ──
+// ═══════════════════════
 let rFilter="all",rSel=null,rSearch="",rDate="",rMonth="",rEditing=false,rDelConfirm=false;
 function renderRecords(){
   const wrap=ce("div");
   if(rSel){const det=records.find(r=>r.id===rSel);if(!det){rSel=null;return renderRecords();}return renderRecordDetail(det,wrap);}
-
-  // Type filters
   const fr=ce("div");fr.style.cssText="display:flex;gap:8px;margin-bottom:9px;flex-wrap:wrap";
-  [["all","全部"],["topup","儲值"],["charge","消費"]].forEach(([k,l])=>{
-    const fb=ce("button","fb"+(rFilter===k?" on":""));fb.textContent=l;
-    fb.onclick=()=>{rFilter=k;goTab("records");};fr.appendChild(fb);
-  });
+  [["all","全部"],["topup","儲值"],["charge","消費"]].forEach(([k,l])=>{const fb=ce("button","fb"+(rFilter===k?" on":""));fb.textContent=l;fb.onclick=()=>{rFilter=k;goTab("records");};fr.appendChild(fb);});
   wrap.appendChild(fr);
-
-  // Search + date row
   const sr=ce("div");sr.style.cssText="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap";
-  const si=ce("input","input");si.placeholder="🔍 搜尋顧客姓名";si.value=rSearch;si.style.flex="1";si.style.minWidth="140px";
-  si.oninput=e=>{rSearch=e.target.value;goTab("records");};
+  const si=ce("input","input");si.placeholder="🔍 搜尋顧客姓名";si.value=rSearch;si.style.flex="1";si.style.minWidth="140px";si.oninput=e=>{rSearch=e.target.value;goTab("records");};
   const dw=ce("div");dw.style.cssText="display:flex;align-items:center;gap:6px;background:#fff;border:1.5px solid #f0e8f4;border-radius:10px;padding:0 10px;flex:1;min-width:150px";
-  dw.innerHTML='<span style="font-size:14px;color:#aaa">📅 日期</span>';
-  const di=ce("input");di.type="date";di.style.cssText="flex:1;border:none;outline:none;font-size:14px;color:#3d2440;background:transparent;padding:11px 0;font-family:inherit";
-  di.value=rDate;di.onchange=e=>{rDate=e.target.value;rMonth="";goTab("records");};dw.appendChild(di);
+  dw.innerHTML='<span style="font-size:13px;color:#aaa">📅</span>';
+  const di=ce("input");di.type="date";di.style.cssText="flex:1;border:none;outline:none;font-size:14px;color:#3d2440;background:transparent;padding:11px 0;font-family:inherit";di.value=rDate;di.onchange=e=>{rDate=e.target.value;rMonth="";goTab("records");};dw.appendChild(di);
   if(rDate){const clr=ce("button");clr.style.cssText="background:none;border:none;color:#ccc;cursor:pointer;font-size:17px;padding:0 2px";clr.textContent="×";clr.onclick=()=>{rDate="";goTab("records");};dw.appendChild(clr);}
   ap(sr,si,dw);wrap.appendChild(sr);
-
-  // Month filter row
-  const mr=ce("div");mr.style.cssText="display:flex;gap:8px;margin-bottom:10px;align-items:center;flex-wrap:wrap";
+  const mr=ce("div");mr.style.cssText="display:flex;gap:8px;margin-bottom:10px;align-items:center";
   const mlbl=ce("div");mlbl.style.cssText="font-size:12px;color:#888;font-weight:700;white-space:nowrap";mlbl.textContent="📆 月份統計";
-  const mw=ce("div");mw.style.cssText="display:flex;align-items:center;gap:6px;background:#fff;border:1.5px solid #f0e8f4;border-radius:10px;padding:0 10px;flex:1;min-width:150px";
-  mw.innerHTML='<span style="font-size:14px;color:#aaa">月份</span>';
-  const mi=ce("input");mi.type="month";mi.style.cssText="flex:1;border:none;outline:none;font-size:14px;color:#3d2440;background:transparent;padding:11px 0;font-family:inherit";
-  mi.value=rMonth;mi.onchange=e=>{rMonth=e.target.value;rDate="";goTab("records");};mw.appendChild(mi);
+  const mw=ce("div");mw.style.cssText="display:flex;align-items:center;gap:6px;background:#fff;border:1.5px solid #f0e8f4;border-radius:10px;padding:0 10px;flex:1";
+  mw.innerHTML='<span style="font-size:13px;color:#aaa">月份</span>';
+  const mi=ce("input");mi.type="month";mi.style.cssText="flex:1;border:none;outline:none;font-size:14px;color:#3d2440;background:transparent;padding:11px 0;font-family:inherit";mi.value=rMonth;mi.onchange=e=>{rMonth=e.target.value;rDate="";goTab("records");};mw.appendChild(mi);
   if(rMonth){const mclr=ce("button");mclr.style.cssText="background:none;border:none;color:#ccc;cursor:pointer;font-size:17px;padding:0 2px";mclr.textContent="×";mclr.onclick=()=>{rMonth="";goTab("records");};mw.appendChild(mclr);}
   ap(mr,mlbl,mw);wrap.appendChild(mr);
-
-  // Month summary card
   if(rMonth){
     const [my,mm]=rMonth.split("-");
     const mRecs=records.filter(r=>{const d=r.time.match(/(\d{4})\/(\d{2})/);return d&&d[1]===my&&d[2]===mm;});
     const mTopup=mRecs.filter(r=>r.type==="topup").reduce((s,r)=>s+(r.total||0),0);
     const mCharge=mRecs.filter(r=>r.type==="charge").reduce((s,r)=>s+(r.amount||0),0);
     const mCash=mRecs.reduce((s,r)=>s+(Number(r.cash)||0),0);
-    const mTopupCnt=mRecs.filter(r=>r.type==="topup").length;
-    const mChargeCnt=mRecs.filter(r=>r.type==="charge").length;
-    const mCashCnt=mRecs.filter(r=>r.cash).length;
-    const ms=ce("div","card");ms.style.background="linear-gradient(135deg,#fdf0f5,#f0f8ff)";ms.style.padding="14px";ms.style.marginBottom="10px";
-    ms.innerHTML=`<div style="font-size:13px;font-weight:800;color:#3d2440;margin-bottom:10px">📊 ${my} 年 ${mm} 月統計</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px"><div style="text-align:center;background:rgba(255,255,255,.85);border-radius:10px;padding:10px 4px;border:1px solid #f0e8f4"><div style="font-size:10px;color:#aaa;margin-bottom:3px">💳 儲值金額</div><div style="font-weight:900;color:#6cc5a0;font-size:15px">$${fmt(mTopup)}</div><div style="font-size:10px;color:#ccc;margin-top:2px">${mTopupCnt} 筆</div></div><div style="text-align:center;background:rgba(255,255,255,.85);border-radius:10px;padding:10px 4px;border:1px solid #f0e8f4"><div style="font-size:10px;color:#aaa;margin-bottom:3px">✂️ 消費金額</div><div style="font-weight:900;color:#f4a5b0;font-size:15px">$${fmt(mCharge)}</div><div style="font-size:10px;color:#ccc;margin-top:2px">${mChargeCnt} 筆</div></div><div style="text-align:center;background:rgba(255,255,255,.85);border-radius:10px;padding:10px 4px;border:1px solid #f0e8f4"><div style="font-size:10px;color:#aaa;margin-bottom:3px">💵 收現金額</div><div style="font-weight:900;color:#2e7d52;font-size:15px">$${fmt(mCash)}</div><div style="font-size:10px;color:#ccc;margin-top:2px">${mCashCnt} 筆</div></div></div>`;
+    const ms=ce("div","card");ms.style.cssText="background:linear-gradient(135deg,#fdf0f5,#f0f8ff);padding:14px;margin-bottom:10px";
+    ms.innerHTML=`<div style="font-size:13px;font-weight:800;color:#3d2440;margin-bottom:10px">📊 ${my} 年 ${mm} 月統計</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px"><div style="text-align:center;background:rgba(255,255,255,.85);border-radius:10px;padding:10px 4px;border:1px solid #f0e8f4"><div style="font-size:10px;color:#aaa;margin-bottom:3px">💳 儲值金額</div><div style="font-weight:900;color:#6cc5a0;font-size:15px">$${fmt(mTopup)}</div><div style="font-size:10px;color:#ccc;margin-top:2px">${mRecs.filter(r=>r.type==="topup").length} 筆</div></div><div style="text-align:center;background:rgba(255,255,255,.85);border-radius:10px;padding:10px 4px;border:1px solid #f0e8f4"><div style="font-size:10px;color:#aaa;margin-bottom:3px">✂️ 消費金額</div><div style="font-weight:900;color:#f4a5b0;font-size:15px">$${fmt(mCharge)}</div><div style="font-size:10px;color:#ccc;margin-top:2px">${mRecs.filter(r=>r.type==="charge").length} 筆</div></div><div style="text-align:center;background:rgba(255,255,255,.85);border-radius:10px;padding:10px 4px;border:1px solid #f0e8f4"><div style="font-size:10px;color:#aaa;margin-bottom:3px">💵 收現金額</div><div style="font-weight:900;color:#2e7d52;font-size:15px">$${fmt(mCash)}</div><div style="font-size:10px;color:#ccc;margin-top:2px">${mRecs.filter(r=>r.cash).length} 筆</div></div></div>`;
     wrap.appendChild(ms);
   }
-
   if(rDate){const lbl=ce("div");lbl.style.cssText="font-size:12px;color:#f4a5b0;margin-bottom:9px;font-weight:600";lbl.textContent="📅 "+isoToDisp(rDate)+" 的紀錄";wrap.appendChild(lbl);}
-
   const filtered=records.filter(r=>{
     if(rFilter!=="all"&&r.type!==rFilter)return false;
     if(rSearch&&!r.customerName.includes(rSearch))return false;
@@ -535,108 +583,114 @@ function renderRecordDetail(det,wrap){
     const din=ce("input","input");din.type="date";din.value=timeToISO(det.time);card.appendChild(dlbl);card.appendChild(din);
     let editSvc=det.service||"";
     if(det.type==="charge"){
-      const sl=ce("div");sl.style.cssText="font-size:12px;color:#aaa;margin:10px 0 5px";sl.textContent="服務項目";card.appendChild(sl);
+      const sl=ce("div");sl.style.cssText="font-size:12px;color:#aaa;margin:10px 0 5px";sl.textContent="服務項目";
       const tw=ce("div");tw.style.cssText="display:flex;flex-wrap:wrap;margin-bottom:8px";
       SERVICES.forEach(sv=>{const tb=ce("button","tag"+(editSvc===sv?" on":""));tb.textContent=sv;tb.onclick=()=>{editSvc=sv;svcIn.value=sv;tw.querySelectorAll(".tag").forEach(b=>b.classList.remove("on"));tb.classList.add("on");};tw.appendChild(tb);});
-      card.appendChild(tw);
-      const svcIn=ce("input","input");svcIn.value=editSvc;svcIn.placeholder="自行輸入";card.appendChild(svcIn);
-      const cl=ce("div");cl.style.cssText="font-size:12px;color:#2e7d52;font-weight:700;margin:10px 0 5px";cl.textContent="💵 實際收現金額";
+      const svcIn=ce("input","input");svcIn.value=editSvc;svcIn.placeholder="自行輸入";
+      const cl=ce("div");cl.style.cssText="font-size:12px;color:#2e7d52;font-weight:700;margin:10px 0 5px";cl.textContent="💵 收現金額";
       const ci=ce("input","input");ci.type="number";ci.value=det.cash||"";ci.style.borderColor="#b8e8d0";
       const nl=ce("div");nl.style.cssText="font-size:12px;color:#aaa;margin:10px 0 5px";nl.textContent="備註";
       const ni=ce("input","input");ni.value=det.note||"";
-      ap(card,cl,ci,nl,ni);
+      ap(card,sl,tw,svcIn,cl,ci,nl,ni);
       const ar=ce("div");ar.style.cssText="display:flex;gap:8px;margin-top:12px";
       const cn=ce("button","btn btn-g");cn.style.flex="1";cn.textContent="取消";cn.onclick=()=>{rEditing=false;goTab("records");};
       const sv2=ce("button","btn btn-p");sv2.style.flex="2";sv2.textContent="✅ 儲存修改";
-      sv2.onclick=()=>{const updated={...det,service:svcIn.value||editSvc,cash:ci.value?Number(ci.value):null,note:ni.value,date:din.value,time:timeStr(din.value)};records=records.map(r=>r.id===updated.id?updated:r);saveAll();rEditing=false;toast("✅ 紀錄已更新");goTab("records");};
+      sv2.onclick=async()=>{sv2.disabled=true;sv2.textContent="儲存中...";const updated={...det,service:svcIn.value||editSvc,cash:ci.value?Number(ci.value):null,note:ni.value,date:din.value,time:timeStr(din.value)};await saveRecord(updated);rEditing=false;toast("✅ 紀錄已更新");goTab("records");};
       ap(ar,cn,sv2);card.appendChild(ar);
-    } else {
+    }else{
       const pl=ce("div");pl.style.cssText="font-size:12px;color:#aaa;margin:10px 0 5px";pl.textContent="方案名稱";
       const pi=ce("input","input");pi.value=det.plan||"";
+      const cl=ce("div");cl.style.cssText="font-size:12px;color:#2e7d52;font-weight:700;margin:10px 0 5px";cl.textContent="💵 收現金額";
+      const ci=ce("input","input");ci.type="number";ci.value=det.cash||"";ci.style.borderColor="#b8e8d0";
       const nl=ce("div");nl.style.cssText="font-size:12px;color:#aaa;margin:10px 0 5px";nl.textContent="備註";
       const ni=ce("input","input");ni.value=det.note||"";
-      ap(card,pl,pi,nl,ni);
+      ap(card,pl,pi,cl,ci,nl,ni);
       const ar=ce("div");ar.style.cssText="display:flex;gap:8px;margin-top:12px";
       const cn=ce("button","btn btn-g");cn.style.flex="1";cn.textContent="取消";cn.onclick=()=>{rEditing=false;goTab("records");};
       const sv2=ce("button","btn btn-p");sv2.style.flex="2";sv2.textContent="✅ 儲存修改";
-      sv2.onclick=()=>{const updated={...det,plan:pi.value,note:ni.value,date:din.value,time:timeStr(din.value)};records=records.map(r=>r.id===updated.id?updated:r);saveAll();rEditing=false;toast("✅ 紀錄已更新");goTab("records");};
+      sv2.onclick=async()=>{sv2.disabled=true;sv2.textContent="儲存中...";const updated={...det,plan:pi.value,cash:ci.value?Number(ci.value):null,note:ni.value,date:din.value,time:timeStr(din.value)};await saveRecord(updated);rEditing=false;toast("✅ 紀錄已更新");goTab("records");};
       ap(ar,cn,sv2);card.appendChild(ar);
     }
-  } else {
-    // Info grid
+  }else{
     const ig=ce("div");ig.style.cssText="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px";
     const ic2=(l,v)=>{const d=ce("div","ic");d.innerHTML=`<div class="ic-l">${l}</div><div class="ic-v">${v}</div>`;return d;};
     ig.appendChild(ic2("類型",det.type==="topup"?"儲值":"消費扣款"));
     if(det.type==="topup"){ap(ig,ic2("入帳金額","$"+fmt(det.total)),ic2("方案",det.plan));if(det.bonus>0)ig.appendChild(ic2("贈點","$"+fmt(det.bonus)));}
-    else{ap(ig,ic2("服務項目",det.service),ic2("消費金額","$"+fmt(det.amount)),ic2("扣款前餘額","$"+fmt(det.beforeBalance)),ic2("扣款後餘額","$"+fmt(det.afterBalance)));if(det.cash)ig.appendChild(ic2("💵 收現金額","$"+fmt(det.cash)));}
+    else{ap(ig,ic2("服務項目",det.service),ic2("消費金額","$"+fmt(det.amount)),ic2("扣款前餘額","$"+fmt(det.beforeBalance)),ic2("扣款後餘額","$"+fmt(det.afterBalance)));}
+    if(det.cash)ig.appendChild(ic2("💵 收現金額","$"+fmt(det.cash)));
     if(det.note)ig.appendChild(ic2("備註",det.note));
     card.appendChild(ig);
-    // Signature
     if(det.signature){
       const sd=ce("div");sd.style.marginBottom="12px";
       const sl=ce("div");sl.style.cssText="font-weight:700;color:#aaa;font-size:12px;margin-bottom:7px";sl.textContent="✍️ 顧客簽名存證";
       const si2=ce("img");si2.src=det.signature;si2.style.cssText="width:100%;border-radius:9px;border:1.5px solid #eee";
       ap(sd,sl,si2);card.appendChild(sd);
-    } else {
-      const ns=ce("div","no-sig");
-      ns.innerHTML=`<div style="font-size:13px;color:#c4547a;font-weight:700;margin-bottom:6px">⚠️ 尚未簽名</div><div style="font-size:12px;color:#aaa;margin-bottom:10px">可補簽名</div>`;
+    }else{
+      const ns=ce("div","no-sig");ns.innerHTML=`<div style="font-size:13px;color:#c4547a;font-weight:700;margin-bottom:6px">⚠️ 尚未簽名</div><div style="font-size:12px;color:#aaa;margin-bottom:10px">可補簽名</div>`;
       const sb2=ce("button","btn btn-p");sb2.style.cssText="font-size:14px;padding:10px 24px";sb2.textContent="✍️ 補簽名";
-      sb2.onclick=()=>openSig(sig=>{records=records.map(r=>r.id===det.id?{...r,signature:sig}:r);saveAll();toast("✅ 簽名已補存");goTab("records");});
+      sb2.onclick=()=>openSig(async sig=>{await saveRecord({...det,signature:sig});toast("✅ 簽名已補存");goTab("records");});
       ns.appendChild(sb2);card.appendChild(ns);
     }
-    // Delete
     if(rDelConfirm){
       const cb=ce("div","confirm-box");
       cb.innerHTML=`<div style="font-weight:700;color:#c0392b;margin-bottom:6px">確定要刪除此筆紀錄？</div><div style="font-size:12px;color:#888;margin-bottom:10px">${det.type==="charge"?"✅ 將自動把 $"+fmt(det.amount)+" 還回顧客餘額":"⚠️ 將自動從顧客餘額扣除 $"+fmt(det.total)}</div>`;
       const ca=ce("div");ca.style.cssText="display:flex;gap:8px;justify-content:center";
       const cNo=ce("button","btn btn-g");cNo.textContent="取消";cNo.onclick=()=>{rDelConfirm=false;goTab("records");};
       const cYes=ce("button","btn");cYes.style.cssText="background:#e74c3c;color:#fff";cYes.textContent="確認刪除";
-      cYes.onclick=()=>{
-        if(det.type==="charge")customers=customers.map(c=>(c.id===det.cid||c.id===det.customerId)?{...c,balance:(c.balance||0)+det.amount}:c);
-        else customers=customers.map(c=>(c.id===det.cid||c.id===det.customerId)?{...c,balance:Math.max(0,(c.balance||0)-det.total)}:c);
-        records=records.filter(r=>r.id!==det.id);saveAll();
+      cYes.onclick=async()=>{
+        cYes.disabled=true;cYes.textContent="刪除中...";
+        const cust=customers.find(c=>c.id===det.cid||c.id===det.customerId);
+        if(cust){
+          const newBal=det.type==="charge"?(cust.balance||0)+det.amount:Math.max(0,(cust.balance||0)-det.total);
+          await saveCustomer({...cust,balance:newBal});
+        }
+        await deleteRecord(det.id);
         rSel=null;rDelConfirm=false;toast("🗑️ 紀錄已刪除，餘額已還原");goTab("records");
       };
       ap(ca,cNo,cYes);cb.appendChild(ca);card.appendChild(cb);
-    } else {
-      const db=ce("button","btn btn-red");db.style.cssText="width:100%;margin-top:10px";db.textContent="🗑️ 刪除此筆紀錄";db.onclick=()=>{rDelConfirm=true;goTab("records");};card.appendChild(db);
+    }else{
+      const db2=ce("button","btn btn-red");db2.style.cssText="width:100%;margin-top:10px";db2.textContent="🗑️ 刪除此筆紀錄";db2.onclick=()=>{rDelConfirm=true;goTab("records");};card.appendChild(db2);
     }
   }
   wrap.appendChild(card);return wrap;
 }
 
-// ═══════════════════════════════
-// ── RENDER ──
-// ═══════════════════════════════
-let currentTab="home";
+// ═══════════════════════
+// ── RENDER ALL ──
+// ═══════════════════════
 function goTab(tab){currentTab=tab;renderAll();}
 
 function renderAll(){
-  const root=document.getElementById("root");
-  root.innerHTML="";
-  // Header
+  if(!currentUser){renderLogin();return;}
+  const root=document.getElementById("root");root.innerHTML="";
+  const app=ce("div");app.id="app";app.style.cssText="height:100vh;display:flex;flex-direction:column";
   const hdr=ce("header");
-  hdr.innerHTML=`<div style="display:flex;align-items:center;gap:11px"><span style="font-size:30px">🌸</span><div><div class="logo-title">沐蜜美學秘境</div><div class="logo-sub">顧客儲值管理系統</div></div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px"><div class="pill">顧客 ${customers.length} 位</div><div style="font-size:11px;color:#bbb">${todayStr()}</div></div>`;
-  root.appendChild(hdr);
-  // Nav
+  hdr.innerHTML=`<div style="display:flex;align-items:center;gap:11px"><span style="font-size:30px">🌸</span><div><div class="logo-title">沐蜜美學秘境</div><div class="logo-sub">顧客儲值管理系統</div></div></div><div style="display:flex;align-items:center;gap:8px"><div class="pill">顧客 ${customers.length} 位</div><button class="logout-btn" onclick="import('https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js').then(m=>m.signOut(auth))">登出</button></div>`;
+  // fix logout btn
+  hdr.querySelector(".logout-btn").onclick=async()=>{
+    const {signOut:so}=await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js");
+    await signOut(auth);
+  };
+  app.appendChild(hdr);
   const nav=ce("nav");
   [["home","🏠","首頁"],["customers","👥","顧客"],["topup","💳","儲值"],["charge","✂️","消費"],["records","📋","紀錄"]].forEach(([key,icon,label])=>{
     const btn=ce("button","nav-btn"+(currentTab===key?" active":""));
     btn.innerHTML=`<span class="nav-icon">${icon}</span><span>${label}</span>`;
     btn.onclick=()=>goTab(key);nav.appendChild(btn);
   });
-  root.appendChild(nav);
-  // Main
+  app.appendChild(nav);
+  // Sync indicator
+  const syncInd=ce("div","sync-indicator");syncInd.innerHTML=`<span class="sync-dot${syncing?" syncing":""}"></span>${syncing?"同步中...":"已同步雲端"}`;
+  app.appendChild(syncInd);
   const main=ce("main");
   if(currentTab==="home")main.appendChild(renderHome());
   else if(currentTab==="customers")main.appendChild(renderCustomers());
   else if(currentTab==="topup")main.appendChild(renderTopup());
   else if(currentTab==="charge")main.appendChild(renderCharge());
   else if(currentTab==="records")main.appendChild(renderRecords());
-  root.appendChild(main);
+  app.appendChild(main);
+  root.appendChild(app);
 }
-
-renderAll();
 </script>
 </body>
 </html>
