@@ -468,7 +468,13 @@ function renderCustomerDetail(wrap){
     const ca=ce("div");ca.style.cssText="display:flex;gap:8px;justify-content:center";
     const cNo=ce("button","btn btn-g");cNo.style.fontSize="12px";cNo.textContent="取消";cNo.onclick=()=>{cDelConfirm=false;goTab("customers");};
     const cYes=ce("button","btn");cYes.style.cssText="background:#e74c3c;color:#fff;font-size:12px";cYes.textContent="確認刪除";
-    cYes.onclick=async()=>{cYes.disabled=true;cYes.textContent="刪除中...";const allR=[...cSvcRecs,...cTopupRecs,...cChargeRecs,...cConsents];for(const r of allR){await delDoc(r.formType?"consentForms":"serviceRecords",r.id);}await delDoc("customers",c.id);cMode="list";cSel=null;cDelConfirm=false;toast("🗑️ 客人已刪除");goTab("customers");};
+    cYes.onclick=async()=>{cYes.disabled=true;cYes.textContent="刪除中...";const allR=[...cSvcRecs,...cTopupRecs,...cChargeRecs,...cConsents];
+        for(const r of allR){
+          if(r.formType) await delDoc("consentForms",r.id);
+          else if(r.type==="topup"||r.type==="charge") await delDoc("records",r.id);
+          else await delDoc("serviceRecords",r.id);
+        }
+        await delDoc("customers",c.id);cMode="list";cSel=null;cDelConfirm=false;toast("🗑️ 客人已刪除");goTab("customers");};
     ap(ca,cNo,cYes);cb.appendChild(ca);wrap.appendChild(cb);
   }else{
     const db2=ce("button","btn btn-red");db2.style.cssText="width:100%;font-size:12px;margin-top:10px";db2.textContent="🗑️ 刪除此客人";db2.onclick=()=>{cDelConfirm=true;goTab("customers");};wrap.appendChild(db2);
@@ -691,6 +697,8 @@ function renderTopup(){
 let chCid="",chNote="",chDate=todayISO(),chCash="";
 function renderCharge(){
   const wrap=ce("div");
+  const CHARGE_SERVICES=["基礎淨白","舒顏SPA","訂製安瓶","水光藻針","外泌體","私密處除毛","腋下除毛","體態精修"];
+  // Customer card
   const lc=ce("div","card");const lt=ce("div","card-title");lt.textContent="選擇客人";lc.appendChild(lt);
   const sel=ce("select","select");sel.innerHTML=`<option value="">— 請選擇客人 —</option>`+customers.map(c=>`<option value="${c.id}">${c.name}（餘額 $${fmt(c.balance||0)}）</option>`).join("");
   sel.value=chCid;sel.onchange=e=>{chCid=e.target.value;goTab("charge");};lc.appendChild(sel);
@@ -698,6 +706,18 @@ function renderCharge(){
   if(cust){const ci=ce("div");ci.style.cssText="display:flex;align-items:center;gap:10px;margin-top:10px;padding:10px;background:#fdf6f9;border-radius:9px";ci.appendChild(mkAvatar(cust,40));const cii=ce("div");cii.innerHTML=`<div style="font-weight:700;font-size:14px">${cust.name}</div><div style="color:${(cust.balance||0)<LOW?"#e74c3c":"#aaa"};font-size:11px">${(cust.balance||0)<LOW?"⚠️ ":""}餘額 $${fmt(cust.balance||0)}</div>`;ci.appendChild(cii);lc.appendChild(ci);}
   const dlbl=ce("div");dlbl.style.cssText="font-size:11px;color:#aaa;margin:10px 0 4px";dlbl.textContent="📅 交易日期";
   const din=ce("input","input");din.type="date";din.value=chDate;din.onchange=e=>{chDate=e.target.value;};ap(lc,dlbl,din);wrap.appendChild(lc);
+  // Service selection card
+  const sc=ce("div","card");const st=ce("div","card-title");st.textContent="服務項目（扣款用）";sc.appendChild(st);
+  const tw=ce("div");tw.style.cssText="display:flex;flex-wrap:wrap;margin-bottom:10px";
+  CHARGE_SERVICES.forEach(sv=>{
+    const tb=ce("button","fb"+(chSvc===sv?" on":""));tb.textContent=sv;
+    tb.onclick=()=>{chSvc=sv;const si2=document.getElementById("charge-svc-input");if(si2)si2.value=sv;tw.querySelectorAll(".fb").forEach(b=>b.classList.remove("on"));tb.classList.add("on");};
+    tw.appendChild(tb);
+  });
+  sc.appendChild(tw);
+  const svcIn=ce("input","input");svcIn.id="charge-svc-input";svcIn.placeholder="或自行輸入服務項目";svcIn.value=chSvc;svcIn.oninput=e=>{chSvc=e.target.value;tw.querySelectorAll(".fb").forEach(b=>b.classList.remove("on"));};
+  sc.appendChild(svcIn);wrap.appendChild(sc);
+  // Amount card
   const amtCard=ce("div","card");const at=ce("div","card-title");at.textContent="扣款金額";amtCard.appendChild(at);
   const ar=ce("div");ar.style.cssText="display:flex;gap:8px;align-items:center";
   const ai=ce("input","input");ai.type="number";ai.placeholder="0";ai.style.cssText="flex:1;font-size:24px;font-weight:800;text-align:center";
@@ -720,10 +740,10 @@ function renderCharge(){
     if(!cust||!finalAmt||(cust.balance||0)<finalAmt)return;
     const afterBal=(cust.balance||0)-finalAmt;
     openSig("扣款確認簽名",async sig=>{
-      const full={id:uid(),type:"charge",cid:cust.id,customerId:cust.id,customerName:cust.name,amount:finalAmt,beforeBalance:cust.balance||0,afterBalance:afterBal,note:ni.value,date:chDate,time:timeStr(chDate),signature:sig};
+      const full={id:uid(),type:"charge",cid:cust.id,customerId:cust.id,customerName:cust.name,service:svcIn.value||chSvc||"儲值扣款",amount:finalAmt,beforeBalance:cust.balance||0,afterBalance:afterBal,note:ni.value,date:chDate,time:timeStr(chDate),signature:sig};
       await saveDoc("customers",{...cust,balance:afterBal});
       await saveDoc("records",full);
-      chCid="";chNote="";chDate=todayISO();chCash="";
+      chCid="";chSvc="";chNote="";chDate=todayISO();
       toast("✅ 扣款完成");goTab("home");
     });
   };
