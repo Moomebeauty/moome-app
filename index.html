@@ -288,7 +288,10 @@ function renderHome(){
   const wrap=ce("div");
   const totalSvc=serviceRecords.reduce((s,r)=>s+(Number(r.amount)||0),0);
   const totalTopup=records.filter(r=>r.type==="topup").reduce((s,r)=>s+(r.total||0),0);
-  const totalCash=serviceRecords.filter(r=>r.payMethod==="現金").reduce((s,r)=>s+(Number(r.amount)||0),0);
+  // 收現金額 = 服務現金 + 儲值時填寫的收現金額
+  const totalCash=
+    serviceRecords.filter(r=>r.payMethod==="現金").reduce((s,r)=>s+(Number(r.amount)||0),0)+
+    records.filter(r=>r.cash).reduce((s,r)=>s+(Number(r.cash)||0),0);
   const totalBal=customers.reduce((s,c)=>s+(c.balance||0),0);
   const low=customers.filter(c=>(c.balance||0)<LOW&&(c.balance||0)>0);
   const sr=ce("div","stat-row");
