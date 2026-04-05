@@ -684,14 +684,26 @@ function renderRecords(){
   const di=ce("input");di.type="date";di.style.cssText="flex:1;border:none;outline:none;font-size:13px;color:#3d2440;background:transparent;padding:10px 0;font-family:inherit";di.value=rDate;di.onchange=e=>{rDate=e.target.value;rMonth="";goTab("records");};dw.appendChild(di);
   if(rDate){const clr=ce("button");clr.style.cssText="background:none;border:none;color:#ccc;cursor:pointer;font-size:16px;padding:0 2px";clr.textContent="×";clr.onclick=()=>{rDate="";goTab("records");};dw.appendChild(clr);}
   ap(sr,si,dw);wrap.appendChild(sr);
-  // Month
-  const mr=ce("div");mr.style.cssText="display:flex;gap:8px;margin-bottom:10px;align-items:center";
+  // Month - use year+month dropdowns for better iPad compatibility
+  const mr=ce("div");mr.style.cssText="display:flex;gap:8px;margin-bottom:10px;align-items:center;flex-wrap:wrap";
   const mlbl=ce("div");mlbl.style.cssText="font-size:11px;color:#888;font-weight:700;white-space:nowrap";mlbl.textContent="📆 月份統計";
-  const mw=ce("div");mw.style.cssText="display:flex;align-items:center;gap:5px;background:#fff;border:1.5px solid #f0e8f4;border-radius:10px;padding:0 9px;flex:1";
-  mw.innerHTML='<span style="font-size:13px;color:#aaa">月份</span>';
-  const mi=ce("input");mi.type="month";mi.style.cssText="flex:1;border:none;outline:none;font-size:13px;color:#3d2440;background:transparent;padding:10px 0;font-family:inherit";mi.value=rMonth;mi.onchange=e=>{rMonth=e.target.value;rDate="";goTab("records");};mw.appendChild(mi);
-  if(rMonth){const mclr=ce("button");mclr.style.cssText="background:none;border:none;color:#ccc;cursor:pointer;font-size:16px;padding:0 2px";mclr.textContent="×";mclr.onclick=()=>{rMonth="";goTab("records");};mw.appendChild(mclr);}
-  ap(mr,mlbl,mw);wrap.appendChild(mr);
+  const mw=ce("div");mw.style.cssText="display:flex;align-items:center;gap:6px;flex:1;flex-wrap:wrap";
+  // Year select
+  const ySel=ce("select","select");ySel.style.cssText="flex:1;padding:9px 12px;font-size:13px";
+  const curYear=new Date().getFullYear();
+  const [selYear,selMon]=rMonth?rMonth.split("-"):["",""];
+  ySel.innerHTML=`<option value="">年份</option>`+[curYear,curYear-1,curYear-2].map(y=>`<option value="${y}"${selYear===String(y)?" selected":""}>${y} 年</option>`).join("");
+  // Month select
+  const mSel=ce("select","select");mSel.style.cssText="flex:1;padding:9px 12px;font-size:13px";
+  mSel.innerHTML=`<option value="">月份</option>`+Array.from({length:12},(_,i)=>{const m=String(i+1).padStart(2,"0");return`<option value="${m}"${selMon===m?" selected":""}>${i+1} 月</option>`;}).join("");
+  const applyMonth=()=>{
+    const y=ySel.value,m=mSel.value;
+    if(y&&m){rMonth=`${y}-${m}`;rDate="";goTab("records");}
+    else if(!y&&!m){rMonth="";goTab("records");}
+  };
+  ySel.onchange=applyMonth;mSel.onchange=applyMonth;
+  const mclr=ce("button","btn btn-g");mclr.style.cssText="font-size:12px;padding:8px 12px;white-space:nowrap";mclr.textContent="清除";mclr.onclick=()=>{rMonth="";ySel.value="";mSel.value="";goTab("records");};
+  ap(mw,ySel,mSel,mclr);ap(mr,mlbl,mw);wrap.appendChild(mr);
   // Month stats
   if(rMonth){
     const [my,mm]=rMonth.split("-");
