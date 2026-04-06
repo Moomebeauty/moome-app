@@ -560,6 +560,117 @@ function renderService(){
   wrap.appendChild(sb);return wrap;
 }
 
+// ═══════════ TOPUP CONTRACT ═══════════
+function openTopupContract(cust,amount,bonus,total,plan,note,cash,date){
+  const overlay=ce("div","sig-overlay");
+  const modal=ce("div","sig-modal");
+  modal.style.cssText="background:#fff;border-radius:20px;padding:22px;width:min(96vw,800px);max-height:92vh;overflow-y:auto;box-shadow:0 20px 80px rgba(0,0,0,.3)";
+
+  // Header
+  const hdr=ce("div");hdr.style.cssText="text-align:center;margin-bottom:18px;padding-bottom:14px;border-bottom:2px solid #f0e8f4";
+  hdr.innerHTML='<div style="font-size:22px;margin-bottom:4px">🌸</div><div style="font-size:17px;font-weight:900;color:#3d2440">沐蜜美學秘境</div><div style="font-size:13px;font-weight:700;color:#c4547a;margin-top:2px">美容服務儲值契約</div><div style="font-size:11px;color:#aaa;margin-top:4px">依《消費者保護法》及衛福部美容定型化契約規範</div>';
+  modal.appendChild(hdr);
+
+  // Contract info
+  const info=ce("div");info.style.cssText="background:#fdf6f9;border-radius:11px;padding:13px;margin-bottom:14px;font-size:12px";
+  info.innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;color:#555">
+    <div><span style="color:#aaa">消費者姓名：</span><strong>${cust.name}</strong></div>
+    <div><span style="color:#aaa">聯絡電話：</span><strong>${cust.phone||"—"}</strong></div>
+    <div><span style="color:#aaa">儲值日期：</span><strong>${isoToDisp(date)}</strong></div>
+    <div><span style="color:#aaa">服務業者：</span><strong>沐蜜美學秘境</strong></div>
+  </div>`;
+  modal.appendChild(info);
+
+  // Payment summary
+  const pay=ce("div");pay.style.cssText="background:linear-gradient(135deg,#fdf0f5,#f0f8ff);border-radius:11px;padding:13px;margin-bottom:14px";
+  pay.innerHTML=`<div style="font-size:13px;font-weight:800;color:#3d2440;margin-bottom:10px">💳 本次儲值內容</div>
+    <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(244,165,176,.2);font-size:12px"><span style="color:#aaa">儲值方案</span><span style="font-weight:700">${plan?.label||"自訂金額"}</span></div>
+    <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(244,165,176,.2);font-size:12px"><span style="color:#aaa">實際付款金額</span><span style="font-weight:700">NT$ ${fmt(amount)} 元</span></div>
+    ${bonus>0?`<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(244,165,176,.2);font-size:12px"><span style="color:#aaa">贈送金額（優惠贈點）</span><span style="font-weight:700;color:#f4a5b0">NT$ ${fmt(bonus)} 元</span></div>`:""}
+    <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:14px;font-weight:900"><span style="color:#3d2440">入帳總金額</span><span style="color:#6cc5a0">NT$ ${fmt(total)} 元</span></div>
+    ${bonus>0?`<div style="background:#fff8e1;border-radius:8px;padding:8px;font-size:11px;color:#b8860b;margin-top:4px">⚠️ 贈送金額 NT$${fmt(bonus)} 元為促銷優惠，不計入退款計算基礎</div>`:""}`;
+  modal.appendChild(pay);
+
+  // Contract terms
+  const terms=ce("div");terms.style.cssText="margin-bottom:14px";
+  terms.innerHTML=`<div style="font-size:13px;font-weight:800;color:#3d2440;margin-bottom:10px">📄 契約條款</div>`;
+
+  const clauses=[
+    {icon:"1",title:"服務說明",content:"本儲值金額適用於沐蜜美學秘境提供之各項美容服務，依實際消費金額扣除，無使用期限限制。"},
+    {icon:"2",title:"贈送金額說明",content:`儲值方案中之贈送金額（本次贈送 NT$${fmt(bonus)} 元）為本店提供之額外促銷優惠，非消費者實際付款，不計入退款計算基礎，且優先於付款金額扣抵。`},
+    {icon:"3",title:"退款政策",content:"消費者因個人因素申請退款時，依下列方式處理：
+① 退款金額以實際付款金額扣除已使用服務後之餘額計算
+② 退還金額為可退款金額之 80%（扣除 20% 行政處理費）
+③ 贈送金額視為已使用，不列入退款計算"},
+    {icon:"4",title:"特殊情況退款",content:"因搬遷、重大疾病等不可抗力因素無法繼續使用服務者，可申請：
+① 優先辦理轉讓（讓渡予第三人使用）
+② 或申請退還未使用付款金額之 80%
+③ 退款申請需以書面提出，於 14 個工作日內處理"},
+    {icon:"5",title:"契約審閱期",content:"依《消費者保護法》規定，本契約審閱期不得少於三日。消費者如需審閱，可要求攜回後再行簽署，本店不得拒絕。"},
+    {icon:"6",title:"個人資料保護",content:"本店依《個人資料保護法》規範，蒐集之個人資料僅供服務聯繫、顧客管理使用，不提供予第三方。"},
+    {icon:"7",title:"消費爭議處理",content:"如有消費爭議，消費者得向本縣市消費者保護官申訴，或撥打消費者服務專線 1950。"},
+  ];
+
+  clauses.forEach(c=>{
+    const div=ce("div");div.style.cssText="background:#fafafa;border-radius:10px;padding:11px;margin-bottom:8px;border:1px solid #f0e8f4";
+    div.innerHTML=`<div style="font-size:12px;font-weight:800;color:#c4547a;margin-bottom:5px">第 ${c.icon} 條　${c.title}</div><div style="font-size:12px;color:#444;line-height:1.7;white-space:pre-line">${c.content}</div>`;
+    terms.appendChild(div);
+  });
+  modal.appendChild(terms);
+
+  // Checkboxes
+  const chkDiv=ce("div");chkDiv.style.cssText="margin-bottom:14px";
+  chkDiv.innerHTML='<div style="font-size:13px;font-weight:800;color:#3d2440;margin-bottom:10px">✅ 消費者確認事項</div>';
+  const confirms=[
+    "我已詳細閱讀並了解本儲值契約之所有條款",
+    `我了解贈送金額 NT$${fmt(bonus)} 元為促銷優惠，退款時不計入計算基礎`,
+    "我了解退款時將扣除 20% 行政處理費，且贈送金額視為已使用",
+    "我已獲得充分說明，並自願同意簽訂本儲值契約",
+    "我了解本契約具有法律效力，簽名後即視為同意所有條款",
+  ];
+  const checked=new Set();
+  confirms.forEach((txt2,i)=>{
+    const row=ce("div");row.style.cssText="display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid #f8f4fc";
+    const box=ce("div","check-box");
+    box.onclick=()=>{if(checked.has(i)){checked.delete(i);box.className="check-box";box.textContent="";}else{checked.add(i);box.className="check-box checked";box.textContent="✓";}};
+    const t=ce("div");t.style.cssText="flex:1;font-size:12px;color:#444;line-height:1.5";t.textContent=txt2;
+    ap(row,box,t);chkDiv.appendChild(row);
+  });
+  modal.appendChild(chkDiv);
+
+  // Signature
+  const sigTitle=ce("div");sigTitle.style.cssText="font-size:13px;font-weight:700;color:#3d2440;margin-bottom:8px";sigTitle.textContent="✍️ 消費者簽名（Apple Pencil 或手指）";
+  modal.appendChild(sigTitle);
+  const canvas=ce("canvas","sig-canvas");canvas.width=900;canvas.height=240;
+  const ctx=canvas.getContext("2d");ctx.fillStyle="#fff";ctx.fillRect(0,0,900,240);ctx.strokeStyle="#111";ctx.lineWidth=2.5;ctx.lineCap="round";ctx.lineJoin="round";
+  let drawing=false,lp=null;
+  const gp=e=>{const r=canvas.getBoundingClientRect(),s=e.touches?e.touches[0]:e;return{x:(s.clientX-r.left)*(900/r.width),y:(s.clientY-r.top)*(240/r.height)};};
+  canvas.onpointerdown=e=>{e.preventDefault();drawing=true;lp=gp(e);};
+  canvas.onpointermove=e=>{e.preventDefault();if(!drawing)return;const p=gp(e);ctx.beginPath();ctx.moveTo(lp.x,lp.y);ctx.lineTo(p.x,p.y);ctx.stroke();lp=p;};
+  canvas.onpointerup=canvas.onpointerleave=e=>{e.preventDefault();drawing=false;};
+  const sigLine=ce("div");sigLine.style.cssText="height:1.5px;background:#f0d0dc;margin:0 5%;pointer-events:none;margin-top:-36px";
+  const sigLbl=ce("div");sigLbl.style.cssText="text-align:center;font-size:11px;color:#e0c0cc;letter-spacing:2px;margin-bottom:12px";sigLbl.textContent="簽名於此";
+  modal.appendChild(canvas);modal.appendChild(sigLine);modal.appendChild(sigLbl);
+
+  // Actions
+  const acts=ce("div");acts.style.cssText="display:flex;gap:8px;justify-content:flex-end;padding-top:10px;border-top:1px solid #f0e8f4";
+  const bClr=ce("button","btn btn-g");bClr.textContent="清除簽名";bClr.onclick=()=>{ctx.fillStyle="#fff";ctx.fillRect(0,0,900,240);};
+  const bCan=ce("button","btn btn-g");bCan.textContent="取消";bCan.style.color="#888";bCan.onclick=()=>overlay.remove();
+  const bOk=ce("button","btn btn-p");bOk.style.fontSize="15px";bOk.textContent="✅ 確認簽名，完成儲值";
+  bOk.onclick=async()=>{
+    if(checked.size<confirms.length)return toast("請確認所有條款後再簽名","warn");
+    overlay.remove();
+    const sig=canvas.toDataURL("image/png");
+    const full={id:uid(),type:"topup",cid:cust.id,customerId:cust.id,customerName:cust.name,amount,bonus,total,plan:plan?.label||"自訂",note,cash:cash?Number(cash):null,date,time:timeStr(date),signature:sig,contractSigned:true};
+    await saveDoc("customers",{...cust,balance:(cust.balance||0)+total});
+    await saveDoc("records",full);
+    tPlan=null;tCustom="";tNote="";tCid="";tDate=todayISO();tCash="";
+    toast("✅ 儲值契約簽署完成，資料已同步雲端");goTab("home");
+  };
+  ap(acts,bClr,bCan,bOk);modal.appendChild(acts);
+  overlay.appendChild(modal);document.body.appendChild(overlay);
+}
+
 // ═══════════ TOPUP ═══════════
 let tCid="",tPlan=null,tCustom="",tNote="",tDate=todayISO(),tCash="";
 function renderTopup(){
@@ -594,16 +705,11 @@ function renderTopup(){
     const ni=ce("input","input");ni.placeholder="備註（選填）";ni.value=tNote;ni.oninput=e=>{tNote=e.target.value;};ni.style.marginBottom="8px";sc.appendChild(ni);
     const cashLbl=ce("div");cashLbl.style.cssText="font-size:11px;color:#2e7d52;font-weight:700;margin:0 0 4px";cashLbl.textContent="💵 實際收現金額（選填）";
     const cashIn=ce("input","input");cashIn.type="number";cashIn.placeholder="0";cashIn.value=tCash;cashIn.oninput=e=>{tCash=e.target.value;};cashIn.style.borderColor="#b8e8d0";ap(sc,cashLbl,cashIn);
-    const sb=ce("button","btn btn-p");sb.style.cssText="width:100%;font-size:16px;padding:14px;margin-top:10px";sb.textContent="💳 確認儲值，前往簽名";sb.disabled=!cust;
+    // Contract + Sign button
+    const sb=ce("button","btn btn-p");sb.style.cssText="width:100%;font-size:16px;padding:14px;margin-top:10px";sb.textContent="📋 閱讀儲值契約並簽名";sb.disabled=!cust;
     sb.onclick=()=>{
       if(!cust)return;
-      openSig("儲值確認簽名",async sig=>{
-        const full={id:uid(),type:"topup",cid:cust.id,customerId:cust.id,customerName:cust.name,amount,bonus,total,plan:tPlan?.label||"自訂",note:tNote,cash:tCash?Number(tCash):null,date:tDate,time:timeStr(tDate),signature:sig};
-        await saveDoc("customers",{...cust,balance:(cust.balance||0)+total});
-        await saveDoc("records",full);
-        tPlan=null;tCustom="";tNote="";tCid="";tDate=todayISO();tCash="";
-        toast("✅ 儲值完成");goTab("home");
-      });
+      openTopupContract(cust,amount,bonus,total,tPlan,tNote,tCash,tDate);
     };
     sc.appendChild(sb);wrap.appendChild(sc);
   }
